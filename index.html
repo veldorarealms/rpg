@@ -17,7 +17,7 @@
 <meta name="theme-color" content="#c9a24a">
 <style>
 /* ================================================================
-   FUNDAÇÃO — tema noturno (variáveis trocáveis p/ modo claro)
+   FUNDAÇÃO
 ================================================================ */
 :root{
   --paper:#17110b;
@@ -31,7 +31,6 @@
   --veil-a:rgba(12,9,6,.72);
   --veil-b:rgba(16,12,8,.78);
   --veil-c:rgba(8,6,4,.9);
-  /* === AS CORES DOS REINOS === */
   --c-supremo:#f7f4ec;
   --c-mirigumi:#e07aa0;
   --c-nyara:#b98fd6;
@@ -50,7 +49,6 @@
   --font-black:'UnifrakturMaguntia','EB Garamond',serif;
   --font-med:'MedievalSharp','EB Garamond',serif;
 }
-/* ============ MODO CLARO — pergaminho diurno ============ */
 :root[data-theme="light"]{
   --paper:#e8dcc0;
   --paper-2:#f2e8d0;
@@ -89,7 +87,7 @@ input[type=number]{-moz-appearance:textfield;appearance:textfield}
 ::-webkit-scrollbar-thumb{background:var(--ink-soft);border:2px solid var(--paper-3);border-radius:6px}
 
 /* ================================================================
-   FUNDO COM IMAGEM + VÉU + GRÃO
+   FUNDO + VÉU + GRÃO
 ================================================================ */
 .bg{
   position:fixed;
@@ -132,7 +130,6 @@ body::before{
 
 /* ================================================================
    NAVEGAÇÃO — ESTANDARTE FLUTUANTE (igual à crônica)
-   Fixo no topo, pill dourada, sem retângulo de fundo.
 ================================================================ */
 .tabs{
   position:fixed;
@@ -251,25 +248,6 @@ body::before{
   height:100%;
   pointer-events:none;
 }
-.back-hero{
-  display:inline-block;
-  font-family:var(--disp);
-  font-size:.56rem;
-  letter-spacing:.3em;
-  text-transform:uppercase;
-  text-decoration:none;
-  color:var(--ink-soft);
-  margin-bottom:24px;
-  padding:8px 16px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  background:var(--paper);
-  transition:color .3s,border-color .3s;
-}
-.back-hero:hover{
-  color:var(--gold);
-  border-color:var(--gold);
-}
 .hero .kicker{
   font-family:var(--disp);
   font-size:.62rem;
@@ -300,7 +278,7 @@ body::before{
 }
 
 /* ================================================================
-   PÁGINAS (as abas trocam entre elas)
+   PÁGINAS
 ================================================================ */
 .page{
   display:none;
@@ -348,7 +326,7 @@ body::before{
 }
 
 /* ================================================================
-   I — O ORÁCULO DOS DADOS
+   I — DADOS
 ================================================================ */
 .dice-tray{
   display:flex;
@@ -548,7 +526,7 @@ body::before{
 }
 
 /* ================================================================
-   II — AS FICHAS DOS HERÓIS
+   II — FICHAS
 ================================================================ */
 .heroes-grid{
   display:grid;
@@ -741,8 +719,6 @@ select:focus{
 @media (max-width:600px){
   .row2,.row3{grid-template-columns:1fr}
 }
-
-/* --- Atributos --- */
 .attr-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -807,8 +783,6 @@ select:focus{
   color:var(--ink-soft);
   margin:-6px 0 14px;
 }
-
-/* --- Vitais (vida e mana) --- */
 .vitals{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -885,8 +859,6 @@ select:focus{
   width:100%;
   transition:width .3s ease;
 }
-
-/* --- CA / XP / Ouro --- */
 .mini-vitals{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -959,8 +931,6 @@ select:focus{
   font-style:italic;
   margin-top:5px;
 }
-
-/* --- Listas (inventário / perícias) --- */
 .list-add{
   display:flex;
   gap:8px;
@@ -1046,8 +1016,6 @@ select:focus{
   font-size:.88rem;
   padding:6px 4px;
 }
-
-/* --- Condições --- */
 .cond-grid{
   display:flex;
   flex-wrap:wrap;
@@ -1098,7 +1066,7 @@ select:focus{
 }
 
 /* ================================================================
-   III — CAMPO DE BATALHA
+   III — COMBATE
 ================================================================ */
 .combat-add{
   display:grid;
@@ -1445,7 +1413,7 @@ select:focus{
 }
 
 /* ================================================================
-   V — CÓDICE DE REGRAS
+   V — CÓDICE
 ================================================================ */
 .book{
   max-width:720px;
@@ -1514,7 +1482,7 @@ select:focus{
 }
 
 /* ================================================================
-   VI — FORJA DO MESTRE
+   VI — FORJA
 ================================================================ */
 .forge-grid{
   display:grid;
@@ -1602,7 +1570,7 @@ select:focus{
 }
 
 /* ================================================================
-   PAINEL DE CONFIGURAÇÕES (igual ao da crônica)
+   PAINEL DE CONFIGURAÇÕES
 ================================================================ */
 .cfg-panel{
   position:fixed;
@@ -1905,7 +1873,7 @@ select:focus{
 }
 
 /* ================================================================
-   PORTAL DA COROA (compartilhado com a crônica)
+   PORTAL DA COROA
 ================================================================ */
 .gate{
   position:fixed;
@@ -2220,23 +2188,25 @@ footer .fine{
       <circle cx="15.8" cy="15.8" r="1.15" fill="currentColor" stroke="none"/>
       <circle cx="12" cy="12" r="1.15" fill="currentColor" stroke="none"/>
     </symbol>
-    <!-- Símbolos dos guardiões -->
-    <symbol id="sym-sovereign" viewBox="0 0 64 64"><!-- Luan — espada coroada -->
+    <symbol id="sym-veldora" viewBox="0 0 24 24"><!-- Símbolo único: a crônica — castelo do dragão -->
+      <path d="M3 20 V9 L6.5 11.5 V6.5 L9.5 9 V4.5 L12 2 L14.5 4.5 V9 L17.5 6.5 V11.5 L21 9 V20 Z"/>
+      <path d="M10 20 V15 A2 2 0 0 1 14 15 V20"/>
+      <path d="M7 20 V17 M17 20 V17" opacity=".6"/>
+    </symbol>
+    <symbol id="sym-sovereign" viewBox="0 0 64 64">
       <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <path d="M22 11 L26 15 L32 7 L38 15 L42 11 L40.5 18.5 H23.5 Z"/>
-        <path d="M32 18.5 V23"/>
-        <path d="M22.5 23 H41.5"/>
+        <path d="M32 18.5 V23"/><path d="M22.5 23 H41.5"/>
         <path d="M28.5 23 H35.5 L36 50 L32 58 L28 50 Z"/>
       </g>
     </symbol>
-    <symbol id="sym-scepter" viewBox="0 0 64 64"><!-- Debora — A Imperatriz -->
+    <symbol id="sym-scepter" viewBox="0 0 64 64">
       <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M29 58 L33 24"/>
-        <circle cx="34" cy="16" r="6.5"/>
+        <path d="M29 58 L33 24"/><circle cx="34" cy="16" r="6.5"/>
         <path d="M20 28 C22 19 26 13 32 9 M48 28 C46 19 42 13 36 9"/>
       </g>
     </symbol>
-    <symbol id="sym-raven" viewBox="0 0 64 64"><!-- Rayssa — O Corvo -->
+    <symbol id="sym-raven" viewBox="0 0 64 64">
       <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <path d="M46 34 C52 38 56 46 54 54 L48 50 C44 56 36 58 30 56 L32 48 C26 48 20 44 18 38 C24 40 32 40 38 36 Z"/>
         <path d="M30 38 C26 30 30 20 40 16 C38 24 40 32 44 38"/>
@@ -2244,44 +2214,40 @@ footer .fine{
         <circle cx="51" cy="16.5" r="1.5" fill="currentColor" stroke="none"/>
       </g>
     </symbol>
-    <symbol id="sym-blade" viewBox="0 0 64 64"><!-- Nayara — A Lâmina -->
+    <symbol id="sym-blade" viewBox="0 0 64 64">
       <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <path d="M32 4 L38 14 L34 44 L32 50 L30 44 L26 14 Z"/>
-        <path d="M26 44 L20 48 M38 44 L44 48"/>
-        <path d="M32 50 L32 58"/>
+        <path d="M26 44 L20 48 M38 44 L44 48"/><path d="M32 50 L32 58"/>
         <circle cx="32" cy="60" r="2.2"/>
       </g>
     </symbol>
-    <symbol id="sym-royalcrown" viewBox="0 0 64 64"><!-- Luís — Rei Dourado -->
+    <symbol id="sym-royalcrown" viewBox="0 0 64 64">
       <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10 24 L21 34 L32 12 L43 34 L54 24 L49 46 H15 Z"/>
-        <path d="M15 53 H49"/>
+        <path d="M10 24 L21 34 L32 12 L43 34 L54 24 L49 46 H15 Z"/><path d="M15 53 H49"/>
         <circle cx="32" cy="39" r="2.4"/>
       </g>
     </symbol>
-    <symbol id="sym-storm" viewBox="0 0 64 64"><!-- Bruno — Inverno Perpétuo -->
+    <symbol id="sym-storm" viewBox="0 0 64 64">
       <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M22 40 C15 40 12 33 17 29 C14 22 21 15 28 18 C31 11 42 10 46 17 C52 17 55 24 51 29 C54 33 51 40 44 40 Z"/>
         <path d="M33 44 L27 56 L34 54 L29 63"/>
       </g>
     </symbol>
-    <symbol id="sym-shield" viewBox="0 0 64 64"><!-- Guilherme — O Protetor -->
+    <symbol id="sym-shield" viewBox="0 0 64 64">
       <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M32 5 C41 9 50 10.5 55 10.5 C55 29 50 46 32 58 C14 46 9 29 9 10.5 C14 10.5 23 9 32 5 Z"/>
         <path d="M22 28 L32 36 L42 28"/>
       </g>
     </symbol>
-    <symbol id="sym-horn" viewBox="0 0 64 64"><!-- Fernando — Bravos e Destemidos -->
+    <symbol id="sym-horn" viewBox="0 0 64 64">
       <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <path d="M14 50 C10 36 16 18 30 10 C38 6 48 6 54 10 C56 12 56 15 54 17 C44 15 36 18 32 24 C26 32 26 42 30 50 C31 53 29 55 26 55 Z"/>
-        <path d="M14 50 L8 54 M30 50 L34 55"/>
-        <path d="M40 14 C42 17 42 20 41 23" opacity=".6"/>
+        <path d="M14 50 L8 54 M30 50 L34 55"/><path d="M40 14 C42 17 42 20 41 23" opacity=".6"/>
       </g>
     </symbol>
-    <symbol id="sym-sunwave" viewBox="0 0 64 64"><!-- Cristiano — Coração da Floresta -->
+    <symbol id="sym-sunwave" viewBox="0 0 64 64">
       <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="32" cy="24" r="9"/>
-        <path d="M23 24 H41 M32 15 V33" opacity=".6"/>
+        <circle cx="32" cy="24" r="9"/><path d="M23 24 H41 M32 15 V33" opacity=".6"/>
         <path d="M6 44 Q16 36 26 44 T46 44 T64 44" transform="translate(-3,4)"/>
         <path d="M6 52 Q16 44 26 52 T46 52 T64 52" transform="translate(-3,4)" opacity=".6"/>
       </g>
@@ -2309,10 +2275,9 @@ footer .fine{
   <button class="tab" data-page="forja" type="button" role="tab">VI · Forja</button>
 </div>
 
-<!-- ============ HERO ============ -->
+<!-- ============ HERO (limpo — sem link no meio) ============ -->
 <header class="hero">
   <canvas id="dust" aria-hidden="true"></canvas>
-  <a class="back-hero" href="https://veldorarealms.github.io/">← Veldora Realms</a>
   <p class="kicker">O sistema de RPG da crônica</p>
   <h1>A Mesa de Veldora</h1>
   <svg class="orn" aria-hidden="true"><use href="#sym-orn"/></svg>
@@ -2737,7 +2702,7 @@ footer .fine{
   <p class="fine">Veldora Realms · A Mesa de RPG</p>
 </footer>
 
-<!-- ============ PAINEL DE CONFIGURAÇÕES (igual à crônica) ============ -->
+<!-- ============ PAINEL DE CONFIGURAÇÕES ============ -->
 <div class="cfg-panel" id="cfgPanel" role="menu" aria-label="Configurações">
   <div class="cfg-head">
     <span class="cfg-title">Configurações</span>
@@ -2757,6 +2722,11 @@ footer .fine{
     <svg aria-hidden="true"><use href="#sym-crown"/></svg>
     <span>Escolher a coroa<small>A mesma da crônica</small></span>
   </button>
+
+  <a class="cfg-item" id="cfgChronicle" role="menuitem" href="https://veldorarealms.github.io/">
+    <svg aria-hidden="true"><use href="#sym-veldora"/></svg>
+    <span>Veldora Realms<small>Ir à crônica dos reinos</small></span>
+  </a>
 
   <a class="cfg-item" id="cfgDiscord" role="menuitem" href="https://discord.gg/SEU-CONVITE-AQUI" target="_blank" rel="noopener">
     <svg aria-hidden="true"><use href="#sym-discord"/></svg>
@@ -2828,10 +2798,17 @@ footer .fine{
         </div>
       </li>
       <li>
+        <span class="help-ico"><svg aria-hidden="true"><use href="#sym-veldora"/></svg></span>
+        <div>
+          <b>Veldora Realms</b>
+          <p>Nas configurações mora o portal de volta à crônica dos reinos — a coroa que reina lá reina aqui também.</p>
+        </div>
+      </li>
+      <li>
         <span class="help-ico"><svg aria-hidden="true"><use href="#sym-gear"/></svg></span>
         <div>
           <b>As Configurações</b>
-          <p>Troca da coroa, Discord, Oráculo de jogos, tema claro, animações e redefinir — tudo pela engrenagem no canto, como na crônica.</p>
+          <p>Troca da coroa, o portal para a crônica, Discord, Oráculo de jogos, tema claro e animações — tudo pela engrenagem no canto, como na crônica.</p>
         </div>
       </li>
       <li>
@@ -3097,7 +3074,7 @@ help.addEventListener('click', e=>{
   if(e.target === help) closeHelp();
 });
 
-/* ---------- O Oráculo da Mesa (sorteia o jogo de hoje) ---------- */
+/* ---------- Oráculo de jogos (o mesmo da crônica) ---------- */
 const GAMES = [
   "Valorant","Minecraft","CS2","Sea of Thieves","Lethal Company",
   "Terraria","Rocket League","Among Us","GTA Online","Palworld",
@@ -3113,6 +3090,9 @@ const GAMES = [
 const DISCORD_URL = 'https://discord.gg/2wx46naKxv';
  $('cfgDiscord').href = DISCORD_URL;
  $('cfgDiscord').addEventListener('click', closeCfg);
+
+/* ---------- Veldora Realms (o portal de volta à crônica) ---------- */
+ $('cfgChronicle').addEventListener('click', closeCfg);
 
 /* ================================================================
    ABAS — troca de página com rolagem suave até o conteúdo
@@ -4073,7 +4053,6 @@ document.addEventListener('keydown', e=>{
     }
   }).observe(canvas.parentElement);
 
-  /* religa a poeira quando as animações voltam sem sair do topo */
   document.addEventListener('veldora:restart-dust', ()=>{
     if(running || !animationsOn) return;
     const r = canvas.getBoundingClientRect();
