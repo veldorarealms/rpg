@@ -17,7 +17,7 @@
 <meta name="theme-color" content="#c9a24a">
 <style>
 /* ================================================================
-   FUNDAÇÃO
+   FUNDAÇÃO — tema noturno (variáveis trocáveis p/ modo claro)
 ================================================================ */
 :root{
   --paper:#17110b;
@@ -31,6 +31,7 @@
   --veil-a:rgba(12,9,6,.72);
   --veil-b:rgba(16,12,8,.78);
   --veil-c:rgba(8,6,4,.9);
+  /* === AS CORES DOS REINOS === */
   --c-supremo:#f7f4ec;
   --c-mirigumi:#e07aa0;
   --c-nyara:#b98fd6;
@@ -49,6 +50,7 @@
   --font-black:'UnifrakturMaguntia','EB Garamond',serif;
   --font-med:'MedievalSharp','EB Garamond',serif;
 }
+/* ============ MODO CLARO — pergaminho diurno ============ */
 :root[data-theme="light"]{
   --paper:#e8dcc0;
   --paper-2:#f2e8d0;
@@ -87,7 +89,7 @@ input[type=number]{-moz-appearance:textfield;appearance:textfield}
 ::-webkit-scrollbar-thumb{background:var(--ink-soft);border:2px solid var(--paper-3);border-radius:6px}
 
 /* ================================================================
-   FUNDO + VÉU + GRÃO
+   FUNDO COM IMAGEM + VÉU + GRÃO
 ================================================================ */
 .bg{
   position:fixed;
@@ -122,99 +124,123 @@ body::before{
   opacity:.14;
   mix-blend-mode:overlay;
 }
-
-.wrap{max-width:960px;margin:0 auto;padding:0 clamp(16px,4vw,44px)}
+.wrap{
+  max-width:960px;
+  margin:0 auto;
+  padding:0 clamp(16px,4vw,44px);
+}
 
 /* ================================================================
-   BARRA SUPERIOR
+   NAVEGAÇÃO — ESTANDARTE FLUTUANTE (igual à crônica)
+   Fixo no topo, pill dourada, sem retângulo de fundo.
 ================================================================ */
-.bar{
+.tabs{
   position:fixed;
-  top:12px;
+  top:14px;
   left:50%;
   transform:translateX(-50%);
-  z-index:1450;
+  z-index:1400;
+  width:max-content;
+  max-width:calc(100vw - 130px);
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:7px 8px 7px 13px;
+  gap:8px;
+  padding:9px 14px;
   background:linear-gradient(180deg,var(--paper-2),var(--paper));
   border:1px solid rgba(201,162,74,.5);
   border-radius:999px;
-  box-shadow:0 12px 34px -12px rgba(0,0,0,.55);
+  box-shadow:0 12px 34px -12px rgba(0,0,0,.55),inset 0 1px 0 var(--line-soft);
   backdrop-filter:blur(9px);
   -webkit-backdrop-filter:blur(9px);
-  max-width:calc(100vw - 20px);
+  overflow-x:auto;
+  scrollbar-width:none;
 }
-.brand{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  text-decoration:none;
-  color:var(--ink);
+.tabs::-webkit-scrollbar{display:none}
+.tsep{
+  width:5px;
+  height:5px;
+  flex:0 0 auto;
+  background:var(--gold);
+  opacity:.55;
+  transform:rotate(45deg);
 }
-.brand img{
-  width:30px;
-  height:30px;
-  object-fit:contain;
-}
-.brand b{
-  font-family:var(--disp);
-  font-size:.7rem;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  white-space:nowrap;
-}
-.bar a.back{
+.tab{
+  flex:0 0 auto;
   font-family:var(--disp);
   font-size:.6rem;
-  letter-spacing:.14em;
+  letter-spacing:.16em;
   text-transform:uppercase;
-  text-decoration:none;
-  color:var(--ink-soft);
-  padding:8px 14px;
-  border:1px solid var(--line);
+  padding:8px 15px;
   border-radius:999px;
+  border:1px solid var(--line);
   background:var(--paper);
+  color:var(--ink-soft);
+  cursor:pointer;
   white-space:nowrap;
-  transition:color .3s,border-color .3s;
+  transition:color .3s,border-color .3s,background .3s,box-shadow .3s,transform .25s;
 }
-.bar a.back:hover{
+.tab:hover{
   color:var(--gold);
   border-color:var(--gold);
+  background:var(--paper-2);
+  transform:translateY(-2px);
+  box-shadow:0 6px 14px -6px rgba(0,0,0,.5);
 }
-.bar button{
-  width:38px;
-  height:38px;
+.tab.on{
+  color:#1a1208;
+  font-weight:700;
+  letter-spacing:.12em;
+  background:linear-gradient(180deg,#e3bd6a,#b98a2e);
+  border-color:#e3bd6a;
+  box-shadow:0 0 16px rgba(201,162,74,.45),inset 0 1px 0 rgba(255,244,214,.5);
+}
+
+/* ================================================================
+   BOTÃO DE CONFIGURAÇÕES — igual ao da crônica (canto sup. direito)
+================================================================ */
+.cfg-btn{
+  position:fixed;
+  top:14px;
+  right:14px;
+  z-index:1500;
+  width:44px;
+  height:44px;
   border-radius:50%;
-  border:1px solid var(--line);
-  background:var(--paper);
+  border:1px solid rgba(201,162,74,.5);
+  background:linear-gradient(180deg,var(--paper-2),var(--paper));
   color:var(--gold);
   cursor:pointer;
+  padding:0;
   display:grid;
   place-items:center;
-  padding:0;
-  transition:transform .25s,box-shadow .25s;
+  box-shadow:0 10px 26px -10px rgba(0,0,0,.6);
+  backdrop-filter:blur(9px);
+  -webkit-backdrop-filter:blur(9px);
+  transition:transform .35s ease,box-shadow .3s ease;
 }
-.bar button svg{
-  width:17px;
-  height:17px;
+.cfg-btn svg{
+  width:22px;
+  height:22px;
   fill:none;
   stroke:currentColor;
   stroke-width:1.8;
   stroke-linecap:round;
   stroke-linejoin:round;
+  transition:transform .6s cubic-bezier(.3,.8,.3,1);
 }
-.bar button:hover{
+.cfg-btn:hover{
   transform:scale(1.08);
-  box-shadow:0 0 14px rgba(201,162,74,.4);
+  box-shadow:0 0 18px rgba(201,162,74,.4);
+}
+.cfg-btn.open svg{
+  transform:rotate(180deg);
 }
 
 /* ================================================================
    HERO
 ================================================================ */
 .hero{
-  padding:120px 0 8px;
+  padding:150px 0 8px;
   text-align:center;
   position:relative;
 }
@@ -224,6 +250,25 @@ body::before{
   width:100%;
   height:100%;
   pointer-events:none;
+}
+.back-hero{
+  display:inline-block;
+  font-family:var(--disp);
+  font-size:.56rem;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:var(--ink-soft);
+  margin-bottom:24px;
+  padding:8px 16px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--paper);
+  transition:color .3s,border-color .3s;
+}
+.back-hero:hover{
+  color:var(--gold);
+  border-color:var(--gold);
 }
 .hero .kicker{
   font-family:var(--disp);
@@ -255,60 +300,11 @@ body::before{
 }
 
 /* ================================================================
-   ABAS
-================================================================ */
-.tabs{
-  position:sticky;
-  top:0;
-  z-index:1300;
-  display:flex;
-  gap:6px;
-  overflow-x:auto;
-  padding:12px clamp(14px,3vw,36px);
-  margin-top:26px;
-  background:linear-gradient(180deg,var(--paper),var(--paper-2));
-  border-top:1px solid var(--line-soft);
-  border-bottom:1px solid var(--line);
-  backdrop-filter:blur(9px);
-  -webkit-backdrop-filter:blur(9px);
-  scrollbar-width:none;
-  justify-content:flex-start;
-}
-.tabs::-webkit-scrollbar{display:none}
-.tab{
-  flex:0 0 auto;
-  font-family:var(--disp);
-  font-size:.6rem;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  padding:9px 16px;
-  border-radius:999px;
-  border:1px solid var(--line);
-  background:var(--paper);
-  color:var(--ink-soft);
-  cursor:pointer;
-  white-space:nowrap;
-  transition:color .25s,border-color .25s,background .25s,transform .2s,box-shadow .25s;
-}
-.tab:hover{
-  color:var(--gold);
-  border-color:var(--gold);
-  transform:translateY(-2px);
-}
-.tab.on{
-  color:#1a1208;
-  font-weight:700;
-  background:linear-gradient(180deg,#e3bd6a,#b98a2e);
-  border-color:#e3bd6a;
-  box-shadow:0 0 14px rgba(201,162,74,.4);
-}
-
-/* ================================================================
-   PÁGINAS
+   PÁGINAS (as abas trocam entre elas)
 ================================================================ */
 .page{
   display:none;
-  padding:44px 0 30px;
+  padding:48px 0 30px;
 }
 .page.on{
   display:block;
@@ -343,7 +339,6 @@ body::before{
   margin-top:8px;
   font-size:.98rem;
 }
-
 .cardbox{
   border:1px solid var(--line);
   outline:1px solid var(--line-soft);
@@ -353,7 +348,7 @@ body::before{
 }
 
 /* ================================================================
-   I — DADOS
+   I — O ORÁCULO DOS DADOS
 ================================================================ */
 .dice-tray{
   display:flex;
@@ -527,9 +522,15 @@ body::before{
   color:var(--gold);
   flex:0 0 auto;
 }
-.roll-log li.crit span{color:var(--gold)}
-.roll-log li.fumble span{color:var(--c-escarlate)}
-.roll-log li:last-child{border-bottom:none}
+.roll-log li.crit span{
+  color:var(--gold);
+}
+.roll-log li.fumble span{
+  color:var(--c-escarlate);
+}
+.roll-log li:last-child{
+  border-bottom:none;
+}
 .log-clear{
   display:block;
   margin:12px auto 0;
@@ -542,10 +543,12 @@ body::before{
   text-transform:uppercase;
   cursor:pointer;
 }
-.log-clear:hover{color:var(--seal)}
+.log-clear:hover{
+  color:var(--seal);
+}
 
 /* ================================================================
-   II — FICHAS
+   II — AS FICHAS DOS HERÓIS
 ================================================================ */
 .heroes-grid{
   display:grid;
@@ -589,6 +592,18 @@ body::before{
   border-color:var(--accent);
   background:var(--paper-2);
   box-shadow:0 0 14px -4px var(--accent);
+}
+.hero-pick.crowned{
+  border-color:var(--gold);
+}
+.hero-pick.crowned span{
+  color:var(--gold);
+}
+.hero-pick.crowned::after{
+  content:"♛";
+  font-size:.62rem;
+  color:var(--gold);
+  line-height:1;
 }
 .sheet{
   max-width:720px;
@@ -634,6 +649,22 @@ body::before{
   font-family:var(--font-med);
   font-weight:400;
   font-size:1.3rem;
+}
+.crown-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-top:4px;
+  font-family:var(--disp);
+  font-size:.5rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--gold);
+}
+.crown-tag svg{
+  width:12px;
+  height:12px;
+  fill:var(--gold);
 }
 .sheet-head .actions{
   display:flex;
@@ -711,7 +742,7 @@ select:focus{
   .row2,.row3{grid-template-columns:1fr}
 }
 
-/* Atributos */
+/* --- Atributos --- */
 .attr-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -777,7 +808,7 @@ select:focus{
   margin:-6px 0 14px;
 }
 
-/* Vitais */
+/* --- Vitais (vida e mana) --- */
 .vitals{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -854,6 +885,8 @@ select:focus{
   width:100%;
   transition:width .3s ease;
 }
+
+/* --- CA / XP / Ouro --- */
 .mini-vitals{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -927,7 +960,7 @@ select:focus{
   margin-top:5px;
 }
 
-/* Listas (inventário / perícias) */
+/* --- Listas (inventário / perícias) --- */
 .list-add{
   display:flex;
   gap:8px;
@@ -944,7 +977,9 @@ select:focus{
   border-radius:10px;
   outline:none;
 }
-.list-add input:focus{border-color:var(--gold)}
+.list-add input:focus{
+  border-color:var(--gold);
+}
 .list-add button{
   border:1px solid var(--gold);
   background:transparent;
@@ -973,7 +1008,9 @@ select:focus{
   border-bottom:1px dashed var(--line);
   font-size:.95rem;
 }
-.item-list li:last-child{border-bottom:none}
+.item-list li:last-child{
+  border-bottom:none;
+}
 .item-list .name{
   flex:1;
 }
@@ -1010,7 +1047,7 @@ select:focus{
   padding:6px 4px;
 }
 
-/* Condições */
+/* --- Condições --- */
 .cond-grid{
   display:flex;
   flex-wrap:wrap;
@@ -1056,10 +1093,12 @@ select:focus{
   opacity:0;
   transition:opacity .4s;
 }
-.save-state.show{opacity:1}
+.save-state.show{
+  opacity:1;
+}
 
 /* ================================================================
-   III — COMBATE
+   III — CAMPO DE BATALHA
 ================================================================ */
 .combat-add{
   display:grid;
@@ -1081,7 +1120,9 @@ select:focus{
   color:var(--gold);
   margin-bottom:10px;
 }
-.combat-add .field{margin-bottom:10px}
+.combat-add .field{
+  margin-bottom:10px;
+}
 .combat-controls{
   display:flex;
   align-items:center;
@@ -1100,7 +1141,9 @@ select:focus{
   border-radius:999px;
   padding:8px 16px;
 }
-.combat-controls .round-badge b{color:var(--gold)}
+.combat-controls .round-badge b{
+  color:var(--gold);
+}
 .combat-list{
   list-style:none;
   max-width:720px;
@@ -1159,7 +1202,10 @@ select:focus{
   border-color:var(--c-escarlate);
   color:var(--c-escarlate);
 }
-.c-main{flex:1;min-width:0}
+.c-main{
+  flex:1;
+  min-width:0;
+}
 .c-name{
   font-family:var(--font-med);
   font-size:1.05rem;
@@ -1188,7 +1234,10 @@ select:focus{
   line-height:1;
   font-size:.78rem;
 }
-.c-hp button:hover{border-color:var(--gold);color:var(--gold)}
+.c-hp button:hover{
+  border-color:var(--gold);
+  color:var(--gold);
+}
 .c-hpbar{
   flex:1;
   height:6px;
@@ -1221,7 +1270,11 @@ select:focus{
   flex:0 0 auto;
   text-align:center;
 }
-.c-ac b{color:var(--ink);display:block;font-size:.85rem}
+.c-ac b{
+  color:var(--ink);
+  display:block;
+  font-size:.85rem;
+}
 .c-rm{
   width:28px;
   height:28px;
@@ -1392,7 +1445,7 @@ select:focus{
 }
 
 /* ================================================================
-   V — CÓDICE
+   V — CÓDICE DE REGRAS
 ================================================================ */
 .book{
   max-width:720px;
@@ -1406,7 +1459,9 @@ select:focus{
   margin:22px 0 8px;
   color:var(--gold);
 }
-.book h3:first-child{margin-top:0}
+.book h3:first-child{
+  margin-top:0;
+}
 .book p{
   font-size:.98rem;
   margin-bottom:8px;
@@ -1435,7 +1490,8 @@ select:focus{
   font-size:.92rem;
   margin:8px 0;
 }
-.book th,.book td{
+.book th,
+.book td{
   text-align:left;
   padding:7px 10px;
   border-bottom:1px dashed var(--line);
@@ -1447,7 +1503,9 @@ select:focus{
   text-transform:uppercase;
   color:var(--gold);
 }
-.book td b{font-family:var(--disp)}
+.book td b{
+  font-family:var(--disp);
+}
 .book .motto{
   text-align:center;
   font-style:italic;
@@ -1456,7 +1514,7 @@ select:focus{
 }
 
 /* ================================================================
-   VI — FORJA
+   VI — FORJA DO MESTRE
 ================================================================ */
 .forge-grid{
   display:grid;
@@ -1544,7 +1602,446 @@ select:focus{
 }
 
 /* ================================================================
-   CONFIRMAÇÃO PRÓPRIA DA PÁGINA (sem diálogos do navegador)
+   PAINEL DE CONFIGURAÇÕES (igual ao da crônica)
+================================================================ */
+.cfg-panel{
+  position:fixed;
+  top:66px;
+  right:14px;
+  z-index:1600;
+  width:min(300px,calc(100vw - 24px));
+  max-height:calc(100svh - 90px);
+  overflow-y:auto;
+  background:linear-gradient(180deg,var(--paper-2),var(--paper));
+  border:1px solid var(--gold);
+  outline:1px solid var(--line);
+  outline-offset:3px;
+  border-radius:16px;
+  padding:14px;
+  box-shadow:0 24px 60px -18px rgba(0,0,0,.75);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  opacity:0;
+  transform:translateY(-8px) scale(.97);
+  transform-origin:top right;
+  pointer-events:none;
+  transition:opacity .28s ease,transform .28s cubic-bezier(.3,.8,.3,1);
+}
+.cfg-panel.open{
+  opacity:1;
+  transform:none;
+  pointer-events:auto;
+}
+.cfg-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:2px 4px 10px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:8px;
+}
+.cfg-title{
+  font-family:var(--font-black);
+  font-weight:400;
+  font-size:1.25rem;
+  line-height:1;
+}
+.cfg-close{
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink-soft);
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  padding:0;
+  transition:color .25s,border-color .25s,transform .25s;
+}
+.cfg-close svg{
+  width:12px;
+  height:12px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+}
+.cfg-close:hover{
+  color:var(--seal);
+  border-color:var(--seal);
+  transform:rotate(90deg);
+}
+.cfg-sec{
+  font-family:var(--disp);
+  font-size:.5rem;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  padding:10px 4px 6px;
+}
+.cfg-item{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:9px 11px;
+  margin-bottom:6px;
+  border-radius:12px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:.95rem;
+  text-align:left;
+  cursor:pointer;
+  transition:border-color .25s,background .25s,transform .2s,color .25s;
+  text-decoration:none;
+}
+.cfg-item svg{
+  width:17px;
+  height:17px;
+  fill:none;
+  stroke:var(--gold);
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  flex:0 0 auto;
+}
+.cfg-item small{
+  display:block;
+  font-style:italic;
+  color:var(--ink-soft);
+  font-size:.72rem;
+  margin-top:1px;
+}
+.cfg-item:hover,
+.cfg-item:focus-visible{
+  border-color:var(--gold);
+  background:var(--paper-2);
+  transform:translateX(3px);
+  color:var(--ink);
+}
+.cfg-item.on{
+  border-color:var(--gold);
+}
+.cfg-item.on svg{
+  fill:var(--gold);
+}
+.cfg-toggle{
+  margin-left:auto;
+  flex:0 0 auto;
+  width:34px;
+  height:18px;
+  border-radius:999px;
+  border:1px solid var(--gold);
+  background:var(--paper-2);
+  position:relative;
+  transition:background .25s;
+}
+.cfg-toggle::after{
+  content:"";
+  position:absolute;
+  top:2px;
+  left:2px;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:var(--ink-soft);
+  transition:transform .25s,background .25s;
+}
+.cfg-item.on .cfg-toggle{
+  background:var(--gold);
+}
+.cfg-item.on .cfg-toggle::after{
+  transform:translateX(16px);
+  background:#1a1208;
+}
+.oracle-out{
+  display:none;
+  margin:2px 0 8px;
+  padding:9px 11px;
+  border-radius:12px;
+  background:var(--paper);
+  border:1px dashed var(--gold);
+  font-style:italic;
+  font-size:.9rem;
+  text-align:center;
+}
+.oracle-out.show{
+  display:block;
+}
+.oracle-out b{
+  font-family:var(--font-med);
+  font-style:normal;
+  color:var(--gold);
+}
+
+/* ================================================================
+   AJUDA
+================================================================ */
+.help{
+  position:fixed;
+  inset:0;
+  z-index:1750;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  background:rgba(8,6,4,.85);
+  backdrop-filter:blur(7px);
+  -webkit-backdrop-filter:blur(7px);
+  opacity:0;
+  transition:opacity .35s ease;
+}
+.help.open{
+  opacity:1;
+}
+.help[hidden]{
+  display:none;
+}
+.help-box{
+  width:min(560px,100%);
+  max-height:90svh;
+  overflow-y:auto;
+  background:var(--paper-2);
+  border:1px solid var(--gold);
+  outline:1px solid var(--line);
+  outline-offset:5px;
+  padding:clamp(20px,4vw,32px);
+  box-shadow:0 0 60px rgba(201,162,74,.12),0 30px 70px -20px rgba(0,0,0,.8);
+  transform:translateY(14px) scale(.98);
+  transition:transform .35s cubic-bezier(.3,.8,.3,1);
+}
+.help.open .help-box{
+  transform:none;
+}
+.help-title{
+  font-family:var(--font-black);
+  font-weight:400;
+  font-size:clamp(1.5rem,5vw,2.1rem);
+  line-height:1.15;
+  margin-bottom:4px;
+  text-align:center;
+}
+.help-box .orn{
+  width:160px;
+  margin:12px auto 16px;
+}
+.help-list{
+  list-style:none;
+  text-align:left;
+}
+.help-list li{
+  display:grid;
+  grid-template-columns:34px 1fr;
+  gap:12px;
+  align-items:start;
+  padding:10px 0;
+  border-bottom:1px dashed var(--line);
+}
+.help-list li:last-child{
+  border-bottom:none;
+}
+.help-ico{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:1.5px solid var(--gold);
+  color:var(--gold);
+  display:grid;
+  place-items:center;
+  margin-top:2px;
+}
+.help-ico svg{
+  width:17px;
+  height:17px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.help-list b{
+  font-family:var(--disp);
+  font-size:.8rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:2px;
+}
+.help-list p{
+  font-size:.95rem;
+  color:var(--ink);
+}
+.help-fine{
+  margin-top:14px;
+  font-family:var(--disp);
+  font-size:.55rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  text-align:center;
+}
+.btn-center{
+  text-align:center;
+  margin-top:16px;
+}
+.btn-gold{
+  font-family:var(--disp);
+  font-size:.68rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  padding:10px 22px;
+  border-radius:999px;
+  cursor:pointer;
+  border:1px solid var(--gold);
+  background:transparent;
+  color:var(--gold);
+  transition:background .25s,color .25s;
+}
+.btn-gold:hover{
+  background:var(--gold);
+  color:#1a1208;
+}
+
+/* ================================================================
+   PORTAL DA COROA (compartilhado com a crônica)
+================================================================ */
+.gate{
+  position:fixed;
+  inset:0;
+  z-index:1700;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  background:rgba(8,6,4,.85);
+  backdrop-filter:blur(7px);
+  -webkit-backdrop-filter:blur(7px);
+  opacity:0;
+  transition:opacity .4s ease;
+}
+.gate.open{
+  opacity:1;
+}
+.gate[hidden]{
+  display:none;
+}
+.gate-box{
+  width:min(520px,100%);
+  max-height:92svh;
+  overflow-y:auto;
+  background:var(--paper-2);
+  border:1px solid var(--gold);
+  outline:1px solid var(--line);
+  outline-offset:5px;
+  padding:clamp(22px,4vw,34px);
+  text-align:center;
+  box-shadow:0 0 60px rgba(201,162,74,.12),0 30px 70px -20px rgba(0,0,0,.9);
+  transform:translateY(18px) scale(.98);
+  transition:transform .4s cubic-bezier(.3,.8,.3,1);
+}
+.gate.open .gate-box{
+  transform:none;
+}
+.gate-kicker{
+  font-family:var(--disp);
+  font-size:.6rem;
+  letter-spacing:.4em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:10px;
+}
+.gate-title{
+  font-family:var(--font-black);
+  font-weight:400;
+  font-size:clamp(1.7rem,6vw,2.4rem);
+  line-height:1.15;
+}
+.gate-box .orn{
+  width:160px;
+  margin:14px auto 0;
+}
+.gate-sub{
+  font-style:italic;
+  color:var(--ink-soft);
+  font-size:.98rem;
+  margin-top:12px;
+}
+.gate-crown{
+  width:26px;
+  height:26px;
+  fill:var(--gold);
+  margin-top:14px;
+  filter:drop-shadow(0 0 10px rgba(201,162,74,.5));
+}
+.gate-grid{
+  display:grid;
+  gap:9px;
+  margin-top:20px;
+}
+.gate-choice{
+  display:grid;
+  grid-template-columns:46px 1fr auto;
+  align-items:center;
+  gap:13px;
+  padding:10px 13px;
+  text-align:left;
+  cursor:pointer;
+  background:var(--paper);
+  border:1px solid var(--line);
+  color:var(--ink);
+  font-family:var(--serif);
+  transition:border-color .3s,background .3s,transform .25s,box-shadow .3s;
+}
+.gate-choice:hover,
+.gate-choice:focus-visible{
+  border-color:var(--gold);
+  background:var(--paper-2);
+  transform:translateX(3px);
+  box-shadow:0 0 16px rgba(201,162,74,.18);
+}
+.gate-sigil{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  border:1.5px solid var(--accent,var(--gold));
+  display:grid;
+  place-items:center;
+  color:var(--accent,var(--gold));
+}
+.gate-sigil svg{
+  width:24px;
+  height:24px;
+}
+.gate-name{
+  font-family:var(--font-med);
+  font-size:1.02rem;
+  line-height:1.2;
+}
+.gate-role{
+  font-style:italic;
+  color:var(--accent,var(--gold));
+  font-size:.82rem;
+  margin-top:1px;
+}
+.gate-realm{
+  font-family:var(--disp);
+  font-size:.5rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.gate-fine{
+  margin-top:16px;
+  font-family:var(--disp);
+  font-size:.56rem;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+
+/* ================================================================
+   CONFIRMAÇÃO PRÓPRIA DA PÁGINA
 ================================================================ */
 .ask{
   position:fixed;
@@ -1559,8 +2056,12 @@ select:focus{
   opacity:0;
   transition:opacity .3s ease;
 }
-.ask.open{opacity:1}
-.ask[hidden]{display:none}
+.ask.open{
+  opacity:1;
+}
+.ask[hidden]{
+  display:none;
+}
 .ask-box{
   width:min(420px,100%);
   padding:clamp(20px,4vw,28px);
@@ -1568,7 +2069,9 @@ select:focus{
   transform:translateY(12px) scale(.98);
   transition:transform .3s cubic-bezier(.3,.8,.3,1);
 }
-.ask.open .ask-box{transform:none}
+.ask.open .ask-box{
+  transform:none;
+}
 .ask-title{
   font-family:var(--font-black);
   font-weight:400;
@@ -1641,15 +2144,29 @@ footer .fine{
 }
 
 /* ================================================================
-   RESPONSIVO GERAL
+   RESPONSIVO
 ================================================================ */
-@media (max-width:640px){
-  .brand b{display:none}
-  .hero{padding-top:104px}
-  .bar{top:8px}
+@media (max-width:760px){
+  .tabs{
+    top:12px;
+    padding:8px 10px;
+    max-width:calc(100vw - 74px);
+    gap:6px;
+  }
+  .tab{
+    font-size:.55rem;
+    padding:7px 11px;
+    letter-spacing:.12em;
+  }
+  .hero{
+    padding-top:132px;
+  }
 }
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none!important;transition:none!important}
+  *,*::before,*::after{
+    animation:none!important;
+    transition:none!important;
+  }
 }
 </style>
 </head>
@@ -1657,7 +2174,7 @@ footer .fine{
 
 <div class="bg" aria-hidden="true"></div>
 
-<!-- ============ BIBLIOTECA DE SÍMBOLOS ============ -->
+<!-- ============ BIBLIOTECA DE SÍMBOLOS SVG ============ -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <symbol id="sym-orn" viewBox="0 0 220 20">
@@ -1672,20 +2189,54 @@ footer .fine{
       <path d="M6 3 H18 A2 2 0 0 1 20 5 V19 A2 2 0 0 1 18 21 H6 A2 2 0 0 1 4 19 V5 A2 2 0 0 1 6 3 Z"/>
       <path d="M8 8 H16 M8 12 H16 M8 16 H13"/>
     </symbol>
-    <symbol id="sym-sovereign" viewBox="0 0 64 64">
+    <symbol id="sym-gear" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3.2"/>
+      <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.11-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.56-1.11 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.09a1.7 1.7 0 0 0 1.03-1.56V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.09a1.7 1.7 0 0 0 1.56 1.03H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51.87Z"/>
+    </symbol>
+    <symbol id="sym-close" viewBox="0 0 24 24">
+      <path d="M5 5 L19 19 M19 5 L5 19"/>
+    </symbol>
+    <symbol id="sym-crown" viewBox="0 0 24 24">
+      <path d="M3.5 8.5 L7.5 12 L12 5.5 L16.5 12 L20.5 8.5 L18.8 18.5 H5.2 Z"/>
+    </symbol>
+    <symbol id="sym-heart" viewBox="0 0 24 24">
+      <path d="M12 21 C7 16.5 3 13.2 3 9.3 C3 6.4 5.2 4.5 7.7 4.5 C9.4 4.5 11 5.4 12 6.9 C13 5.4 14.6 4.5 16.3 4.5 C18.8 4.5 21 6.4 21 9.3 C21 13.2 17 16.5 12 21 Z"/>
+    </symbol>
+    <symbol id="sym-reset" viewBox="0 0 24 24">
+      <path d="M3 12 A9 9 0 1 1 5.6 18.4"/>
+      <path d="M3 20 V14 H9"/>
+    </symbol>
+    <symbol id="sym-help" viewBox="0 0 24 24">
+      <path d="M9 9.5 C9 7.5 10.5 6.5 12 6.5 C13.5 6.5 15 7.5 15 9.2 C15 11 13.5 11.4 12.5 12.4 C12 12.9 12 13.4 12 14"/>
+      <circle cx="12" cy="17.2" r="1" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="12" r="10"/>
+    </symbol>
+    <symbol id="sym-discord" viewBox="0 0 24 24">
+      <path d="M19.6 5.9 A16 16 0 0 0 15.9 4.7 A11.3 11.3 0 0 0 15 6.3 A14.7 14.7 0 0 0 9 6.3 A11.3 11.3 0 0 0 8.1 4.7 A16 16 0 0 0 4.4 5.9 C2.1 9.3 1.5 12.6 1.8 15.9 A16.1 16.1 0 0 0 6.6 18.4 A12 12 0 0 0 8 16.2 A10.3 10.3 0 0 1 6.4 15.4 C6.6 15.2 6.9 15.1 7.1 14.9 A11.5 11.5 0 0 0 16.9 14.9 C17.1 15.1 17.4 15.2 17.6 15.4 A10.3 10.3 0 0 1 16 16.2 A12 12 0 0 0 17.4 18.4 A16.1 16.1 0 0 0 22.2 15.9 C22.6 12 21.6 8.8 19.6 5.9 Z M8.7 13.9 C7.8 13.9 7 13 7 12 C7 11 7.8 9.9 8.7 9.9 C9.6 9.9 10.4 11 10.4 12 C10.4 13 9.6 13.9 8.7 13.9 Z M15.3 13.9 C14.4 13.9 13.6 13 13.6 12 C13.6 11 14.4 9.9 15.3 9.9 C16.2 9.9 17 11 17 12 C17 13 16.2 13.9 15.3 13.9 Z"/>
+    </symbol>
+    <symbol id="sym-dice" viewBox="0 0 24 24">
+      <rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/>
+      <circle cx="8.2" cy="8.2" r="1.15" fill="currentColor" stroke="none"/>
+      <circle cx="15.8" cy="15.8" r="1.15" fill="currentColor" stroke="none"/>
+      <circle cx="12" cy="12" r="1.15" fill="currentColor" stroke="none"/>
+    </symbol>
+    <!-- Símbolos dos guardiões -->
+    <symbol id="sym-sovereign" viewBox="0 0 64 64"><!-- Luan — espada coroada -->
       <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <path d="M22 11 L26 15 L32 7 L38 15 L42 11 L40.5 18.5 H23.5 Z"/>
-        <path d="M32 18.5 V23"/><path d="M22.5 23 H41.5"/>
+        <path d="M32 18.5 V23"/>
+        <path d="M22.5 23 H41.5"/>
         <path d="M28.5 23 H35.5 L36 50 L32 58 L28 50 Z"/>
       </g>
     </symbol>
-    <symbol id="sym-scepter" viewBox="0 0 64 64">
+    <symbol id="sym-scepter" viewBox="0 0 64 64"><!-- Debora — A Imperatriz -->
       <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M29 58 L33 24"/><circle cx="34" cy="16" r="6.5"/>
+        <path d="M29 58 L33 24"/>
+        <circle cx="34" cy="16" r="6.5"/>
         <path d="M20 28 C22 19 26 13 32 9 M48 28 C46 19 42 13 36 9"/>
       </g>
     </symbol>
-    <symbol id="sym-raven" viewBox="0 0 64 64">
+    <symbol id="sym-raven" viewBox="0 0 64 64"><!-- Rayssa — O Corvo -->
       <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <path d="M46 34 C52 38 56 46 54 54 L48 50 C44 56 36 58 30 56 L32 48 C26 48 20 44 18 38 C24 40 32 40 38 36 Z"/>
         <path d="M30 38 C26 30 30 20 40 16 C38 24 40 32 44 38"/>
@@ -1693,40 +2244,44 @@ footer .fine{
         <circle cx="51" cy="16.5" r="1.5" fill="currentColor" stroke="none"/>
       </g>
     </symbol>
-    <symbol id="sym-blade" viewBox="0 0 64 64">
+    <symbol id="sym-blade" viewBox="0 0 64 64"><!-- Nayara — A Lâmina -->
       <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <path d="M32 4 L38 14 L34 44 L32 50 L30 44 L26 14 Z"/>
-        <path d="M26 44 L20 48 M38 44 L44 48"/><path d="M32 50 L32 58"/>
+        <path d="M26 44 L20 48 M38 44 L44 48"/>
+        <path d="M32 50 L32 58"/>
         <circle cx="32" cy="60" r="2.2"/>
       </g>
     </symbol>
-    <symbol id="sym-royalcrown" viewBox="0 0 64 64">
+    <symbol id="sym-royalcrown" viewBox="0 0 64 64"><!-- Luís — Rei Dourado -->
       <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10 24 L21 34 L32 12 L43 34 L54 24 L49 46 H15 Z"/><path d="M15 53 H49"/>
+        <path d="M10 24 L21 34 L32 12 L43 34 L54 24 L49 46 H15 Z"/>
+        <path d="M15 53 H49"/>
         <circle cx="32" cy="39" r="2.4"/>
       </g>
     </symbol>
-    <symbol id="sym-storm" viewBox="0 0 64 64">
+    <symbol id="sym-storm" viewBox="0 0 64 64"><!-- Bruno — Inverno Perpétuo -->
       <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M22 40 C15 40 12 33 17 29 C14 22 21 15 28 18 C31 11 42 10 46 17 C52 17 55 24 51 29 C54 33 51 40 44 40 Z"/>
         <path d="M33 44 L27 56 L34 54 L29 63"/>
       </g>
     </symbol>
-    <symbol id="sym-shield" viewBox="0 0 64 64">
+    <symbol id="sym-shield" viewBox="0 0 64 64"><!-- Guilherme — O Protetor -->
       <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M32 5 C41 9 50 10.5 55 10.5 C55 29 50 46 32 58 C14 46 9 29 9 10.5 C14 10.5 23 9 32 5 Z"/>
         <path d="M22 28 L32 36 L42 28"/>
       </g>
     </symbol>
-    <symbol id="sym-horn" viewBox="0 0 64 64">
+    <symbol id="sym-horn" viewBox="0 0 64 64"><!-- Fernando — Bravos e Destemidos -->
       <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <path d="M14 50 C10 36 16 18 30 10 C38 6 48 6 54 10 C56 12 56 15 54 17 C44 15 36 18 32 24 C26 32 26 42 30 50 C31 53 29 55 26 55 Z"/>
-        <path d="M14 50 L8 54 M30 50 L34 55"/><path d="M40 14 C42 17 42 20 41 23" opacity=".6"/>
+        <path d="M14 50 L8 54 M30 50 L34 55"/>
+        <path d="M40 14 C42 17 42 20 41 23" opacity=".6"/>
       </g>
     </symbol>
-    <symbol id="sym-sunwave" viewBox="0 0 64 64">
+    <symbol id="sym-sunwave" viewBox="0 0 64 64"><!-- Cristiano — Coração da Floresta -->
       <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="32" cy="24" r="9"/><path d="M23 24 H41 M32 15 V33" opacity=".6"/>
+        <circle cx="32" cy="24" r="9"/>
+        <path d="M23 24 H41 M32 15 V33" opacity=".6"/>
         <path d="M6 44 Q16 36 26 44 T46 44 T64 44" transform="translate(-3,4)"/>
         <path d="M6 52 Q16 44 26 52 T46 52 T64 52" transform="translate(-3,4)" opacity=".6"/>
       </g>
@@ -1734,36 +2289,35 @@ footer .fine{
   </defs>
 </svg>
 
-<!-- ============ BARRA SUPERIOR ============ -->
-<nav class="bar">
-  <a class="brand" href="rpg.html">
-    <img src="simbolo.png" alt="Símbolo de Veldora">
-    <b>A Mesa de Veldora</b>
-  </a>
-  <a class="back" href="https://veldorarealms.github.io/page/">← Crônica</a>
-  <button id="themeBtn" type="button" aria-label="Alternar tema claro" title="Modo pergaminho">
-    <svg aria-hidden="true"><use href="#sym-scroll"/></svg>
-  </button>
-</nav>
+<!-- ============ BOTÃO DE CONFIGURAÇÕES (canto sup. direito, igual à crônica) ============ -->
+<button class="cfg-btn" id="cfgBtn" type="button" aria-label="Abrir configurações" aria-expanded="false" title="Configurações">
+  <svg aria-hidden="true"><use href="#sym-gear"/></svg>
+</button>
+
+<!-- ============ ESTANDARTE DE ABAS (flutuante, igual à crônica) ============ -->
+<div class="tabs" role="tablist" aria-label="Módulos da Mesa">
+  <button class="tab on" data-page="dados" type="button" role="tab">I · Dados</button>
+  <span class="tsep" aria-hidden="true"></span>
+  <button class="tab" data-page="fichas" type="button" role="tab">II · Fichas</button>
+  <span class="tsep" aria-hidden="true"></span>
+  <button class="tab" data-page="combate" type="button" role="tab">III · Combate</button>
+  <span class="tsep" aria-hidden="true"></span>
+  <button class="tab" data-page="bestiario" type="button" role="tab">IV · Bestiário</button>
+  <span class="tsep" aria-hidden="true"></span>
+  <button class="tab" data-page="codice" type="button" role="tab">V · Códice</button>
+  <span class="tsep" aria-hidden="true"></span>
+  <button class="tab" data-page="forja" type="button" role="tab">VI · Forja</button>
+</div>
 
 <!-- ============ HERO ============ -->
 <header class="hero">
   <canvas id="dust" aria-hidden="true"></canvas>
+  <a class="back-hero" href="https://veldorarealms.github.io/">← Veldora Realms</a>
   <p class="kicker">O sistema de RPG da crônica</p>
   <h1>A Mesa de Veldora</h1>
   <svg class="orn" aria-hidden="true"><use href="#sym-orn"/></svg>
   <p class="sub">Dados para o azar, fichas para a lenda, bestas para a glória — que o dado caia a teu favor.</p>
 </header>
-
-<!-- ============ ABAS ============ -->
-<div class="tabs" role="tablist" aria-label="Módulos da Mesa">
-  <button class="tab on" data-page="dados" type="button" role="tab">I · Dados</button>
-  <button class="tab" data-page="fichas" type="button" role="tab">II · Fichas</button>
-  <button class="tab" data-page="combate" type="button" role="tab">III · Combate</button>
-  <button class="tab" data-page="bestiario" type="button" role="tab">IV · Bestiário</button>
-  <button class="tab" data-page="codice" type="button" role="tab">V · Códice</button>
-  <button class="tab" data-page="forja" type="button" role="tab">VI · Forja</button>
-</div>
 
 <main class="wrap">
 
@@ -1837,6 +2391,10 @@ footer .fine{
         <div class="who">
           <small>Ficha de</small>
           <b id="sheetWho">Luan Dhony</b>
+          <span class="crown-tag" id="crownTag" hidden>
+            <svg aria-hidden="true"><use href="#sym-crown"/></svg>
+            Favorito do Códice
+          </span>
         </div>
         <div class="actions">
           <button class="mini-btn" id="copySheet" type="button">Copiar ficha</button>
@@ -1861,7 +2419,7 @@ footer .fine{
         </div>
         <div class="field" style="max-width:140px">
           <label for="fLvl">Nível</label>
-          <input type="number" id="fLvl" min="1" max="20" value="1">
+          <input type="number" id="fLvl" min="1" max="10" value="1">
         </div>
       </div>
 
@@ -2106,6 +2664,9 @@ footer .fine{
       </table>
       <p>Ao subir de nível: +5 de vida máxima, +3 de mana máxima e um ponto de atributo à escolha. O Mestre pode premiar mais.</p>
 
+      <h3>A Coroa compartilhada</h3>
+      <p>A coroa escolhida na crônica é a mesma daqui: mudou numa, muda na outra — o Códice guarda a escolha no seu aparelho, e as duas páginas conversam.</p>
+
       <h3>O Pacto do Dado</h3>
       <p>I. O dado manda, mesmo quando trai. &nbsp; II. O Mestre interpreta o mundo, jamais os heróis dos outros. &nbsp; III. Nenhum dado é rolado duas vezes — o que passou, passou. &nbsp; IV. A mesa ri do desastre antes de lamentá-lo.</p>
 
@@ -2176,6 +2737,181 @@ footer .fine{
   <p class="fine">Veldora Realms · A Mesa de RPG</p>
 </footer>
 
+<!-- ============ PAINEL DE CONFIGURAÇÕES (igual à crônica) ============ -->
+<div class="cfg-panel" id="cfgPanel" role="menu" aria-label="Configurações">
+  <div class="cfg-head">
+    <span class="cfg-title">Configurações</span>
+    <button class="cfg-close" id="cfgClose" type="button" aria-label="Fechar configurações">
+      <svg aria-hidden="true"><use href="#sym-close"/></svg>
+    </button>
+  </div>
+
+  <p class="cfg-sec">A Mesa</p>
+
+  <button class="cfg-item" id="cfgHelp" type="button" role="menuitem">
+    <svg aria-hidden="true"><use href="#sym-help"/></svg>
+    <span>Ajuda<small>Como usar a Mesa</small></span>
+  </button>
+
+  <button class="cfg-item" id="cfgCrown" type="button" role="menuitem">
+    <svg aria-hidden="true"><use href="#sym-crown"/></svg>
+    <span>Escolher a coroa<small>A mesma da crônica</small></span>
+  </button>
+
+  <a class="cfg-item" id="cfgDiscord" role="menuitem" href="https://discord.gg/SEU-CONVITE-AQUI" target="_blank" rel="noopener">
+    <svg aria-hidden="true"><use href="#sym-discord"/></svg>
+    <span>Discord<small>Entrar no portal do servidor</small></span>
+  </a>
+
+  <button class="cfg-item" id="cfgOracle" type="button" role="menuitem">
+    <svg aria-hidden="true"><use href="#sym-dice"/></svg>
+    <span>O Oráculo da Mesa<small>Sorteia o jogo de hoje</small></span>
+  </button>
+  <p class="oracle-out" id="oracleOut" aria-live="polite"></p>
+
+  <p class="cfg-sec">Preferências</p>
+
+  <button class="cfg-item" id="cfgTheme" type="button" role="menuitem">
+    <svg aria-hidden="true"><use href="#sym-scroll"/></svg>
+    <span>Modo pergaminho<small>Tema claro da Mesa</small></span>
+    <span class="cfg-toggle" aria-hidden="true"></span>
+  </button>
+
+  <button class="cfg-item on" id="cfgAnim" type="button" role="menuitem" aria-pressed="true">
+    <svg aria-hidden="true"><use href="#sym-heart"/></svg>
+    <span>Animações<small>Poeira dourada do topo</small></span>
+    <span class="cfg-toggle" aria-hidden="true"></span>
+  </button>
+
+  <p class="cfg-sec">A Mantença do Códice</p>
+
+  <button class="cfg-item" id="cfgReset" type="button" role="menuitem">
+    <svg aria-hidden="true"><use href="#sym-reset"/></svg>
+    <span>Redefinir dados<small>Apaga a coroa e as fichas</small></span>
+  </button>
+</div>
+
+<!-- ============ AJUDA ============ -->
+<div class="help" id="help" role="dialog" aria-modal="true" aria-labelledby="helpTitle" hidden>
+  <div class="help-box">
+    <p class="gate-kicker" style="margin-bottom:8px">O Manual do Jogador</p>
+    <h2 class="help-title" id="helpTitle">Como usar a Mesa</h2>
+    <svg class="orn" aria-hidden="true"><use href="#sym-orn"/></svg>
+
+    <ul class="help-list">
+      <li>
+        <span class="help-ico"><svg aria-hidden="true"><use href="#sym-dice"/></svg></span>
+        <div>
+          <b>O Oráculo dos Dados</b>
+          <p>Escolhei o dado, a quantidade e o ajuste. O botão de modo alterna: normal → vantagem → desvantagem. O registro guarda as últimas rolagens.</p>
+        </div>
+      </li>
+      <li>
+        <span class="help-ico"><svg aria-hidden="true"><use href="#sym-scroll"/></svg></span>
+        <div>
+          <b>As Fichas</b>
+          <p>Tocai no teu nome: herói, classe, atributos com modificador automático, vida, mana, CA, XP (sobe de nível sozinho), ouro, inventário, perícias e condições. Tudo fica gravado no aparelho.</p>
+        </div>
+      </li>
+      <li>
+        <span class="help-ico"><svg aria-hidden="true"><use href="#sym-crown"/></svg></span>
+        <div>
+          <b>A Coroa compartilhada</b>
+          <p>A coroa escolhida na crônica vale aqui também — e vice-versa. Mudei numa página, a outra acompanha. Ela abre a ficha do coroado automaticamente.</p>
+        </div>
+      </li>
+      <li>
+        <span class="help-ico"><svg aria-hidden="true"><use href="#sym-heart"/></svg></span>
+        <div>
+          <b>O Campo de Batalha</b>
+          <p>Chame os heróis (a iniciativa rola d20 + Destreza), convoque bestas do Bestiário e avance turnos com rodadas automáticas.</p>
+        </div>
+      </li>
+      <li>
+        <span class="help-ico"><svg aria-hidden="true"><use href="#sym-gear"/></svg></span>
+        <div>
+          <b>As Configurações</b>
+          <p>Troca da coroa, Discord, Oráculo de jogos, tema claro, animações e redefinir — tudo pela engrenagem no canto, como na crônica.</p>
+        </div>
+      </li>
+      <li>
+        <span class="help-ico"><svg aria-hidden="true"><use href="#sym-scroll"/></svg></span>
+        <div>
+          <b>O Códice e a Forja</b>
+          <p>No Códice, as regras da casa. Na Forja, o Mestre forja NPCs, missões, tesouros e encontros — com botão de copiar para colar no Discord.</p>
+        </div>
+      </li>
+    </ul>
+
+    <p class="help-fine">Boa sessão, aventureiro — que o dado caia a teu favor</p>
+    <div class="btn-center">
+      <button class="btn-gold" id="helpClose" type="button">Entendi — à mesa</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PORTAL DA COROA (compartilhado com a crônica) ============ -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle" hidden>
+  <div class="gate-box">
+    <p class="gate-kicker">A Guarda do Portal</p>
+    <h2 class="gate-title" id="gateTitle">De quem é a coroa?</h2>
+    <svg class="orn" aria-hidden="true"><use href="#sym-orn"/></svg>
+    <p class="gate-sub">A escolha é a mesma da crônica: fica gravada aqui e lá —
+    e a ficha do coroado abre automaticamente.</p>
+    <svg class="gate-crown" aria-hidden="true"><use href="#sym-crown"/></svg>
+
+    <div class="gate-grid" id="gateGrid">
+      <button class="gate-choice" data-person="luan" data-realm="supremo" style="--accent:var(--c-supremo)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-sovereign"/></svg></span>
+        <span><span class="gate-name">Luan Dhony</span><br><span class="gate-role">Dragão Soberano</span></span>
+        <span class="gate-realm">Drag Zakharys</span>
+      </button>
+      <button class="gate-choice" data-person="debora" data-realm="mirigumi" style="--accent:var(--c-mirigumi)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-scepter"/></svg></span>
+        <span><span class="gate-name">Debora Vezetiv</span><br><span class="gate-role">A Imperatriz</span></span>
+        <span class="gate-realm">Mirigumi</span>
+      </button>
+      <button class="gate-choice" data-person="rayssa" data-realm="yaryan" style="--accent:var(--c-nyara)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-raven"/></svg></span>
+        <span><span class="gate-name">Rayssa Vitoria</span><br><span class="gate-role">O Corvo</span></span>
+        <span class="gate-realm">Yaryan</span>
+      </button>
+      <button class="gate-choice" data-person="nayara" data-realm="yaryan" style="--accent:var(--c-nyara)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-blade"/></svg></span>
+        <span><span class="gate-name">Nayara Hostapiuk</span><br><span class="gate-role">A Lâmina</span></span>
+        <span class="gate-realm">Yaryan</span>
+      </button>
+      <button class="gate-choice" data-person="luis" data-realm="ascar" style="--accent:var(--c-ascar)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-royalcrown"/></svg></span>
+        <span><span class="gate-name">Luís Augusto</span><br><span class="gate-role">Rei Dourado</span></span>
+        <span class="gate-realm">Deserto Ascar</span>
+      </button>
+      <button class="gate-choice" data-person="fernando" data-realm="bravos" style="--accent:var(--c-bravos)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-horn"/></svg></span>
+        <span><span class="gate-name">Fernando Fernandes</span><br><span class="gate-role">Bravos e Destemidos</span></span>
+        <span class="gate-realm">Arquipélago Budapeste</span>
+      </button>
+      <button class="gate-choice" data-person="cristiano" data-realm="karhal" style="--accent:var(--c-karhal)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-sunwave"/></svg></span>
+        <span><span class="gate-name">Cristiano Ronaldo</span><br><span class="gate-role">Coração da Floresta</span></span>
+        <span class="gate-realm">Floresta de Karhal</span>
+      </button>
+      <button class="gate-choice" data-person="bruno" data-realm="snezhnaya" style="--accent:var(--c-snezhnaya)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-storm"/></svg></span>
+        <span><span class="gate-name">Bruno Martins</span><br><span class="gate-role">Inverno Perpétuo</span></span>
+        <span class="gate-realm">Snezhnaya</span>
+      </button>
+      <button class="gate-choice" data-person="guilherme" data-realm="escarlate" style="--accent:var(--c-escarlate)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-shield"/></svg></span>
+        <span><span class="gate-name">Guilherme Morais</span><br><span class="gate-role">O Protetor</span></span>
+        <span class="gate-realm">Fortaleza Escarlate</span>
+      </button>
+    </div>
+
+    <p class="gate-fine">A escolha pode ser mudada depois, nas configurações ou na crônica</p>
+  </div>
+</div>
+
 <!-- ============ CONFIRMAÇÃO DA PÁGINA ============ -->
 <div class="ask" id="ask" role="dialog" aria-modal="true" aria-labelledby="askTitle" hidden>
   <div class="ask-box cardbox">
@@ -2190,42 +2926,60 @@ footer .fine{
 <script>
 /* ================================================================
    A MESA DE VELDORA — motor completo
-   Módulos: abas · Oráculo · Fichas · Batalha · Bestiário · Forja
-   Nenhuma mensagem nativa do navegador: tudo via toast e askConfirm
+   · Coroa COMPARTILHADA com a crônica (mesma chave: veldora_fav)
+   · Tema e animações compartilhados (veldora_theme / veldora_anim)
+   · Sincronização ao vivo entre abas (evento "storage")
+   · Nenhuma mensagem nativa do navegador — tudo via toast e askConfirm
 ================================================================ */
 'use strict';
 const $  = id => document.getElementById(id);
 const rnd = n => 1 + Math.floor(Math.random() * n);
 const clampN = (v,a,b) => Math.max(a, Math.min(b, v));
 
-/* ---------- toast ---------- */
+/* ================================================================
+   TOAST — o mensageiro da página
+================================================================ */
 let toastT;
 function toast(msg){
   const t = $('toast');
+  if(!t || !msg) return;
   t.textContent = msg;
   t.classList.add('show');
   clearTimeout(toastT);
   toastT = setTimeout(()=>t.classList.remove('show'), 1900);
 }
 
-/* ---------- copiar (com fallback) ---------- */
+/* ================================================================
+   COPIAR — com fallback p/ navegadores antigos
+================================================================ */
 function copyText(txt){
   const done = ()=>toast('✦ Copiado para a área de transferência');
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt, done));
-  } else fallbackCopy(txt, done);
+  } else {
+    fallbackCopy(txt, done);
+  }
 }
 function fallbackCopy(txt, done){
   const ta = document.createElement('textarea');
   ta.value = txt;
-  ta.style.position = 'fixed'; ta.style.opacity = '0';
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
   document.body.appendChild(ta);
   ta.select();
-  try { document.execCommand('copy'); done(); } catch(e){ toast('Não consegui copiar…'); }
+  try {
+    document.execCommand('copy');
+    done();
+  } catch(e){
+    toast('Não consegui copiar…');
+  }
   ta.remove();
 }
 
-/* ---------- confirmação própria da página (substitui confirm()) ---------- */
+/* ================================================================
+   CONFIRMAÇÃO PRÓPRIA DA PÁGINA — "O dado da decisão"
+   (substitui o confirm() do Chrome em qualquer situação)
+================================================================ */
 let askYesCb = null;
 function askConfirm(msg, onYes){
   $('askMsg').textContent = msg;
@@ -2235,25 +2989,142 @@ function askConfirm(msg, onYes){
 }
 function askClose(){
   $('ask').classList.remove('open');
-  setTimeout(()=>{ $('ask').hidden = true; askYesCb = null; }, 300);
+  setTimeout(()=>{
+    $('ask').hidden = true;
+    askYesCb = null;
+  }, 300);
 }
- $('askYes').addEventListener('click', ()=>{ const cb = askYesCb; askClose(); if(cb) cb(); });
+ $('askYes').addEventListener('click', ()=>{
+  const cb = askYesCb;
+  askClose();
+  if(cb) cb();
+});
  $('askNo').addEventListener('click', askClose);
- $('ask').addEventListener('click', e=>{ if(e.target === $('ask')) askClose(); });
-document.addEventListener('keydown', e=>{
-  if(e.key === 'Escape' && !$('ask').hidden) askClose();
+ $('ask').addEventListener('click', e=>{
+  if(e.target === $('ask')) askClose();
 });
 
 /* ================================================================
-   ABAS
+   O CÓDICE COMPARTILHADO — coroa, tema e animações
+   (as MESMAS chaves que a crônica usa — mudou numa, muda na outra)
 ================================================================ */
+const FAV_KEY   = 'veldora_fav';    /* ← igual à crônica */
+const THEME_KEY = 'veldora_theme';  /* ← igual à crônica */
+const ANIM_KEY  = 'veldora_anim';   /* ← igual à crônica */
+
+const store = {
+  get(k){
+    try { return localStorage.getItem(k); } catch(e){ return null; }
+  },
+  set(k,v){
+    try { localStorage.setItem(k,v); } catch(e){}
+  },
+  del(k){
+    try { localStorage.removeItem(k); } catch(e){}
+  }
+};
+const getFav = () => store.get(FAV_KEY);
+const setFav = id => {
+  if(id){ store.set(FAV_KEY, id); } else { store.del(FAV_KEY); }
+};
+
+/* ================================================================
+   PAINEL DE CONFIGURAÇÕES — igual ao da crônica
+================================================================ */
+const cfgBtn   = $('cfgBtn');
+const cfgPanel = $('cfgPanel');
+
+function openCfg(){
+  cfgPanel.classList.add('open');
+  cfgBtn.classList.add('open');
+  cfgBtn.setAttribute('aria-expanded','true');
+}
+function closeCfg(){
+  cfgPanel.classList.remove('open');
+  cfgBtn.classList.remove('open');
+  cfgBtn.setAttribute('aria-expanded','false');
+}
+cfgBtn.addEventListener('click', ()=>{
+  cfgPanel.classList.contains('open') ? closeCfg() : openCfg();
+});
+ $('cfgClose').addEventListener('click', closeCfg);
+document.addEventListener('click', e=>{
+  if(!cfgPanel.classList.contains('open')) return;
+  if(e.target.closest('#cfgPanel') || e.target.closest('#cfgBtn')) return;
+  closeCfg();
+});
+
+/* ---------- Modo pergaminho (tema claro — compartilhado) ---------- */
+function applyTheme(light){
+  document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
+  $('cfgTheme').classList.toggle('on', light);
+}
+ $('cfgTheme').addEventListener('click', ()=>{
+  const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  store.set(THEME_KEY, next);
+  applyTheme(next === 'light');
+});
+
+/* ---------- Animações on/off (compartilhadas) ---------- */
+let animationsOn = true;
+function applyAnim(on){
+  animationsOn = on;
+  $('cfgAnim').classList.toggle('on', on);
+  $('cfgAnim').setAttribute('aria-pressed', on);
+  if(on) document.dispatchEvent(new Event('veldora:restart-dust'));
+}
+ $('cfgAnim').addEventListener('click', ()=>{
+  const next = !animationsOn;
+  store.set(ANIM_KEY, next ? '1' : '0');
+  applyAnim(next);
+});
+
+/* ---------- Ajuda ---------- */
+const help = $('help');
+ $('cfgHelp').addEventListener('click', ()=>{
+  closeCfg();
+  help.hidden = false;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>help.classList.add('open')));
+  document.body.style.overflow = 'hidden';
+});
+function closeHelp(){
+  help.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(()=>{ help.hidden = true; }, 350);
+}
+ $('helpClose').addEventListener('click', closeHelp);
+help.addEventListener('click', e=>{
+  if(e.target === help) closeHelp();
+});
+
+/* ---------- O Oráculo da Mesa (sorteia o jogo de hoje) ---------- */
+const GAMES = [
+  "Valorant","Minecraft","CS2","Sea of Thieves","Lethal Company",
+  "Terraria","Rocket League","Among Us","GTA Online","Palworld",
+  "Rust","ARK","Helldivers 2","Fortnite"
+];
+ $('cfgOracle').addEventListener('click', ()=>{
+  const out = $('oracleOut');
+  out.innerHTML = `O Oráculo aponta: <b>${GAMES[Math.floor(Math.random()*GAMES.length)]}</b>`;
+  out.classList.add('show');
+});
+
+/* ---------- Discord ---------- */
+const DISCORD_URL = 'https://discord.gg/2wx46naKxv';
+ $('cfgDiscord').href = DISCORD_URL;
+ $('cfgDiscord').addEventListener('click', closeCfg);
+
+/* ================================================================
+   ABAS — troca de página com rolagem suave até o conteúdo
+================================================================ */
+const mainEl = document.querySelector('main');
 document.querySelectorAll('.tab').forEach(tab=>{
   tab.addEventListener('click', ()=>{
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
     tab.classList.add('on');
     $('page-' + tab.dataset.page).classList.add('on');
-    window.scrollTo({top: document.querySelector('.tabs').offsetTop - 2, behavior:'smooth'});
+    window.scrollTo({top: mainEl.offsetTop - 16, behavior:'smooth'});
   });
 });
 
@@ -2261,11 +3132,19 @@ document.querySelectorAll('.tab').forEach(tab=>{
    I — O ORÁCULO DOS DADOS
 ================================================================ */
 const LOG_KEY = 'veldora_rpg_log';
-let dieSides = 20, dieQty = 1, dieMod = 0, dieMode = 0; /* 0 normal · 1 vantagem · 2 desvantagem */
-let rolling = false;
-const MODES = ['normal','vantagem','desvantagem'];
-let history = [];
-try { history = JSON.parse(localStorage.getItem(LOG_KEY)) || []; } catch(e){ history = []; }
+let dieSides = 20;
+let dieQty   = 1;
+let dieMod   = 0;
+let dieMode  = 0;   /* 0 normal · 1 vantagem · 2 desvantagem */
+let rolling  = false;
+const MODES  = ['normal','vantagem','desvantagem'];
+let history  = [];
+try {
+  history = JSON.parse(store.get(LOG_KEY)) || [];
+} catch(e){
+  history = [];
+}
+if(!Array.isArray(history)) history = [];
 
 function refreshDiceUI(){
   $('qtyVal').textContent = dieQty;
@@ -2283,11 +3162,26 @@ function refreshDiceUI(){
   dieSides = +b.dataset.sides;
   refreshDiceUI();
 });
- $('qtyMinus').addEventListener('click', ()=>{ dieQty = clampN(dieQty-1, 1, 10); refreshDiceUI(); });
- $('qtyPlus') .addEventListener('click', ()=>{ dieQty = clampN(dieQty+1, 1, 10); refreshDiceUI(); });
- $('modMinus').addEventListener('click', ()=>{ dieMod = clampN(dieMod-1, -10, 10); refreshDiceUI(); });
- $('modPlus') .addEventListener('click', ()=>{ dieMod = clampN(dieMod+1, -10, 10); refreshDiceUI(); });
- $('modeBtn').addEventListener('click', ()=>{ dieMode = (dieMode+1) % 3; refreshDiceUI(); });
+ $('qtyMinus').addEventListener('click', ()=>{
+  dieQty = clampN(dieQty - 1, 1, 10);
+  refreshDiceUI();
+});
+ $('qtyPlus').addEventListener('click', ()=>{
+  dieQty = clampN(dieQty + 1, 1, 10);
+  refreshDiceUI();
+});
+ $('modMinus').addEventListener('click', ()=>{
+  dieMod = clampN(dieMod - 1, -10, 10);
+  refreshDiceUI();
+});
+ $('modPlus').addEventListener('click', ()=>{
+  dieMod = clampN(dieMod + 1, -10, 10);
+  refreshDiceUI();
+});
+ $('modeBtn').addEventListener('click', ()=>{
+  dieMode = (dieMode + 1) % 3;
+  refreshDiceUI();
+});
 
  $('rollBtn').addEventListener('click', ()=>{
   if(rolling) return;
@@ -2305,7 +3199,9 @@ function refreshDiceUI(){
     let total = 0, detail = '', cls = '';
 
     if(dieMode !== 0 && dieSides === 20 && dieQty === 1){
-      const a = rnd(20), b = rnd(20);
+      /* vantagem / desvantagem: rola 2d20 e fica com o maior/menor */
+      const a = rnd(20);
+      const b = rnd(20);
       const kept = dieMode === 1 ? Math.max(a,b) : Math.min(a,b);
       total = kept + dieMod;
       detail = `2d20 [${a}, ${b}] · ${MODES[dieMode]} → fica o ${kept}${modStr}`;
@@ -2332,7 +3228,7 @@ function refreshDiceUI(){
     history.unshift({total, detail, cls});
     if(history.length > 12) history.pop();
     renderHistory();
-    try { localStorage.setItem(LOG_KEY, JSON.stringify(history)); } catch(e){}
+    store.set(LOG_KEY, JSON.stringify(history));
   }, 520);
 });
 
@@ -2344,7 +3240,7 @@ function renderHistory(){
  $('logClear').addEventListener('click', ()=>{
   history = [];
   renderHistory();
-  try { localStorage.removeItem(LOG_KEY); } catch(e){}
+  store.del(LOG_KEY);
   toast('Registro apagado');
 });
 
@@ -2363,8 +3259,12 @@ const PEOPLE = [
   {id:'guilherme', short:'Guilherme', full:'Guilherme Morais',  sigil:'sym-shield',     accent:'var(--c-escarlate)',realm:'Escarlate'}
 ];
 const ATTRS = [
-  ['for','Força'],['des','Destreza'],['con','Constituição'],
-  ['int','Inteligência'],['sab','Sabedoria'],['car','Carisma']
+  ['for','Força'],
+  ['des','Destreza'],
+  ['con','Constituição'],
+  ['int','Inteligência'],
+  ['sab','Sabedoria'],
+  ['car','Carisma']
 ];
 const LEVELS = [0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 65000];
 const mod  = v => Math.floor((v - 10) / 2);
@@ -2380,7 +3280,7 @@ const defaultSheet = () => ({
 });
 function loadSheets(){
   let raw = {};
-  try { raw = JSON.parse(localStorage.getItem(SHEETS_KEY)) || {}; } catch(e){}
+  try { raw = JSON.parse(store.get(SHEETS_KEY)) || {}; } catch(e){}
   const out = {};
   PEOPLE.forEach(p=>{
     const s = Object.assign(defaultSheet(), raw[p.id] || {});
@@ -2392,11 +3292,20 @@ function loadSheets(){
   });
   return out;
 }
-const sheets = loadSheets();
-function persist(){ try { localStorage.setItem(SHEETS_KEY, JSON.stringify(sheets)); } catch(e){} }
+let sheets = loadSheets();
+function persist(){
+  store.set(SHEETS_KEY, JSON.stringify(sheets));
+}
+const sheetOf = id => sheets[id];
 
+/* herói atual: o coroado no Códice tem prioridade na abertura */
 let current = 'luan';
-try { current = localStorage.getItem(LAST_KEY) || 'luan'; } catch(e){}
+const bootFav = getFav();
+if(bootFav && PEOPLE.some(p=>p.id === bootFav)){
+  current = bootFav;
+} else {
+  current = store.get(LAST_KEY) || 'luan';
+}
 if(!PEOPLE.some(p=>p.id === current)) current = 'luan';
 
 /* grade de heróis */
@@ -2413,7 +3322,7 @@ grid.addEventListener('click', e=>{
   if(!b) return;
   current = b.dataset.id;
   grid.querySelectorAll('.hero-pick').forEach(x=>x.classList.toggle('on', x.dataset.id === current));
-  try { localStorage.setItem(LAST_KEY, current); } catch(e2){}
+  store.set(LAST_KEY, current);
   loadSheet();
 });
 
@@ -2425,8 +3334,21 @@ function flashSave(){
   clearTimeout(saveT);
   saveT = setTimeout(()=>s.classList.remove('show'), 1400);
 }
-function saveCurrent(){ persist(); flashSave(); }
-const sheetOf = id => sheets[id];
+function saveCurrent(){
+  persist();
+  flashSave();
+}
+
+/* ---------- A COROA compartilhada ---------- */
+function applyCrown(personId){
+  grid.querySelectorAll('.hero-pick').forEach(b=>{
+    b.classList.toggle('crowned', b.dataset.id === personId);
+  });
+  $('crownTag').hidden = !(personId && personId === current);
+}
+function renderCrownEverywhere(){
+  applyCrown(getFav());
+}
 
 /* render da ficha */
 function renderAttrs(){
@@ -2444,10 +3366,9 @@ function renderAttrs(){
   `).join('');
 }
 function xpInfo(s){
-  const lvl  = s.level;
-  const idx  = Math.min(lvl - 1, 9);
+  const idx  = Math.min(s.level - 1, 9);
   const cur  = LEVELS[idx];
-  const next = lvl >= 10 ? null : LEVELS[lvl];
+  const next = s.level >= 10 ? null : LEVELS[s.level];
   const pct  = next === null ? 100 : clampN((s.xp - cur) / (next - cur) * 100, 0, 100);
   return {pct, next};
 }
@@ -2455,8 +3376,10 @@ function renderVitals(){
   const s = sheetOf(current);
   s.hp = clampN(s.hp, 0, s.hpMax);
   s.mp = clampN(s.mp, 0, s.mpMax);
-  $('hpCur').textContent = s.hp;   $('hpMaxT').textContent = s.hpMax;
-  $('mpCur').textContent = s.mp;   $('mpMaxT').textContent = s.mpMax;
+  $('hpCur').textContent = s.hp;
+  $('hpMaxT').textContent = s.hpMax;
+  $('mpCur').textContent = s.mp;
+  $('mpMaxT').textContent = s.mpMax;
   $('hpBar').style.width = (s.hp / s.hpMax * 100) + '%';
   $('mpBar').style.width = (s.mp / s.mpMax * 100) + '%';
   $('acVal').textContent   = s.ac;
@@ -2508,7 +3431,12 @@ function loadSheet(){
   $('fCls').value    = s.cls;
   $('fLvl').value    = s.level;
   $('fNotes').value  = s.notes;
-  renderAttrs(); renderVitals(); renderInv(); renderSkills(); renderConds();
+  renderAttrs();
+  renderVitals();
+  renderInv();
+  renderSkills();
+  renderConds();
+  applyCrown(getFav());
 }
 
 /* textos */
@@ -2520,7 +3448,7 @@ function loadSheet(){
 });
  $('fLvl').addEventListener('input', ()=>{
   const s = sheetOf(current);
-  s.level = clampN(parseInt($('fLvl').value, 10) || 1, 1, 20);
+  s.level = clampN(parseInt($('fLvl').value, 10) || 1, 1, 10);
   $('fLvl').value = s.level;
   renderVitals();
   saveCurrent();
@@ -2538,7 +3466,8 @@ function loadSheet(){
 document.querySelectorAll('.vital-btns button, .mini-vital .btns button').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     const s = sheetOf(current);
-    const k = btn.dataset.k, d = +btn.dataset.d;
+    const k = btn.dataset.k;
+    const d = +btn.dataset.d;
     if(k === 'xp'){
       s.xp = Math.max(0, s.xp + d);
       checkLevel(s);
@@ -2557,11 +3486,12 @@ document.querySelectorAll('.vital-btns button, .mini-vital .btns button').forEac
 });
 function checkLevel(s){
   let up = false;
-  /* sobe até o nível 10 (topo da tabela do Códice) */
   while(s.level < 10 && s.xp >= LEVELS[s.level]){
     s.level++;
-    s.hpMax += 5; s.hp = Math.min(s.hp + 5, s.hpMax);
-    s.mpMax += 3; s.mp = Math.min(s.mp + 3, s.mpMax);
+    s.hpMax += 5;
+    s.hp = Math.min(s.hp + 5, s.hpMax);
+    s.mpMax += 3;
+    s.mp = Math.min(s.mp + 3, s.mpMax);
     up = true;
   }
   if(up){
@@ -2577,15 +3507,18 @@ function checkLevel(s){
   const val = inp.value.trim();
   if(!val) return;
   const m = /^(?:(\d+)\s*[x×]\s+)?(.+)$/i.exec(val);
-  const qty = m[1] ? clampN(parseInt(m[1],10), 1, 999) : 1;
+  const qty  = m[1] ? clampN(parseInt(m[1],10), 1, 999) : 1;
   const name = m[2].trim();
   const s = sheetOf(current);
   const found = s.inv.find(it=>it.name.toLowerCase() === name.toLowerCase());
-  if(found) found.qty += qty; else s.inv.push({name, qty});
+  if(found){ found.qty += qty; } else { s.inv.push({name, qty}); }
   inp.value = '';
-  renderInv(); saveCurrent();
+  renderInv();
+  saveCurrent();
 });
- $('invInput').addEventListener('keydown', e=>{ if(e.key === 'Enter') $('invAdd').click(); });
+ $('invInput').addEventListener('keydown', e=>{
+  if(e.key === 'Enter') $('invAdd').click();
+});
  $('invList').addEventListener('click', e=>{
   const b = e.target.closest('button[data-inv]');
   if(!b) return;
@@ -2595,7 +3528,8 @@ function checkLevel(s){
   if(b.dataset.act === 'plus')  it.qty++;
   if(b.dataset.act === 'minus') it.qty = Math.max(1, it.qty - 1);
   if(b.dataset.act === 'rm')    s.inv.splice(+b.dataset.inv, 1);
-  renderInv(); saveCurrent();
+  renderInv();
+  saveCurrent();
 });
 
 /* perícias */
@@ -2606,17 +3540,21 @@ function checkLevel(s){
   const s = sheetOf(current);
   if(!s.skills.some(x=>x.toLowerCase() === val.toLowerCase())){
     s.skills.push(val);
-    renderSkills(); saveCurrent();
+    renderSkills();
+    saveCurrent();
   }
   inp.value = '';
 });
- $('skillInput').addEventListener('keydown', e=>{ if(e.key === 'Enter') $('skillAdd').click(); });
+ $('skillInput').addEventListener('keydown', e=>{
+  if(e.key === 'Enter') $('skillAdd').click();
+});
  $('skillList').addEventListener('click', e=>{
   const b = e.target.closest('button[data-skill]');
   if(!b) return;
   const s = sheetOf(current);
   s.skills.splice(+b.dataset.skill, 1);
-  renderSkills(); saveCurrent();
+  renderSkills();
+  saveCurrent();
 });
 
 /* condições */
@@ -2625,8 +3563,9 @@ function checkLevel(s){
   if(!b) return;
   const s = sheetOf(current);
   const i = s.conds.indexOf(b.dataset.cond);
-  if(i >= 0) s.conds.splice(i, 1); else s.conds.push(b.dataset.cond);
-  renderConds(); saveCurrent();
+  if(i >= 0){ s.conds.splice(i, 1); } else { s.conds.push(b.dataset.cond); }
+  renderConds();
+  saveCurrent();
 });
 
 /* copiar ficha */
@@ -2634,8 +3573,9 @@ function checkLevel(s){
   const p = PEOPLE.find(x=>x.id === current);
   const s = sheetOf(current);
   const attrs = ATTRS.map(([k,l])=>`${l.slice(0,3).toUpperCase()} ${s.attrs[k]} (${fmtM(mod(s.attrs[k]))})`).join(' · ');
+  const fav = getFav();
   const txt =
-`⚔ FICHA — ${p.full} (reino: ${p.realm})
+`⚔ FICHA — ${p.full} (reino: ${p.realm})${fav === p.id ? ' 👑' : ''}
 Herói: ${s.hero || '—'}
 Origem: ${s.origin || '—'}
 Classe: ${s.cls || '—'} · Nível ${s.level}
@@ -2650,13 +3590,46 @@ Caderno: ${s.notes || '—'}
   copyText(txt);
 });
 
-/* zerar ficha — confirmação da página, sem diálogo do navegador */
+/* zerar ficha — confirmação da página */
  $('sheetReset').addEventListener('click', ()=>{
   const p = PEOPLE.find(x=>x.id === current);
   askConfirm(`Zerar a ficha de ${p.full}? O caderno do herói também será apagado.`, ()=>{
     sheets[current] = defaultSheet();
-    persist(); loadSheet();
+    persist();
+    loadSheet();
     toast('Ficha zerada');
+  });
+});
+
+/* ================================================================
+   O PORTAL DA COROA — grava na chave compartilhada
+================================================================ */
+const gate = $('gate');
+function openGate(){
+  gate.hidden = false;
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>gate.classList.add('open')));
+}
+function closeGate(){
+  gate.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(()=>{ gate.hidden = true; }, 400);
+}
+ $('cfgCrown').addEventListener('click', ()=>{
+  closeCfg();
+  openGate();
+});
+document.querySelectorAll('.gate-choice').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    setFav(btn.dataset.person);              /* mesma chave da crônica */
+    current = btn.dataset.person;            /* abre a ficha do coroado */
+    grid.querySelectorAll('.hero-pick').forEach(x=>x.classList.toggle('on', x.dataset.id === current));
+    store.set(LAST_KEY, current);
+    loadSheet();
+    renderCrownEverywhere();
+    closeGate();
+    const p = PEOPLE.find(x=>x.id === current);
+    toast(`👑 A coroa é de ${p.full} — na Mesa e na crônica`);
   });
 });
 
@@ -2666,10 +3639,16 @@ Caderno: ${s.notes || '—'}
 const CB_KEY = 'veldora_rpg_combat';
 let combat = {list:[], round:0, turn:-1};
 try {
-  const raw = JSON.parse(localStorage.getItem(CB_KEY));
-  if(raw && Array.isArray(raw.list)) combat = {list: raw.list, round: raw.round || 0, turn: (typeof raw.turn === 'number' ? raw.turn : -1)};
+  const raw = JSON.parse(store.get(CB_KEY));
+  if(raw && Array.isArray(raw.list)){
+    combat = {
+      list: raw.list,
+      round: raw.round || 0,
+      turn: (typeof raw.turn === 'number' ? raw.turn : -1)
+    };
+  }
 } catch(e){}
-const persistCombat = ()=>{ try { localStorage.setItem(CB_KEY, JSON.stringify(combat)); } catch(e){} };
+const persistCombat = ()=> store.set(CB_KEY, JSON.stringify(combat));
 const uid = ()=> (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random());
 
  $('cbHero').innerHTML = PEOPLE.map(p=>`<option value="${p.id}">${p.full}</option>`).join('');
@@ -2714,10 +3693,15 @@ function addCombatant(c){
   const ini = $('cbHeroInit').value.trim();
   const init = ini !== '' ? clampN(parseInt(ini,10) || 1, 1, 30) : rnd(20) + mod(s.attrs.des);
   addCombatant({
-    id: uid(), enemy: false, personId: pid,
+    id: uid(),
+    enemy: false,
+    personId: pid,
     name: s.hero || p.full,
     sub: `Nv ${s.level} · ${s.cls || 'herói'} · ${p.realm}`,
-    init, hp: Math.max(1, s.hp || 1), hpMax: Math.max(1, s.hpMax), ac: s.ac
+    init,
+    hp: Math.max(1, s.hp || 1),
+    hpMax: Math.max(1, s.hpMax),
+    ac: s.ac
   });
   $('cbHeroInit').value = '';
   toast(`${s.hero || p.full} entra na batalha! Iniciativa ${init}`);
@@ -2747,16 +3731,20 @@ function addCombatant(c){
  $('cbNext').addEventListener('click', ()=>{
   const sorted = sortedCombat();
   if(!sorted.length){ toast('Ninguém no campo ainda'); return; }
-  if(combat.turn < 0){ combat.turn = 0; if(!combat.round) combat.round = 1; }
-  else {
+  if(combat.turn < 0){
+    combat.turn = 0;
+    if(!combat.round) combat.round = 1;
+  } else {
     combat.turn++;
-    if(combat.turn >= sorted.length){ combat.turn = 0; combat.round++; }
+    if(combat.turn >= sorted.length){
+      combat.turn = 0;
+      combat.round++;
+    }
   }
   renderCombat();
   const c = sorted[combat.turn];
   if(c) toast(`⚔ Vez de: ${c.name}`);
 });
-/* dissolver batalha — confirmação da página, sem diálogo do navegador */
  $('cbClear').addEventListener('click', ()=>{
   if(!combat.list.length){ toast('O campo já está vazio'); return; }
   askConfirm('Dissolver a batalha inteira?', ()=>{
@@ -2785,7 +3773,7 @@ function addCombatant(c){
 });
 
 /* ================================================================
-   IV — BESTIÁRIO
+   IV — O BESTIÁRIO DE VELDORA
 ================================================================ */
 const BEASTS = [
   {name:'Serpente do Mar de Veldora', realm:'Mar de Veldora', color:'var(--mp)',
@@ -2834,7 +3822,11 @@ function parseDice(f){
   if(!m) return null;
   const rolls = Array.from({length: clampN(+m[1],1,20)}, ()=>rnd(+m[2]));
   const bonus = m[3] ? +m[3] : 0;
-  return {rolls, bonus, total: rolls.reduce((a,b)=>a+b,0) + bonus};
+  return {
+    rolls,
+    bonus,
+    total: rolls.reduce((a,b)=>a+b, 0) + bonus
+  };
 }
 function renderBeasts(){
   $('beastGrid').innerHTML = BEASTS.map((b,i)=>`
@@ -2872,23 +3864,30 @@ function renderBeasts(){
     const out = $('atkOut' + roll.dataset.b);
     if(r){
       out.textContent = `✦ ${a.n}: [${r.rolls.join(', ')}]${r.bonus ? (r.bonus>0?' +'+r.bonus:r.bonus) : ''} = ${r.total}`;
-    } else out.textContent = 'fórmula inválida';
+    } else {
+      out.textContent = 'fórmula inválida';
+    }
     return;
   }
   const send = e.target.closest('button[data-send]');
   if(send){
     const b = BEASTS[+send.dataset.send];
     addCombatant({
-      id: uid(), enemy:true,
-      name: b.name, sub:`besta de ${b.realm} · XP ${b.xp}`,
-      init: rnd(20), hp: b.hp, hpMax: b.hp, ac: b.ac
+      id: uid(),
+      enemy: true,
+      name: b.name,
+      sub: `besta de ${b.realm} · XP ${b.xp}`,
+      init: rnd(20),
+      hp: b.hp,
+      hpMax: b.hp,
+      ac: b.ac
     });
     toast(`${b.name} convocada ao campo!`);
   }
 });
 
 /* ================================================================
-   VI — FORJA DO MESTRE
+   VI — A FORJA DO MESTRE
 ================================================================ */
 const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 const FORGE = {
@@ -2905,7 +3904,9 @@ const FORGE = {
   questPlace:['nas Catacumbas de Ascar','na Floresta de Karhal','na fortaleza abandonada do cabo','nas ilhas roxas do Yaryan','na nevasca de Snezhnaya','sob a taverna da vila'],
   questReward:['200 peças de ouro','um item mágico menor','um favor a ser cobrado','terras na beira do rio','o mapa de um tesouro','a amizade eterna (e jantar)'],
   questTwist:['o contratante mente sobre o alvo','outro grupo aceitou primeiro','o alvo é inocente e vai implorar','há uma maldição no lugar','um traidor do grupo sabe o caminho'],
-  tresGold: ()=> `${(rnd(6)*25 + rnd(4)*10)} peças de ouro`,
+  tresGold(){
+    return `${(rnd(6)*25 + rnd(4)*10)} peças de ouro`;
+  },
   tresItem:['uma adaga que vibra perto de mentiras','um escudo com o brasão de um reino apagado','uma poção sem rótulo (role 1d6 ao beber)','uma presa do dragão filhote','uma chave que não fecha nada conhecido','uma lente que vê o invisível','um mapa parcial, rasgado ao meio'],
   tresCurse:['o dono anterior morre em 3 noites (contagem regressiva)','atrai a atenção da Serpente do Mar','sussurra mentiras quando você dorme','o ouro vira folhas secas ao amanhecer','quem tocar fica Envenenado (1d4 de dano/hora)'],
   encCreature:['uma alcateia de Lobos das Neves','bandidos do Cabo','um Golem de Pétalas furioso','peregrinos suspeitos','um filhote de dragão e dois sequazes','corvos espectrais','mercadores (são legítimos… por enquanto)','o Cavaleiro Caído e seu escudeiro'],
@@ -2950,25 +3951,75 @@ Cenário: ${pick(FORGE.encPlace)}`);
 [['fjNpcCopy','fjNpcOut'],['fjQuestCopy','fjQuestOut'],['fjTresCopy','fjTresOut'],['fjEncCopy','fjEncOut']].forEach(([btnId,outId])=>{
   $(btnId).addEventListener('click', ()=>{
     const el = $(outId);
-    if(el.classList.contains('empty')){ toast('Forge primeiro — depois copie'); return; }
+    if(el.classList.contains('empty')){
+      toast('Forge primeiro — depois copie');
+      return;
+    }
     copyText(el.dataset.copy || el.textContent);
   });
 });
 
 /* ================================================================
-   TEMA · POEIRA · TÍTULO
+   SINCRONIZAÇÃO AO VIVO entre abas (coroa, tema, animações)
 ================================================================ */
-const THEME_KEY = 'veldora_rpg_theme';
-function applyTheme(light){
-  document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
-}
- $('themeBtn').addEventListener('click', ()=>{
-  const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-  try { localStorage.setItem(THEME_KEY, next); } catch(e){}
-  applyTheme(next === 'light');
+addEventListener('storage', e=>{
+  if(e.key === FAV_KEY){
+    renderCrownEverywhere();
+    const fav = getFav();
+    if(fav && PEOPLE.some(p=>p.id === fav)){
+      const p = PEOPLE.find(x=>x.id === fav);
+      toast(`👑 A coroa mudou na crônica: agora é de ${p.full}`);
+    } else {
+      toast('A coroa foi retirada na crônica');
+    }
+  }
+  if(e.key === THEME_KEY){
+    applyTheme(store.get(THEME_KEY) === 'light');
+  }
+  if(e.key === ANIM_KEY){
+    applyAnim(store.get(ANIM_KEY) !== '0');
+  }
 });
 
-/* poeira dourada do hero */
+/* ================================================================
+   REDEFINIR DADOS — apaga tudo deste aparelho (com confirmação)
+================================================================ */
+ $('cfgReset').addEventListener('click', ()=>{
+  closeCfg();
+  askConfirm('Redefinir tudo? A coroa, as fichas, o registro de dados e a batalha serão apagados neste aparelho.', ()=>{
+    store.del(FAV_KEY);
+    store.del(SHEETS_KEY);
+    store.del(LOG_KEY);
+    store.del(LAST_KEY);
+    store.del(CB_KEY);
+    history = [];
+    renderHistory();
+    combat = {list:[], round:0, turn:-1};
+    renderCombat();
+    sheets = loadSheets();
+    current = 'luan';
+    grid.querySelectorAll('.hero-pick').forEach(x=>x.classList.toggle('on', x.dataset.id === current));
+    loadSheet();
+    renderCrownEverywhere();
+    openGate();
+    toast('Códice em branco — recomeço limpo');
+  });
+});
+
+/* ================================================================
+   ESCAPE — fecha o que estiver aberto (ask > help > gate > cfg)
+================================================================ */
+document.addEventListener('keydown', e=>{
+  if(e.key !== 'Escape') return;
+  if(!$('ask').hidden){ askClose(); return; }
+  if(!help.hidden){ closeHelp(); return; }
+  if(!gate.hidden){ closeGate(); return; }
+  if(cfgPanel.classList.contains('open')){ closeCfg(); return; }
+});
+
+/* ================================================================
+   POEIRA DOURADA DO HERO
+================================================================ */
 (function(){
   const canvas = $('dust');
   if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
@@ -2976,25 +4027,30 @@ function applyTheme(light){
   let w, h, parts = [], running = false;
   function resize(){
     const r = canvas.parentElement.getBoundingClientRect();
-    w = canvas.width = r.width; h = canvas.height = r.height;
+    w = canvas.width = r.width;
+    h = canvas.height = r.height;
   }
   function make(){
     const n = Math.min(38, Math.floor(w / 30));
     parts = Array.from({length:n}, ()=>({
-      x: Math.random()*w, y: Math.random()*h,
-      r: .8 + Math.random()*1.9, a: .12 + Math.random()*.3,
-      vx: (Math.random()-.5)*.16, vy: -(.06 + Math.random()*.2),
+      x: Math.random()*w,
+      y: Math.random()*h,
+      r: .8 + Math.random()*1.9,
+      a: .12 + Math.random()*.3,
+      vx: (Math.random()-.5)*.16,
+      vy: -(.06 + Math.random()*.2),
       ph: Math.random()*Math.PI*2
     }));
   }
   function tick(t){
-    if(!running) return;
+    if(!running || !animationsOn) return;
     ctx.clearRect(0,0,w,h);
     for(const p of parts){
       p.x += p.vx + Math.sin(t/1400 + p.ph)*.12;
       p.y += p.vy;
       if(p.y < -8){ p.y = h+8; p.x = Math.random()*w; }
-      if(p.x < -8) p.x = w+8; if(p.x > w+8) p.x = -8;
+      if(p.x < -8) p.x = w+8;
+      if(p.x > w+8) p.x = -8;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
       ctx.fillStyle = `rgba(201,162,74,${p.a * (0.7 + 0.3*Math.sin(t/900 + p.ph))})`;
@@ -3002,15 +4058,35 @@ function applyTheme(light){
     }
     requestAnimationFrame(tick);
   }
-  resize(); make();
-  addEventListener('resize', ()=>{ resize(); make(); });
+  resize();
+  make();
+  addEventListener('resize', ()=>{
+    resize();
+    make();
+  });
   new IntersectionObserver(([en])=>{
-    if(en.isIntersecting && !running){ running = true; requestAnimationFrame(tick); }
-    else if(!en.isIntersecting){ running = false; }
+    if(en.isIntersecting && !running && animationsOn){
+      running = true;
+      requestAnimationFrame(tick);
+    } else if(!en.isIntersecting){
+      running = false;
+    }
   }).observe(canvas.parentElement);
+
+  /* religa a poeira quando as animações voltam sem sair do topo */
+  document.addEventListener('veldora:restart-dust', ()=>{
+    if(running || !animationsOn) return;
+    const r = canvas.getBoundingClientRect();
+    if(r.bottom > 0 && r.top < innerHeight){
+      running = true;
+      requestAnimationFrame(tick);
+    }
+  });
 })();
 
-/* a mesa sente sua ausência */
+/* ================================================================
+   A MESA SENTE SUA AUSÊNCIA
+================================================================ */
 const baseTitle = document.title;
 document.addEventListener('visibilitychange', ()=>{
   document.title = document.hidden ? 'Os dados aguardam seu retorno…' : baseTitle;
@@ -3019,14 +4095,19 @@ document.addEventListener('visibilitychange', ()=>{
 /* ================================================================
    INICIALIZAÇÃO
 ================================================================ */
-let savedTheme = 'dark';
-try { savedTheme = localStorage.getItem(THEME_KEY) || 'dark'; } catch(e){}
-applyTheme(savedTheme === 'light');
+applyTheme(store.get(THEME_KEY) === 'light');
+animationsOn = store.get(ANIM_KEY) !== '0';
+applyAnim(animationsOn);
 refreshDiceUI();
 renderHistory();
 loadSheet();
 renderCombat();
 renderBeasts();
+renderCrownEverywhere();
+/* primeira visita (ou coroa apagada): o portal pergunta */
+if(!getFav()){
+  setTimeout(openGate, 350);
+}
 </script>
 </body>
 </html>
