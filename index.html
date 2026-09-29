@@ -1544,6 +1544,55 @@ select:focus{
 }
 
 /* ================================================================
+   CONFIRMAÇÃO PRÓPRIA DA PÁGINA (sem diálogos do navegador)
+================================================================ */
+.ask{
+  position:fixed;
+  inset:0;
+  z-index:1800;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  background:rgba(8,6,4,.85);
+  backdrop-filter:blur(7px);
+  -webkit-backdrop-filter:blur(7px);
+  opacity:0;
+  transition:opacity .3s ease;
+}
+.ask.open{opacity:1}
+.ask[hidden]{display:none}
+.ask-box{
+  width:min(420px,100%);
+  padding:clamp(20px,4vw,28px);
+  text-align:center;
+  transform:translateY(12px) scale(.98);
+  transition:transform .3s cubic-bezier(.3,.8,.3,1);
+}
+.ask.open .ask-box{transform:none}
+.ask-title{
+  font-family:var(--font-black);
+  font-weight:400;
+  font-size:1.5rem;
+  line-height:1.2;
+}
+.ask-msg{
+  font-style:italic;
+  color:var(--ink-soft);
+  margin-top:8px;
+}
+.ask-btns{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  margin-top:18px;
+  flex-wrap:wrap;
+}
+.ask-btns .mini-btn{
+  padding:10px 20px;
+  font-size:.56rem;
+}
+
+/* ================================================================
    TOAST / RODAPÉ
 ================================================================ */
 .toast{
@@ -1691,7 +1740,7 @@ footer .fine{
     <img src="simbolo.png" alt="Símbolo de Veldora">
     <b>A Mesa de Veldora</b>
   </a>
-  <a class="back" href="index.html">← Crônica</a>
+  <a class="back" href="https://veldorarealms.github.io/page/">← Crônica</a>
   <button id="themeBtn" type="button" aria-label="Alternar tema claro" title="Modo pergaminho">
     <svg aria-hidden="true"><use href="#sym-scroll"/></svg>
   </button>
@@ -1873,7 +1922,7 @@ footer .fine{
             <button data-k="xp" data-d="100" type="button">+100</button>
           </div>
           <div class="xp-bar"><i id="xpBar"></i></div>
-          <p class="xp-next" id="xpNext">Nível 1 · faltam 100 XP</p>
+          <p class="xp-next" id="xpNext">Nível 1 · faltam 300 XP</p>
         </div>
         <div class="mini-vital">
           <h4>Ouro</h4>
@@ -2049,11 +2098,11 @@ footer .fine{
       <h3>Experiência e níveis</h3>
       <table>
         <tr><th>Nível</th><th>XP total</th><th>Nível</th><th>XP total</th></tr>
-        <tr><td><b>1</b></td><td>0</td><td><b>6</b></td><td>1.400</td></tr>
-        <tr><td><b>2</b></td><td>300</td><td><b>7</b></td><td>2.300</td></tr>
-        <tr><td><b>3</b></td><td>900</td><td><b>8</b></td><td>3.400</td></tr>
-        <tr><td><b>4</b></td><td>2.700</td><td><b>9</b></td><td>4.800</td></tr>
-        <tr><td><b>5</b></td><td>6.500</td><td><b>10</b></td><td>6.500</td></tr>
+        <tr><td><b>1</b></td><td>0</td><td><b>6</b></td><td>14.000</td></tr>
+        <tr><td><b>2</b></td><td>300</td><td><b>7</b></td><td>23.000</td></tr>
+        <tr><td><b>3</b></td><td>900</td><td><b>8</b></td><td>34.000</td></tr>
+        <tr><td><b>4</b></td><td>2.700</td><td><b>9</b></td><td>48.000</td></tr>
+        <tr><td><b>5</b></td><td>6.500</td><td><b>10</b></td><td>65.000</td></tr>
       </table>
       <p>Ao subir de nível: +5 de vida máxima, +3 de mana máxima e um ponto de atributo à escolha. O Mestre pode premiar mais.</p>
 
@@ -2126,10 +2175,23 @@ footer .fine{
   <p class="final">A mesa está posta, os dados estão quentes — e a crônica registra tudo o que a sorte decidir.</p>
   <p class="fine">Veldora Realms · A Mesa de RPG</p>
 </footer>
+
+<!-- ============ CONFIRMAÇÃO DA PÁGINA ============ -->
+<div class="ask" id="ask" role="dialog" aria-modal="true" aria-labelledby="askTitle" hidden>
+  <div class="ask-box cardbox">
+    <p class="ask-title" id="askTitle">O dado da decisão</p>
+    <p class="ask-msg" id="askMsg"></p>
+    <div class="ask-btns">
+      <button class="mini-btn" id="askNo" type="button">Cancelar</button>
+      <button class="mini-btn danger" id="askYes" type="button">Sim, confirmar</button>
+    </div>
+  </div>
+</div>
 <script>
 /* ================================================================
    A MESA DE VELDORA — motor completo
    Módulos: abas · Oráculo · Fichas · Batalha · Bestiário · Forja
+   Nenhuma mensagem nativa do navegador: tudo via toast e askConfirm
 ================================================================ */
 'use strict';
 const $  = id => document.getElementById(id);
@@ -2163,6 +2225,25 @@ function fallbackCopy(txt, done){
   ta.remove();
 }
 
+/* ---------- confirmação própria da página (substitui confirm()) ---------- */
+let askYesCb = null;
+function askConfirm(msg, onYes){
+  $('askMsg').textContent = msg;
+  askYesCb = onYes || null;
+  $('ask').hidden = false;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>$('ask').classList.add('open')));
+}
+function askClose(){
+  $('ask').classList.remove('open');
+  setTimeout(()=>{ $('ask').hidden = true; askYesCb = null; }, 300);
+}
+ $('askYes').addEventListener('click', ()=>{ const cb = askYesCb; askClose(); if(cb) cb(); });
+ $('askNo').addEventListener('click', askClose);
+ $('ask').addEventListener('click', e=>{ if(e.target === $('ask')) askClose(); });
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape' && !$('ask').hidden) askClose();
+});
+
 /* ================================================================
    ABAS
 ================================================================ */
@@ -2171,8 +2252,7 @@ document.querySelectorAll('.tab').forEach(tab=>{
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
     tab.classList.add('on');
-    const page = $('page-' + tab.dataset.page);
-    page.classList.add('on');
+    $('page-' + tab.dataset.page).classList.add('on');
     window.scrollTo({top: document.querySelector('.tabs').offsetTop - 2, behavior:'smooth'});
   });
 });
@@ -2446,13 +2526,12 @@ function loadSheet(){
   saveCurrent();
 });
 
-/* atributos + vitais (delegação) */
+/* atributos + vitais */
  $('attrGrid').addEventListener('click', e=>{
   const b = e.target.closest('button[data-attr]');
   if(!b) return;
   const s = sheetOf(current);
-  const k = b.dataset.attr;
-  s.attrs[k] = clampN(s.attrs[k] + (+b.dataset.d), 3, 20);
+  s.attrs[b.dataset.attr] = clampN(s.attrs[b.dataset.attr] + (+b.dataset.d), 3, 20);
   renderAttrs();
   saveCurrent();
 });
@@ -2478,7 +2557,8 @@ document.querySelectorAll('.vital-btns button, .mini-vital .btns button').forEac
 });
 function checkLevel(s){
   let up = false;
-  while(s.level < 20 && s.xp >= LEVELS[Math.min(s.level, 9)]){
+  /* sobe até o nível 10 (topo da tabela do Códice) */
+  while(s.level < 10 && s.xp >= LEVELS[s.level]){
     s.level++;
     s.hpMax += 5; s.hp = Math.min(s.hp + 5, s.hpMax);
     s.mpMax += 3; s.mp = Math.min(s.mp + 3, s.mpMax);
@@ -2486,7 +2566,8 @@ function checkLevel(s){
   }
   if(up){
     $('fLvl').value = s.level;
-    toast(`⭐ ${sheetOf(current).hero || PEOPLE.find(p=>p.id===current).short} subiu ao nível ${s.level}! +5 vida, +3 mana`);
+    const p = PEOPLE.find(x=>x.id === current);
+    toast(`⭐ ${s.hero || p.short} subiu ao nível ${s.level}! +5 vida, +3 mana`);
   }
 }
 
@@ -2511,10 +2592,9 @@ function checkLevel(s){
   const s = sheetOf(current);
   const it = s.inv[+b.dataset.inv];
   if(!it) return;
-  const act = b.dataset.act;
-  if(act === 'plus')  it.qty++;
-  if(act === 'minus') it.qty = Math.max(1, it.qty - 1);
-  if(act === 'rm')    s.inv.splice(+b.dataset.inv, 1);
+  if(b.dataset.act === 'plus')  it.qty++;
+  if(b.dataset.act === 'minus') it.qty = Math.max(1, it.qty - 1);
+  if(b.dataset.act === 'rm')    s.inv.splice(+b.dataset.inv, 1);
   renderInv(); saveCurrent();
 });
 
@@ -2570,13 +2650,14 @@ Caderno: ${s.notes || '—'}
   copyText(txt);
 });
 
-/* zerar ficha */
+/* zerar ficha — confirmação da página, sem diálogo do navegador */
  $('sheetReset').addEventListener('click', ()=>{
   const p = PEOPLE.find(x=>x.id === current);
-  if(!confirm(`Zerar a ficha de ${p.full}? O caderno do herói também será apagado.`)) return;
-  sheets[current] = defaultSheet();
-  persist(); loadSheet();
-  toast('Ficha zerada');
+  askConfirm(`Zerar a ficha de ${p.full}? O caderno do herói também será apagado.`, ()=>{
+    sheets[current] = defaultSheet();
+    persist(); loadSheet();
+    toast('Ficha zerada');
+  });
 });
 
 /* ================================================================
@@ -2586,13 +2667,12 @@ const CB_KEY = 'veldora_rpg_combat';
 let combat = {list:[], round:0, turn:-1};
 try {
   const raw = JSON.parse(localStorage.getItem(CB_KEY));
-  if(raw && Array.isArray(raw.list)) combat = {list: raw.list, round: raw.round || 0, turn: raw.turn ?? -1};
+  if(raw && Array.isArray(raw.list)) combat = {list: raw.list, round: raw.round || 0, turn: (typeof raw.turn === 'number' ? raw.turn : -1)};
 } catch(e){}
 const persistCombat = ()=>{ try { localStorage.setItem(CB_KEY, JSON.stringify(combat)); } catch(e){} };
 const uid = ()=> (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random());
 
-const cbSel = $('cbHero');
-cbSel.innerHTML = PEOPLE.map(p=>`<option value="${p.id}">${p.full}</option>`).join('');
+ $('cbHero').innerHTML = PEOPLE.map(p=>`<option value="${p.id}">${p.full}</option>`).join('');
 
 function sortedCombat(){
   return [...combat.list].sort((a,b)=> b.init - a.init);
@@ -2628,7 +2708,7 @@ function addCombatant(c){
   renderCombat();
 }
  $('cbHeroAdd').addEventListener('click', ()=>{
-  const pid = cbSel.value;
+  const pid = $('cbHero').value;
   const p = PEOPLE.find(x=>x.id === pid);
   const s = sheetOf(pid);
   const ini = $('cbHeroInit').value.trim();
@@ -2655,7 +2735,7 @@ function addCombatant(c){
  $('cbRollInit').addEventListener('click', ()=>{
   if(!combat.list.length){ toast('Ninguém no campo ainda'); return; }
   combat.list.forEach(c=>{
-    c.init = c.enemy || !c.personId
+    c.init = (c.enemy || !c.personId)
       ? rnd(20)
       : rnd(20) + mod(sheetOf(c.personId).attrs.des);
   });
@@ -2674,14 +2754,16 @@ function addCombatant(c){
   }
   renderCombat();
   const c = sorted[combat.turn];
-  toast(c ? `⚔ Vez de: ${c.name}` : '');
+  if(c) toast(`⚔ Vez de: ${c.name}`);
 });
+/* dissolver batalha — confirmação da página, sem diálogo do navegador */
  $('cbClear').addEventListener('click', ()=>{
   if(!combat.list.length){ toast('O campo já está vazio'); return; }
-  if(!confirm('Dissolver a batalha inteira?')) return;
-  combat = {list:[], round:0, turn:-1};
-  renderCombat();
-  toast('A névoa cobre o campo… batalha dissolvida');
+  askConfirm('Dissolver a batalha inteira?', ()=>{
+    combat = {list:[], round:0, turn:-1};
+    renderCombat();
+    toast('A névoa cobre o campo… batalha dissolvida');
+  });
 });
  $('combatList').addEventListener('click', e=>{
   const hb = e.target.closest('button[data-cb]');
@@ -2790,7 +2872,6 @@ function renderBeasts(){
     const out = $('atkOut' + roll.dataset.b);
     if(r){
       out.textContent = `✦ ${a.n}: [${r.rolls.join(', ')}]${r.bonus ? (r.bonus>0?' +'+r.bonus:r.bonus) : ''} = ${r.total}`;
-      copyLastAtk = `${a.n} (${a.f}): ${r.total} ${r.rolls.length>1?'['+r.rolls.join(', ')+']':''}`.trim();
     } else out.textContent = 'fórmula inválida';
     return;
   }
@@ -2805,7 +2886,6 @@ function renderBeasts(){
     toast(`${b.name} convocada ao campo!`);
   }
 });
-let copyLastAtk = null;
 
 /* ================================================================
    VI — FORJA DO MESTRE
@@ -2826,9 +2906,9 @@ const FORGE = {
   questReward:['200 peças de ouro','um item mágico menor','um favor a ser cobrado','terras na beira do rio','o mapa de um tesouro','a amizade eterna (e jantar)'],
   questTwist:['o contratante mente sobre o alvo','outro grupo aceitou primeiro','o alvo é inocente e vai implorar','há uma maldição no lugar','um traidor do grupo sabe o caminho'],
   tresGold: ()=> `${(rnd(6)*25 + rnd(4)*10)} peças de ouro`,
-  tresItem:['uma adaga que vibra perto de mentiras','um escudo com o brasão de um reino apagado','uma poção sem rótulo (role 1d6 ao beber)','o crucifixo do dragão filhote','uma chave que não fecha nada conhecido','uma lente que vê o invisível','um mapa parcial, rasgado ao meio'],
+  tresItem:['uma adaga que vibra perto de mentiras','um escudo com o brasão de um reino apagado','uma poção sem rótulo (role 1d6 ao beber)','uma presa do dragão filhote','uma chave que não fecha nada conhecido','uma lente que vê o invisível','um mapa parcial, rasgado ao meio'],
   tresCurse:['o dono anterior morre em 3 noites (contagem regressiva)','atrai a atenção da Serpente do Mar','sussurra mentiras quando você dorme','o ouro vira folhas secas ao amanhecer','quem tocar fica Envenenado (1d4 de dano/hora)'],
-  encCreature:['uma alcateia de Lobos das Neves','bandidos do Cabo','um Golem de Pétalas furioso','peregrinos suspeitos','umFilho do dragão e dois sequazes','corvos espectrais','mercadores (são legítimos… por enquanto)','o Cavaleiro Caído e seu escudeiro'],
+  encCreature:['uma alcateia de Lobos das Neves','bandidos do Cabo','um Golem de Pétalas furioso','peregrinos suspeitos','um filhote de dragão e dois sequazes','corvos espectrais','mercadores (são legítimos… por enquanto)','o Cavaleiro Caído e seu escudeiro'],
   encWant:  ['querem pedágio','pedem ajuda (é armadilha)','procuram alguém específico do grupo','fogem de algo pior','querem informação que vocês têm','desafiariam para um duelo honrado'],
   encPlace: ['na estrada estreita','na ponte de madeira rangendo','num acampamento abandonado','no meio da nevasca','na entrada da caverna','durante a travessia de barco']
 };
@@ -2836,40 +2916,36 @@ function forgeWrite(outId, txt){
   const el = $(outId);
   el.textContent = txt;
   el.classList.remove('empty');
-  return txt;
+  el.dataset.copy = txt;
 }
  $('fjNpcGo').addEventListener('click', ()=>{
-  const txt = forgeWrite('fjNpcOut',
+  forgeWrite('fjNpcOut',
 `👤 ${pick(FORGE.npcFirst)} ${pick(FORGE.npcLast)}, ${pick(FORGE.npcRace)}
 Ofício: ${pick(FORGE.npcJob)} · Humor: ${pick(FORGE.npcMood)}
 Quer: ${pick(FORGE.npcWant)}
 🤫 Segredo: ${pick(FORGE.npcSecret)}`);
-  $('fjNpcOut').dataset.copy = txt;
 });
  $('fjQuestGo').addEventListener('click', ()=>{
-  const txt = forgeWrite('fjQuestOut',
+  forgeWrite('fjQuestOut',
 `📜 O chamado: ${pick(FORGE.questGiver)} pede para
  ${pick(FORGE.questDeed).toUpperCase()} ${pick(FORGE.questTarget)},
 que se encontra ${pick(FORGE.questPlace)}.
 💰 Recompensa: ${pick(FORGE.questReward)}
 🌀 Complicação: ${pick(FORGE.questTwist)}`);
-  $('fjQuestOut').dataset.copy = txt;
 });
  $('fjTresGo').addEventListener('click', ()=>{
   const cursed = Math.random() < 0.35;
-  const txt = forgeWrite('fjTresOut',
+  forgeWrite('fjTresOut',
 `💎 Tesouro: ${FORGE.tresGold()}
 Item notável: ${pick(FORGE.tresItem)}` +
 (cursed ? `\n☠ MALDIÇÃO: ${pick(FORGE.tresCurse)}` : '\n✦ Nenhuma maldição — dessa vez.'));
-  $('fjTresOut').dataset.copy = txt;
 });
  $('fjEncGo').addEventListener('click', ()=>{
   const qty = pick(['1','2','3', String(2 + rnd(4)), String(1 + rnd(6))]);
-  const txt = forgeWrite('fjEncOut',
+  forgeWrite('fjEncOut',
 `⚔ No caminho, ${qty}× ${pick(FORGE.encCreature)}
 Eles ${pick(FORGE.encWant)}
 Cenário: ${pick(FORGE.encPlace)}`);
-  $('fjEncOut').dataset.copy = txt;
 });
 [['fjNpcCopy','fjNpcOut'],['fjQuestCopy','fjQuestOut'],['fjTresCopy','fjTresOut'],['fjEncCopy','fjEncOut']].forEach(([btnId,outId])=>{
   $(btnId).addEventListener('click', ()=>{
