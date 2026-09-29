@@ -1,0 +1,2956 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A Mesa de Veldora — o sistema de RPG da crônica: dados, fichas, combate, bestiário e a Forja do Mestre.">
+<title>A Mesa de Veldora — RPG dos Reinos</title>
+<link rel="icon" type="image/png" href="simbolo.png">
+<link rel="apple-touch-icon" href="simbolo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=MedievalSharp&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+<meta property="og:title" content="A Mesa de Veldora — RPG dos Reinos">
+<meta property="og:description" content="Dados, fichas, combate e bestiário — o sistema de RPG da crônica de Veldora.">
+<meta property="og:image" content="simbolo.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#c9a24a">
+<style>
+/* ================================================================
+   FUNDAÇÃO
+================================================================ */
+:root{
+  --paper:#17110b;
+  --paper-2:#221a11;
+  --paper-3:#0d0906;
+  --ink:#ead9b5;
+  --ink-soft:#b3a17c;
+  --gold:#c9a24a;
+  --gold-2:#b98a2e;
+  --seal:#a259c9;
+  --veil-a:rgba(12,9,6,.72);
+  --veil-b:rgba(16,12,8,.78);
+  --veil-c:rgba(8,6,4,.9);
+  --c-supremo:#f7f4ec;
+  --c-mirigumi:#e07aa0;
+  --c-nyara:#b98fd6;
+  --c-ascar:#f0c75e;
+  --c-snezhnaya:#8ec5e8;
+  --c-escarlate:#d94f3d;
+  --c-bravos:#3fd4c9;
+  --c-karhal:#4caf6d;
+  --hp:#4caf6d;
+  --mp:#5f8fa6;
+  --xp:#c9a24a;
+  --line:rgba(234,217,181,.32);
+  --line-soft:rgba(234,217,181,.16);
+  --serif:'EB Garamond',Georgia,serif;
+  --disp:'Cinzel',serif;
+  --font-black:'UnifrakturMaguntia','EB Garamond',serif;
+  --font-med:'MedievalSharp','EB Garamond',serif;
+}
+:root[data-theme="light"]{
+  --paper:#e8dcc0;
+  --paper-2:#f2e8d0;
+  --paper-3:#d8c9a8;
+  --ink:#2c2317;
+  --ink-soft:#6a583a;
+  --gold:#96741f;
+  --gold-2:#8a6a1e;
+  --veil-a:rgba(232,220,192,.72);
+  --veil-b:rgba(238,226,196,.78);
+  --veil-c:rgba(222,206,170,.9);
+  --line:rgba(44,35,23,.35);
+  --line-soft:rgba(44,35,23,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.65;
+  overflow-x:hidden;
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+input,textarea,select{-webkit-user-select:text;user-select:text}
+img{-webkit-user-drag:none;user-drag:none}
+button{font-family:var(--serif)}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield;appearance:textfield}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--paper-3)}
+::-webkit-scrollbar-thumb{background:var(--ink-soft);border:2px solid var(--paper-3);border-radius:6px}
+
+/* ================================================================
+   FUNDO + VÉU + GRÃO
+================================================================ */
+.bg{
+  position:fixed;
+  inset:0;
+  height:100vh;
+  height:100lvh;
+  z-index:-1;
+  pointer-events:none;
+  background-image:url('cllr.png');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-color:var(--paper);
+  transition:background-color .4s ease;
+}
+@media (min-width:761px){
+  .bg{background-image:url('pc.png')}
+}
+.bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,var(--veil-a) 0%,var(--veil-b) 50%,var(--veil-c) 100%);
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity:.14;
+  mix-blend-mode:overlay;
+}
+
+.wrap{max-width:960px;margin:0 auto;padding:0 clamp(16px,4vw,44px)}
+
+/* ================================================================
+   BARRA SUPERIOR
+================================================================ */
+.bar{
+  position:fixed;
+  top:12px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:1450;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:7px 8px 7px 13px;
+  background:linear-gradient(180deg,var(--paper-2),var(--paper));
+  border:1px solid rgba(201,162,74,.5);
+  border-radius:999px;
+  box-shadow:0 12px 34px -12px rgba(0,0,0,.55);
+  backdrop-filter:blur(9px);
+  -webkit-backdrop-filter:blur(9px);
+  max-width:calc(100vw - 20px);
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  text-decoration:none;
+  color:var(--ink);
+}
+.brand img{
+  width:30px;
+  height:30px;
+  object-fit:contain;
+}
+.brand b{
+  font-family:var(--disp);
+  font-size:.7rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.bar a.back{
+  font-family:var(--disp);
+  font-size:.6rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:var(--ink-soft);
+  padding:8px 14px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--paper);
+  white-space:nowrap;
+  transition:color .3s,border-color .3s;
+}
+.bar a.back:hover{
+  color:var(--gold);
+  border-color:var(--gold);
+}
+.bar button{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--gold);
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  padding:0;
+  transition:transform .25s,box-shadow .25s;
+}
+.bar button svg{
+  width:17px;
+  height:17px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.bar button:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 14px rgba(201,162,74,.4);
+}
+
+/* ================================================================
+   HERO
+================================================================ */
+.hero{
+  padding:120px 0 8px;
+  text-align:center;
+  position:relative;
+}
+#dust{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+.hero .kicker{
+  font-family:var(--disp);
+  font-size:.62rem;
+  letter-spacing:.4em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:16px;
+}
+.hero h1{
+  font-family:var(--font-black);
+  font-weight:400;
+  line-height:1;
+  font-size:clamp(2.6rem,9vw,5rem);
+  color:var(--ink);
+  text-shadow:0 4px 40px rgba(0,0,0,.45);
+}
+.orn{
+  color:var(--gold);
+  width:170px;
+  height:16px;
+  margin:16px auto 0;
+  display:block;
+}
+.hero .sub{
+  font-style:italic;
+  color:var(--ink-soft);
+  margin-top:10px;
+}
+
+/* ================================================================
+   ABAS
+================================================================ */
+.tabs{
+  position:sticky;
+  top:0;
+  z-index:1300;
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:12px clamp(14px,3vw,36px);
+  margin-top:26px;
+  background:linear-gradient(180deg,var(--paper),var(--paper-2));
+  border-top:1px solid var(--line-soft);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(9px);
+  -webkit-backdrop-filter:blur(9px);
+  scrollbar-width:none;
+  justify-content:flex-start;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:0 0 auto;
+  font-family:var(--disp);
+  font-size:.6rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  padding:9px 16px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink-soft);
+  cursor:pointer;
+  white-space:nowrap;
+  transition:color .25s,border-color .25s,background .25s,transform .2s,box-shadow .25s;
+}
+.tab:hover{
+  color:var(--gold);
+  border-color:var(--gold);
+  transform:translateY(-2px);
+}
+.tab.on{
+  color:#1a1208;
+  font-weight:700;
+  background:linear-gradient(180deg,#e3bd6a,#b98a2e);
+  border-color:#e3bd6a;
+  box-shadow:0 0 14px rgba(201,162,74,.4);
+}
+
+/* ================================================================
+   PÁGINAS
+================================================================ */
+.page{
+  display:none;
+  padding:44px 0 30px;
+}
+.page.on{
+  display:block;
+  animation:fadeUp .35s ease;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:none}
+}
+.chapter-head{
+  text-align:center;
+  max-width:660px;
+  margin:0 auto 28px;
+}
+.chapter-head .kicker{
+  font-family:var(--disp);
+  font-size:.58rem;
+  letter-spacing:.36em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:8px;
+}
+.chapter-head h2{
+  font-family:var(--font-black);
+  font-weight:400;
+  font-size:clamp(1.7rem,5vw,2.6rem);
+  line-height:1.15;
+}
+.chapter-head .sub{
+  font-style:italic;
+  color:var(--ink-soft);
+  margin-top:8px;
+  font-size:.98rem;
+}
+
+.cardbox{
+  border:1px solid var(--line);
+  outline:1px solid var(--line-soft);
+  outline-offset:5px;
+  background:var(--paper-2);
+  box-shadow:0 18px 40px -14px rgba(0,0,0,.75);
+}
+
+/* ================================================================
+   I — DADOS
+================================================================ */
+.dice-tray{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+}
+.die{
+  width:68px;
+  height:68px;
+  border-radius:16px;
+  border:1.5px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--disp);
+  font-weight:600;
+  font-size:.98rem;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  transition:transform .2s,border-color .25s,box-shadow .25s,background .25s,color .25s;
+}
+.die:hover{
+  transform:translateY(-3px);
+  border-color:var(--gold);
+  box-shadow:0 0 14px rgba(201,162,74,.3);
+}
+.die.on{
+  background:linear-gradient(180deg,#e3bd6a,#b98a2e);
+  color:#1a1208;
+  border-color:#e3bd6a;
+  box-shadow:0 0 16px rgba(201,162,74,.45);
+}
+.dice-opts{
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px 30px;
+  justify-content:center;
+  margin:22px 0 6px;
+}
+.opt-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.opt-row .lbl{
+  font-family:var(--disp);
+  font-size:.56rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.opt-row button{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  cursor:pointer;
+  font-size:1.05rem;
+  line-height:1;
+  transition:border-color .25s,color .25s;
+}
+.opt-row button:hover{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.opt-row b{
+  font-family:var(--disp);
+  font-size:1.15rem;
+  min-width:2.6ch;
+  text-align:center;
+}
+.mode-btn{
+  padding:8px 14px !important;
+  width:auto !important;
+  height:auto !important;
+  font-family:var(--disp);
+  font-size:.54rem !important;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  border-radius:999px !important;
+}
+.mode-btn.on{
+  border-color:var(--gold);
+  color:var(--gold);
+  box-shadow:0 0 10px rgba(201,162,74,.25);
+}
+.roll-stage{
+  text-align:center;
+  padding:30px 16px 26px;
+  position:relative;
+  overflow:hidden;
+  margin-top:16px;
+}
+.roll-label{
+  font-family:var(--disp);
+  font-size:.6rem;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.roll-num{
+  font-family:var(--font-black);
+  font-size:clamp(4.4rem,17vw,7.5rem);
+  line-height:1.15;
+}
+.roll-num.crit{
+  color:var(--gold);
+  text-shadow:0 0 36px rgba(201,162,74,.65);
+}
+.roll-num.fumble{
+  color:var(--c-escarlate);
+  text-shadow:0 0 30px rgba(217,79,61,.5);
+}
+.roll-num.rolling{
+  animation:shake .12s linear infinite;
+}
+@keyframes shake{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(2px,-2px)}
+  50%{transform:translate(-2px,1px)}
+  75%{transform:translate(1px,2px)}
+  100%{transform:translate(0,0)}
+}
+.roll-detail{
+  font-style:italic;
+  color:var(--ink-soft);
+  margin-top:6px;
+  min-height:1.5em;
+}
+.roll-btn{
+  margin-top:16px;
+  font-family:var(--disp);
+  font-size:.72rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  padding:12px 32px;
+  border-radius:999px;
+  cursor:pointer;
+  border:1px solid var(--gold);
+  background:linear-gradient(180deg,#e3bd6a,#b98a2e);
+  color:#1a1208;
+  box-shadow:0 0 16px rgba(201,162,74,.4);
+  transition:transform .2s,box-shadow .25s;
+}
+.roll-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 24px rgba(201,162,74,.6);
+}
+.roll-btn:active{
+  transform:scale(.97);
+}
+.roll-log{
+  list-style:none;
+  max-width:600px;
+  margin:22px auto 0;
+}
+.roll-log li{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:14px;
+  padding:7px 6px;
+  border-bottom:1px dashed var(--line);
+  font-size:.95rem;
+}
+.roll-log li b{
+  font-family:var(--disp);
+  color:var(--gold);
+  flex:0 0 auto;
+}
+.roll-log li.crit span{color:var(--gold)}
+.roll-log li.fumble span{color:var(--c-escarlate)}
+.roll-log li:last-child{border-bottom:none}
+.log-clear{
+  display:block;
+  margin:12px auto 0;
+  background:none;
+  border:none;
+  color:var(--ink-soft);
+  font-family:var(--disp);
+  font-size:.54rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+.log-clear:hover{color:var(--seal)}
+
+/* ================================================================
+   II — FICHAS
+================================================================ */
+.heroes-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(88px,1fr));
+  gap:8px;
+  max-width:720px;
+  margin:0 auto;
+}
+.hero-pick{
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:12px;
+  padding:11px 4px;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  gap:5px;
+  color:var(--ink);
+  transition:border-color .25s,background .25s,box-shadow .25s,transform .2s;
+}
+.hero-pick svg{
+  width:26px;
+  height:26px;
+  fill:none;
+  stroke:var(--accent);
+  stroke-width:2.4;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.hero-pick span{
+  font-family:var(--disp);
+  font-size:.5rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.hero-pick:hover{
+  border-color:var(--accent);
+  transform:translateY(-2px);
+}
+.hero-pick.on{
+  border-color:var(--accent);
+  background:var(--paper-2);
+  box-shadow:0 0 14px -4px var(--accent);
+}
+.sheet{
+  max-width:720px;
+  margin:24px auto 0;
+  padding:clamp(20px,4vw,32px);
+}
+.sheet-head{
+  display:flex;
+  gap:16px;
+  align-items:center;
+  border-bottom:1px dashed var(--line);
+  padding-bottom:14px;
+  margin-bottom:16px;
+  flex-wrap:wrap;
+}
+.sheet-medal{
+  width:64px;
+  height:64px;
+  border:1.5px solid var(--accent,var(--gold));
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:var(--accent,var(--gold));
+  flex:0 0 auto;
+}
+.sheet-medal svg{
+  width:32px;
+  height:32px;
+}
+.sheet-head .who{
+  flex:1;
+  min-width:160px;
+}
+.sheet-head .who small{
+  display:block;
+  font-family:var(--disp);
+  font-size:.5rem;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.sheet-head .who b{
+  font-family:var(--font-med);
+  font-weight:400;
+  font-size:1.3rem;
+}
+.sheet-head .actions{
+  display:flex;
+  gap:8px;
+}
+.mini-btn{
+  background:none;
+  border:1px solid var(--line);
+  border-radius:999px;
+  color:var(--ink-soft);
+  font-family:var(--disp);
+  font-size:.5rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  padding:7px 13px;
+  cursor:pointer;
+  transition:color .25s,border-color .25s;
+}
+.mini-btn:hover{
+  color:var(--gold);
+  border-color:var(--gold);
+}
+.mini-btn.danger:hover{
+  color:var(--c-escarlate);
+  border-color:var(--c-escarlate);
+}
+.field{
+  margin-bottom:13px;
+}
+.field label{
+  font-family:var(--disp);
+  font-size:.52rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  display:block;
+  margin-bottom:5px;
+}
+.field input[type=text],
+.field input[type=number],
+.field textarea,
+select{
+  width:100%;
+  background:var(--paper);
+  border:1px solid var(--line);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:1rem;
+  padding:9px 12px;
+  border-radius:10px;
+  outline:none;
+  transition:border-color .25s;
+}
+.field input:focus,
+.field textarea:focus,
+select:focus{
+  border-color:var(--gold);
+}
+.field textarea{
+  min-height:96px;
+  resize:vertical;
+  line-height:1.55;
+}
+.row2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.row3{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:12px;
+}
+@media (max-width:600px){
+  .row2,.row3{grid-template-columns:1fr}
+}
+
+/* Atributos */
+.attr-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:16px;
+}
+@media (max-width:560px){
+  .attr-grid{grid-template-columns:repeat(2,1fr)}
+}
+.attr{
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--paper);
+  padding:11px 8px;
+  text-align:center;
+}
+.attr h5{
+  font-family:var(--disp);
+  font-size:.5rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin-bottom:4px;
+}
+.attr .mod{
+  font-family:var(--font-black);
+  font-size:1.7rem;
+  line-height:1;
+  color:var(--gold);
+}
+.attr .val{
+  font-family:var(--disp);
+  font-size:.72rem;
+  color:var(--ink-soft);
+  display:block;
+  margin:3px 0 7px;
+}
+.attr .btns{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+}
+.attr .btns button{
+  width:26px;
+  height:26px;
+  border-radius:7px;
+  border:1px solid var(--line);
+  background:var(--paper-2);
+  color:var(--ink);
+  cursor:pointer;
+  line-height:1;
+  transition:border-color .2s,color .2s;
+}
+.attr .btns button:hover{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.attr-hint{
+  text-align:center;
+  font-size:.78rem;
+  font-style:italic;
+  color:var(--ink-soft);
+  margin:-6px 0 14px;
+}
+
+/* Vitais */
+.vitals{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:12px;
+}
+@media (max-width:560px){
+  .vitals{grid-template-columns:1fr}
+}
+.vital{
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:13px;
+  background:var(--paper);
+}
+.vital h4{
+  font-family:var(--disp);
+  font-size:.56rem;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:var(--v,var(--hp));
+  text-align:center;
+}
+.vital-nums{
+  display:flex;
+  align-items:baseline;
+  justify-content:center;
+  gap:8px;
+  margin:7px 0 6px;
+}
+.vital-nums b{
+  font-family:var(--font-black);
+  font-size:2rem;
+  line-height:1;
+}
+.vital-nums .of{
+  color:var(--ink-soft);
+}
+.vital-btns{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  flex-wrap:wrap;
+}
+.vital-btns button{
+  min-width:32px;
+  height:30px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  background:var(--paper-2);
+  color:var(--ink);
+  cursor:pointer;
+  font-size:.82rem;
+  padding:0 7px;
+  line-height:1;
+  transition:border-color .2s,color .2s;
+}
+.vital-btns button:hover{
+  border-color:var(--v);
+  color:var(--v);
+}
+.vital-bar{
+  height:8px;
+  border-radius:99px;
+  background:var(--paper-3);
+  overflow:hidden;
+  margin-top:10px;
+  border:1px solid var(--line-soft);
+}
+.vital-bar i{
+  display:block;
+  height:100%;
+  background:var(--v);
+  width:100%;
+  transition:width .3s ease;
+}
+.mini-vitals{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:16px;
+}
+@media (max-width:560px){
+  .mini-vitals{grid-template-columns:1fr}
+}
+.mini-vital{
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px;
+  background:var(--paper);
+  text-align:center;
+}
+.mini-vital h4{
+  font-family:var(--disp);
+  font-size:.54rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin-bottom:6px;
+}
+.mini-vital .big{
+  font-family:var(--font-black);
+  font-size:1.6rem;
+  line-height:1.2;
+}
+.mini-vital .btns{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  margin-top:8px;
+  flex-wrap:wrap;
+}
+.mini-vital .btns button{
+  min-width:30px;
+  height:28px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  background:var(--paper-2);
+  color:var(--ink);
+  cursor:pointer;
+  font-size:.8rem;
+  padding:0 6px;
+}
+.mini-vital .btns button:hover{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.xp-bar{
+  height:7px;
+  border-radius:99px;
+  background:var(--paper-3);
+  border:1px solid var(--line-soft);
+  overflow:hidden;
+  margin-top:8px;
+}
+.xp-bar i{
+  display:block;
+  height:100%;
+  background:var(--xp);
+  width:0;
+  transition:width .3s;
+}
+.xp-next{
+  font-size:.72rem;
+  color:var(--ink-soft);
+  font-style:italic;
+  margin-top:5px;
+}
+
+/* Listas (inventário / perícias) */
+.list-add{
+  display:flex;
+  gap:8px;
+  margin-bottom:9px;
+}
+.list-add input{
+  flex:1;
+  background:var(--paper);
+  border:1px solid var(--line);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:.95rem;
+  padding:8px 12px;
+  border-radius:10px;
+  outline:none;
+}
+.list-add input:focus{border-color:var(--gold)}
+.list-add button{
+  border:1px solid var(--gold);
+  background:transparent;
+  color:var(--gold);
+  border-radius:10px;
+  padding:0 16px;
+  cursor:pointer;
+  font-family:var(--disp);
+  font-size:.6rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  transition:background .25s,color .25s;
+}
+.list-add button:hover{
+  background:var(--gold);
+  color:#1a1208;
+}
+.item-list{
+  list-style:none;
+}
+.item-list li{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:7px 4px;
+  border-bottom:1px dashed var(--line);
+  font-size:.95rem;
+}
+.item-list li:last-child{border-bottom:none}
+.item-list .name{
+  flex:1;
+}
+.item-list .qty{
+  font-family:var(--disp);
+  font-size:.78rem;
+  color:var(--gold);
+  min-width:2.4ch;
+  text-align:center;
+}
+.item-list button{
+  width:26px;
+  height:26px;
+  border-radius:7px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink-soft);
+  cursor:pointer;
+  line-height:1;
+  font-size:.85rem;
+}
+.item-list button:hover{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.item-list button.rm:hover{
+  border-color:var(--c-escarlate);
+  color:var(--c-escarlate);
+}
+.empty-note{
+  font-style:italic;
+  color:var(--ink-soft);
+  font-size:.88rem;
+  padding:6px 4px;
+}
+
+/* Condições */
+.cond-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.cond{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink-soft);
+  border-radius:999px;
+  padding:7px 14px;
+  font-family:var(--disp);
+  font-size:.54rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .25s;
+}
+.cond:hover{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.cond.on{
+  border-color:var(--seal);
+  color:#1a1208;
+  background:var(--seal);
+  box-shadow:0 0 12px rgba(162,89,201,.4);
+}
+.sheet-foot{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:18px;
+  flex-wrap:wrap;
+}
+.save-state{
+  font-family:var(--disp);
+  font-size:.52rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--gold);
+  opacity:0;
+  transition:opacity .4s;
+}
+.save-state.show{opacity:1}
+
+/* ================================================================
+   III — COMBATE
+================================================================ */
+.combat-add{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-bottom:16px;
+}
+@media (max-width:640px){
+  .combat-add{grid-template-columns:1fr}
+}
+.combat-add .cardbox{
+  padding:16px;
+}
+.combat-add h4{
+  font-family:var(--disp);
+  font-size:.6rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:10px;
+}
+.combat-add .field{margin-bottom:10px}
+.combat-controls{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.combat-controls .round-badge{
+  font-family:var(--disp);
+  font-size:.6rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  border:1px dashed var(--line);
+  border-radius:999px;
+  padding:8px 16px;
+}
+.combat-controls .round-badge b{color:var(--gold)}
+.combat-list{
+  list-style:none;
+  max-width:720px;
+  margin:0 auto;
+}
+.combatant{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--paper);
+  margin-bottom:9px;
+  position:relative;
+  transition:border-color .3s,box-shadow .3s,opacity .3s;
+}
+.combatant.turn{
+  border-color:var(--gold);
+  box-shadow:0 0 18px -6px rgba(201,162,74,.55);
+}
+.combatant.turn::before{
+  content:"⚔";
+  position:absolute;
+  top:-9px;
+  left:14px;
+  font-size:.72rem;
+  background:var(--paper-2);
+  padding:0 6px;
+  color:var(--gold);
+}
+.combatant.down{
+  opacity:.45;
+  filter:grayscale(.7);
+}
+.combatant.down .c-name::after{
+  content:" · CAÍDO";
+  color:var(--c-escarlate);
+  font-family:var(--disp);
+  font-size:.56rem;
+  letter-spacing:.14em;
+}
+.c-init{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:1.5px solid var(--line);
+  display:grid;
+  place-items:center;
+  font-family:var(--font-black);
+  font-size:1.05rem;
+  flex:0 0 auto;
+  color:var(--gold);
+}
+.combatant.enemy .c-init{
+  border-color:var(--c-escarlate);
+  color:var(--c-escarlate);
+}
+.c-main{flex:1;min-width:0}
+.c-name{
+  font-family:var(--font-med);
+  font-size:1.05rem;
+  line-height:1.2;
+  overflow-wrap:break-word;
+}
+.c-sub{
+  font-size:.72rem;
+  color:var(--ink-soft);
+  font-style:italic;
+}
+.c-hp{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-top:6px;
+}
+.c-hp button{
+  width:24px;
+  height:24px;
+  border-radius:7px;
+  border:1px solid var(--line);
+  background:var(--paper-2);
+  color:var(--ink);
+  cursor:pointer;
+  line-height:1;
+  font-size:.78rem;
+}
+.c-hp button:hover{border-color:var(--gold);color:var(--gold)}
+.c-hpbar{
+  flex:1;
+  height:6px;
+  border-radius:99px;
+  background:var(--paper-3);
+  border:1px solid var(--line-soft);
+  overflow:hidden;
+  min-width:50px;
+}
+.c-hpbar i{
+  display:block;
+  height:100%;
+  background:var(--hp);
+  transition:width .3s;
+}
+.c-hptxt{
+  font-family:var(--disp);
+  font-size:.7rem;
+  color:var(--ink-soft);
+  white-space:nowrap;
+}
+.c-ac{
+  font-family:var(--disp);
+  font-size:.62rem;
+  letter-spacing:.1em;
+  color:var(--ink-soft);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:5px 8px;
+  flex:0 0 auto;
+  text-align:center;
+}
+.c-ac b{color:var(--ink);display:block;font-size:.85rem}
+.c-rm{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink-soft);
+  cursor:pointer;
+  flex:0 0 auto;
+  line-height:1;
+}
+.c-rm:hover{
+  border-color:var(--c-escarlate);
+  color:var(--c-escarlate);
+}
+.combat-empty{
+  text-align:center;
+  font-style:italic;
+  color:var(--ink-soft);
+  padding:26px 10px;
+  border:1px dashed var(--line);
+  border-radius:14px;
+}
+
+/* ================================================================
+   IV — BESTIÁRIO
+================================================================ */
+.beast-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:14px;
+}
+.beast{
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+.beast-top{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px dashed var(--line);
+  padding-bottom:8px;
+}
+.beast h3{
+  font-family:var(--font-med);
+  font-weight:400;
+  font-size:1.12rem;
+  line-height:1.2;
+}
+.beast .realm-tag{
+  font-family:var(--disp);
+  font-size:.46rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--tag,var(--gold));
+  border:1px solid currentColor;
+  border-radius:999px;
+  padding:3px 9px;
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.beast .desc{
+  font-size:.86rem;
+  color:var(--ink-soft);
+  font-style:italic;
+}
+.beast-stats{
+  display:flex;
+  gap:8px;
+}
+.beast-stats span{
+  flex:1;
+  text-align:center;
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:5px 4px;
+  font-family:var(--disp);
+  font-size:.5rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.beast-stats b{
+  display:block;
+  font-size:.92rem;
+  color:var(--ink);
+  letter-spacing:0;
+}
+.beast-atks{
+  display:grid;
+  gap:6px;
+}
+.beast-atk{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:.86rem;
+  background:var(--paper);
+  border:1px solid var(--line-soft);
+  border-radius:9px;
+  padding:6px 9px;
+}
+.beast-atk b{
+  font-family:var(--disp);
+  font-size:.68rem;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.beast-atk .formula{
+  color:var(--ink-soft);
+  font-style:italic;
+  flex:1;
+  text-align:right;
+}
+.beast-atk .rollit{
+  border:1px solid var(--gold);
+  background:transparent;
+  color:var(--gold);
+  border-radius:7px;
+  padding:2px 9px;
+  font-family:var(--disp);
+  font-size:.5rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+.beast-atk .rollit:hover{
+  background:var(--gold);
+  color:#1a1208;
+}
+.atk-out{
+  font-size:.84rem;
+  min-height:1.3em;
+  color:var(--gold);
+  font-style:italic;
+}
+.beast-foot{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-top:auto;
+}
+.beast-foot .xp-tag{
+  font-size:.72rem;
+  color:var(--ink-soft);
+  font-style:italic;
+}
+.beast-foot .send{
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--ink-soft);
+  border-radius:999px;
+  padding:6px 13px;
+  font-family:var(--disp);
+  font-size:.5rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .25s;
+}
+.beast-foot .send:hover{
+  border-color:var(--c-escarlate);
+  color:var(--c-escarlate);
+}
+
+/* ================================================================
+   V — CÓDICE
+================================================================ */
+.book{
+  max-width:720px;
+  margin:0 auto;
+  padding:clamp(20px,4vw,34px);
+}
+.book h3{
+  font-family:var(--font-med);
+  font-weight:400;
+  font-size:1.25rem;
+  margin:22px 0 8px;
+  color:var(--gold);
+}
+.book h3:first-child{margin-top:0}
+.book p{
+  font-size:.98rem;
+  margin-bottom:8px;
+}
+.book .rule{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  gap:12px;
+  padding:9px 0;
+  border-bottom:1px dashed var(--line);
+  font-size:.94rem;
+}
+.book .rule b{
+  font-family:var(--disp);
+  font-size:.62rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+@media (max-width:560px){
+  .book .rule{grid-template-columns:1fr}
+}
+.book table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.92rem;
+  margin:8px 0;
+}
+.book th,.book td{
+  text-align:left;
+  padding:7px 10px;
+  border-bottom:1px dashed var(--line);
+}
+.book th{
+  font-family:var(--disp);
+  font-size:.56rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--gold);
+}
+.book td b{font-family:var(--disp)}
+.book .motto{
+  text-align:center;
+  font-style:italic;
+  color:var(--ink-soft);
+  margin-top:22px;
+}
+
+/* ================================================================
+   VI — FORJA
+================================================================ */
+.forge-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  max-width:860px;
+  margin:0 auto;
+}
+@media (max-width:700px){
+  .forge-grid{grid-template-columns:1fr}
+}
+.forge-card{
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.forge-card h4{
+  font-family:var(--disp);
+  font-size:.66rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--gold);
+}
+.forge-card .sub{
+  font-size:.84rem;
+  font-style:italic;
+  color:var(--ink-soft);
+}
+.forge-out{
+  background:var(--paper);
+  border:1px dashed var(--line);
+  border-radius:12px;
+  padding:12px 14px;
+  min-height:74px;
+  font-size:.92rem;
+  white-space:pre-wrap;
+  color:var(--ink);
+}
+.forge-out.empty{
+  color:var(--ink-soft);
+  font-style:italic;
+}
+.forge-btns{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:auto;
+}
+.forge-btns .go{
+  flex:1;
+  min-width:110px;
+  font-family:var(--disp);
+  font-size:.6rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid var(--gold);
+  background:linear-gradient(180deg,#e3bd6a,#b98a2e);
+  color:#1a1208;
+  cursor:pointer;
+  transition:transform .2s,box-shadow .25s;
+}
+.forge-btns .go:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 16px rgba(201,162,74,.5);
+}
+.forge-btns .copy{
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--ink-soft);
+  border-radius:999px;
+  padding:10px 16px;
+  font-family:var(--disp);
+  font-size:.54rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .25s;
+}
+.forge-btns .copy:hover{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+
+/* ================================================================
+   TOAST / RODAPÉ
+================================================================ */
+.toast{
+  position:fixed;
+  bottom:18px;
+  left:50%;
+  transform:translate(-50%,20px);
+  z-index:1900;
+  background:linear-gradient(180deg,var(--paper-2),var(--paper));
+  border:1px solid var(--gold);
+  color:var(--ink);
+  border-radius:999px;
+  padding:10px 22px;
+  font-family:var(--disp);
+  font-size:.6rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  box-shadow:0 14px 34px -10px rgba(0,0,0,.7);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s,transform .3s;
+}
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+footer{
+  text-align:center;
+  padding:56px 24px 64px;
+  border-top:1px solid var(--line-soft);
+  margin-top:36px;
+}
+footer .final{
+  font-style:italic;
+  font-size:1.05rem;
+  max-width:460px;
+  margin:0 auto;
+}
+footer .fine{
+  margin-top:16px;
+  font-family:var(--disp);
+  font-size:.54rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+
+/* ================================================================
+   RESPONSIVO GERAL
+================================================================ */
+@media (max-width:640px){
+  .brand b{display:none}
+  .hero{padding-top:104px}
+  .bar{top:8px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true"></div>
+
+<!-- ============ BIBLIOTECA DE SÍMBOLOS ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="sym-orn" viewBox="0 0 220 20">
+      <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+        <path d="M4 10 H92"/><path d="M128 10 H216"/>
+        <path d="M110 2 L118 10 L110 18 L102 10 Z"/>
+        <path d="M96 10 l3 -3.4 3 3.4 -3 3.4 Z"/>
+        <path d="M118 10 l3 -3.4 3 3.4 -3 3.4 Z"/>
+      </g>
+    </symbol>
+    <symbol id="sym-scroll" viewBox="0 0 24 24">
+      <path d="M6 3 H18 A2 2 0 0 1 20 5 V19 A2 2 0 0 1 18 21 H6 A2 2 0 0 1 4 19 V5 A2 2 0 0 1 6 3 Z"/>
+      <path d="M8 8 H16 M8 12 H16 M8 16 H13"/>
+    </symbol>
+    <symbol id="sym-sovereign" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 11 L26 15 L32 7 L38 15 L42 11 L40.5 18.5 H23.5 Z"/>
+        <path d="M32 18.5 V23"/><path d="M22.5 23 H41.5"/>
+        <path d="M28.5 23 H35.5 L36 50 L32 58 L28 50 Z"/>
+      </g>
+    </symbol>
+    <symbol id="sym-scepter" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M29 58 L33 24"/><circle cx="34" cy="16" r="6.5"/>
+        <path d="M20 28 C22 19 26 13 32 9 M48 28 C46 19 42 13 36 9"/>
+      </g>
+    </symbol>
+    <symbol id="sym-raven" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M46 34 C52 38 56 46 54 54 L48 50 C44 56 36 58 30 56 L32 48 C26 48 20 44 18 38 C24 40 32 40 38 36 Z"/>
+        <path d="M30 38 C26 30 30 20 40 16 C38 24 40 32 44 38"/>
+        <path d="M40 16 C46 10 54 10 58 14 L52 18 C54 20 54 22 52 24 C48 28 42 26 40 22"/>
+        <circle cx="51" cy="16.5" r="1.5" fill="currentColor" stroke="none"/>
+      </g>
+    </symbol>
+    <symbol id="sym-blade" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M32 4 L38 14 L34 44 L32 50 L30 44 L26 14 Z"/>
+        <path d="M26 44 L20 48 M38 44 L44 48"/><path d="M32 50 L32 58"/>
+        <circle cx="32" cy="60" r="2.2"/>
+      </g>
+    </symbol>
+    <symbol id="sym-royalcrown" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 24 L21 34 L32 12 L43 34 L54 24 L49 46 H15 Z"/><path d="M15 53 H49"/>
+        <circle cx="32" cy="39" r="2.4"/>
+      </g>
+    </symbol>
+    <symbol id="sym-storm" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 40 C15 40 12 33 17 29 C14 22 21 15 28 18 C31 11 42 10 46 17 C52 17 55 24 51 29 C54 33 51 40 44 40 Z"/>
+        <path d="M33 44 L27 56 L34 54 L29 63"/>
+      </g>
+    </symbol>
+    <symbol id="sym-shield" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M32 5 C41 9 50 10.5 55 10.5 C55 29 50 46 32 58 C14 46 9 29 9 10.5 C14 10.5 23 9 32 5 Z"/>
+        <path d="M22 28 L32 36 L42 28"/>
+      </g>
+    </symbol>
+    <symbol id="sym-horn" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 50 C10 36 16 18 30 10 C38 6 48 6 54 10 C56 12 56 15 54 17 C44 15 36 18 32 24 C26 32 26 42 30 50 C31 53 29 55 26 55 Z"/>
+        <path d="M14 50 L8 54 M30 50 L34 55"/><path d="M40 14 C42 17 42 20 41 23" opacity=".6"/>
+      </g>
+    </symbol>
+    <symbol id="sym-sunwave" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="32" cy="24" r="9"/><path d="M23 24 H41 M32 15 V33" opacity=".6"/>
+        <path d="M6 44 Q16 36 26 44 T46 44 T64 44" transform="translate(-3,4)"/>
+        <path d="M6 52 Q16 44 26 52 T46 52 T64 52" transform="translate(-3,4)" opacity=".6"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ BARRA SUPERIOR ============ -->
+<nav class="bar">
+  <a class="brand" href="rpg.html">
+    <img src="simbolo.png" alt="Símbolo de Veldora">
+    <b>A Mesa de Veldora</b>
+  </a>
+  <a class="back" href="index.html">← Crônica</a>
+  <button id="themeBtn" type="button" aria-label="Alternar tema claro" title="Modo pergaminho">
+    <svg aria-hidden="true"><use href="#sym-scroll"/></svg>
+  </button>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <canvas id="dust" aria-hidden="true"></canvas>
+  <p class="kicker">O sistema de RPG da crônica</p>
+  <h1>A Mesa de Veldora</h1>
+  <svg class="orn" aria-hidden="true"><use href="#sym-orn"/></svg>
+  <p class="sub">Dados para o azar, fichas para a lenda, bestas para a glória — que o dado caia a teu favor.</p>
+</header>
+
+<!-- ============ ABAS ============ -->
+<div class="tabs" role="tablist" aria-label="Módulos da Mesa">
+  <button class="tab on" data-page="dados" type="button" role="tab">I · Dados</button>
+  <button class="tab" data-page="fichas" type="button" role="tab">II · Fichas</button>
+  <button class="tab" data-page="combate" type="button" role="tab">III · Combate</button>
+  <button class="tab" data-page="bestiario" type="button" role="tab">IV · Bestiário</button>
+  <button class="tab" data-page="codice" type="button" role="tab">V · Códice</button>
+  <button class="tab" data-page="forja" type="button" role="tab">VI · Forja</button>
+</div>
+
+<main class="wrap">
+
+  <!-- ================================================================
+       I — O ORÁCULO DOS DADOS
+  ================================================================= -->
+  <section class="page on" id="page-dados">
+    <div class="chapter-head">
+      <p class="kicker">Capítulo Primeiro</p>
+      <h2>O Oráculo dos Dados</h2>
+      <svg class="orn" aria-hidden="true"><use href="#sym-orn"/></svg>
+      <p class="sub">Escolhei o dado, a quantidade, o ajuste — e o Oráculo responde.</p>
+    </div>
+
+    <div class="dice-tray" id="diceTray">
+      <button class="die" data-sides="4" type="button">d4</button>
+      <button class="die" data-sides="6" type="button">d6</button>
+      <button class="die" data-sides="8" type="button">d8</button>
+      <button class="die" data-sides="10" type="button">d10</button>
+      <button class="die" data-sides="12" type="button">d12</button>
+      <button class="die on" data-sides="20" type="button">d20</button>
+      <button class="die" data-sides="100" type="button">d100</button>
+    </div>
+
+    <div class="dice-opts">
+      <div class="opt-row">
+        <span class="lbl">Quantidade</span>
+        <button id="qtyMinus" type="button" aria-label="Menos um dado">−</button>
+        <b id="qtyVal">1</b>
+        <button id="qtyPlus" type="button" aria-label="Mais um dado">+</button>
+      </div>
+      <div class="opt-row">
+        <span class="lbl">Ajuste</span>
+        <button id="modMinus" type="button" aria-label="Diminuir ajuste">−</button>
+        <b id="modVal">0</b>
+        <button id="modPlus" type="button" aria-label="Aumentar ajuste">+</button>
+      </div>
+      <div class="opt-row">
+        <span class="lbl">Modo</span>
+        <button class="mode-btn" id="modeBtn" type="button" title="Alterna: normal → vantagem → desvantagem">normal</button>
+      </div>
+    </div>
+
+    <div class="roll-stage cardbox">
+      <p class="roll-label" id="rollLabel">1d20 +0</p>
+      <div class="roll-num" id="rollNum">?</div>
+      <p class="roll-detail" id="rollDetail">Os dados aguardam a tua mão.</p>
+      <button class="roll-btn" id="rollBtn" type="button">Rolar</button>
+    </div>
+
+    <ul class="roll-log" id="rollLog"></ul>
+    <button class="log-clear" id="logClear" type="button">limpar o registro</button>
+  </section>
+
+  <!-- ================================================================
+       II — AS FICHAS DOS HERÓIS
+  ================================================================= -->
+  <section class="page" id="page-fichas">
+    <div class="chapter-head">
+      <p class="kicker">Capítulo Segundo</p>
+      <h2>As Fichas dos Heróis</h2>
+      <svg class="orn" aria-hidden="true"><use href="#sym-orn"/></svg>
+      <p class="sub">Tocai no teu nome — tudo fica gravado neste aparelho.</p>
+    </div>
+
+    <div class="heroes-grid" id="heroesGrid"></div>
+
+    <div class="sheet cardbox" id="sheet" style="--accent:var(--c-supremo)">
+      <div class="sheet-head">
+        <div class="sheet-medal"><svg id="sheetSigil"><use href="#sym-sovereign"/></svg></div>
+        <div class="who">
+          <small>Ficha de</small>
+          <b id="sheetWho">Luan Dhony</b>
+        </div>
+        <div class="actions">
+          <button class="mini-btn" id="copySheet" type="button">Copiar ficha</button>
+          <button class="mini-btn danger" id="sheetReset" type="button">Zerar</button>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label for="fHero">Nome do herói</label>
+          <input type="text" id="fHero" placeholder="O nome do teu personagem…">
+        </div>
+        <div class="field">
+          <label for="fOrigin">Origem / Reino</label>
+          <input type="text" id="fOrigin" placeholder="ex.: Filho de Veldora, nascido no Ascar…">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="fCls">Classe / Ofício</label>
+          <input type="text" id="fCls" placeholder="ex.: Caçadora de Dragões">
+        </div>
+        <div class="field" style="max-width:140px">
+          <label for="fLvl">Nível</label>
+          <input type="number" id="fLvl" min="1" max="20" value="1">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Atributos — o modificador é calculado sozinho</label>
+        <div class="attr-grid" id="attrGrid"></div>
+        <p class="attr-hint">Para um teste, role o Oráculo (d20) e some o modificador verde.</p>
+      </div>
+
+      <div class="vitals">
+        <div class="vital" style="--v:var(--hp)">
+          <h4>Vida</h4>
+          <div class="vital-nums"><b id="hpCur">20</b><span class="of">/</span><span class="of" id="hpMaxT">20</span></div>
+          <div class="vital-btns">
+            <button data-k="hp" data-d="-5" type="button">−5</button>
+            <button data-k="hp" data-d="-1" type="button">−</button>
+            <button data-k="hp" data-d="1" type="button">+</button>
+            <button data-k="hp" data-d="5" type="button">+5</button>
+          </div>
+          <div class="vital-btns">
+            <button data-k="hpMax" data-d="-1" type="button">máx −</button>
+            <button data-k="hpMax" data-d="1" type="button">máx +</button>
+          </div>
+          <div class="vital-bar"><i id="hpBar"></i></div>
+        </div>
+        <div class="vital" style="--v:var(--mp)">
+          <h4>Mana</h4>
+          <div class="vital-nums"><b id="mpCur">10</b><span class="of">/</span><span class="of" id="mpMaxT">10</span></div>
+          <div class="vital-btns">
+            <button data-k="mp" data-d="-5" type="button">−5</button>
+            <button data-k="mp" data-d="-1" type="button">−</button>
+            <button data-k="mp" data-d="1" type="button">+</button>
+            <button data-k="mp" data-d="5" type="button">+5</button>
+          </div>
+          <div class="vital-btns">
+            <button data-k="mpMax" data-d="-1" type="button">máx −</button>
+            <button data-k="mpMax" data-d="1" type="button">máx +</button>
+          </div>
+          <div class="vital-bar"><i id="mpBar"></i></div>
+        </div>
+      </div>
+
+      <div class="mini-vitals">
+        <div class="mini-vital">
+          <h4>Classe de Armadura</h4>
+          <div class="big" id="acVal">10</div>
+          <div class="btns">
+            <button data-k="ac" data-d="-1" type="button">−</button>
+            <button data-k="ac" data-d="1" type="button">+</button>
+          </div>
+        </div>
+        <div class="mini-vital">
+          <h4>Experiência</h4>
+          <div class="big" id="xpVal">0</div>
+          <div class="btns">
+            <button data-k="xp" data-d="-25" type="button">−25</button>
+            <button data-k="xp" data-d="25" type="button">+25</button>
+            <button data-k="xp" data-d="100" type="button">+100</button>
+          </div>
+          <div class="xp-bar"><i id="xpBar"></i></div>
+          <p class="xp-next" id="xpNext">Nível 1 · faltam 100 XP</p>
+        </div>
+        <div class="mini-vital">
+          <h4>Ouro</h4>
+          <div class="big" id="goldVal">0</div>
+          <div class="btns">
+            <button data-k="gold" data-d="-10" type="button">−10</button>
+            <button data-k="gold" data-d="-1" type="button">−</button>
+            <button data-k="gold" data-d="1" type="button">+</button>
+            <button data-k="gold" data-d="10" type="button">+10</button>
+            <button data-k="gold" data-d="100" type="button">+100</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Inventário</label>
+        <div class="list-add">
+          <input type="text" id="invInput" placeholder="Um item por vez… (use “3x” antes do nome p/ quantidade)">
+          <button id="invAdd" type="button">Guardar</button>
+        </div>
+        <ul class="item-list" id="invList"></ul>
+      </div>
+
+      <div class="field">
+        <label>Perícias treinadas</label>
+        <div class="list-add">
+          <input type="text" id="skillInput" placeholder="ex.: Furtividade, Persuasão…">
+          <button id="skillAdd" type="button">Treinar</button>
+        </div>
+        <ul class="item-list" id="skillList"></ul>
+      </div>
+
+      <div class="field">
+        <label>Condições ativas — toque para marcar/desmarcar</label>
+        <div class="cond-grid" id="condGrid">
+          <button class="cond" data-cond="Enfraquecido" type="button">Enfraquecido</button>
+          <button class="cond" data-cond="Atordoado" type="button">Atordoado</button>
+          <button class="cond" data-cond="Envenenado" type="button">Envenenado</button>
+          <button class="cond" data-cond="Assustado" type="button">Assustado</button>
+          <button class="cond" data-cond="Cego" type="button">Cego</button>
+          <button class="cond" data-cond="Surdo" type="button">Surdo</button>
+          <button class="cond" data-cond="Caído" type="button">Caído</button>
+          <button class="cond" data-cond="Invisível" type="button">Invisível</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="fNotes">O caderno do herói — história, segredos, dívidas…</label>
+        <textarea id="fNotes" placeholder="Espada herdada do avô · 3 poções · deve um favor ao Rei Dourado…"></textarea>
+      </div>
+
+      <div class="sheet-foot">
+        <span class="save-state" id="saveState">✦ Gravado no Códice</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       III — CAMPO DE BATALHA
+  ================================================================= -->
+  <section class="page" id="page-combate">
+    <div class="chapter-head">
+      <p class="kicker">Capítulo Terceiro</p>
+      <h2>O Campo de Batalha</h2>
+      <svg class="orn" aria-hidden="true"><use href="#sym-orn"/></svg>
+      <p class="sub">Chame os heróis, convoque as bestas, role a iniciativa — e que come a rodada.</p>
+    </div>
+
+    <div class="combat-add">
+      <div class="cardbox">
+        <h4>Chamar um herói</h4>
+        <div class="field">
+          <label for="cbHero">Herói da ficha</label>
+          <select id="cbHero"></select>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="cbHeroInit">Iniciativa (vazio = rolar sozinho)</label>
+          <input type="number" id="cbHeroInit" placeholder="1–20">
+        </div>
+        <button class="roll-btn" id="cbHeroAdd" type="button" style="width:100%;margin-top:12px">Entrar na batalha</button>
+      </div>
+      <div class="cardbox">
+        <h4>Convoque uma criatura</h4>
+        <div class="field">
+          <label for="cbName">Nome da criatura</label>
+          <input type="text" id="cbName" placeholder="ex.: Goblin da vila arruinada">
+        </div>
+        <div class="row3">
+          <div class="field">
+            <label for="cbHp">Vida</label>
+            <input type="number" id="cbHp" value="10" min="1">
+          </div>
+          <div class="field">
+            <label for="cbAc">CA</label>
+            <input type="number" id="cbAc" value="10" min="0">
+          </div>
+          <div class="field">
+            <label for="cbInit">Inic.</label>
+            <input type="number" id="cbInit" placeholder="auto">
+          </div>
+        </div>
+        <button class="roll-btn" id="cbEnemyAdd" type="button" style="width:100%;margin-top:2px">Convoquer</button>
+      </div>
+    </div>
+
+    <div class="combat-controls">
+      <span class="round-badge">Rodada <b id="roundNum">—</b></span>
+      <button class="roll-btn" id="cbRollInit" type="button" style="margin-top:0">Rolar iniciativa de todos</button>
+      <button class="roll-btn" id="cbNext" type="button" style="margin-top:0">Próximo turno ⚔</button>
+      <button class="mini-btn danger" id="cbClear" type="button" style="padding:10px 16px">Dissolver batalha</button>
+    </div>
+
+    <ul class="combat-list" id="combatList"></ul>
+  </section>
+
+  <!-- ================================================================
+       IV — BESTIÁRIO
+  ================================================================= -->
+  <section class="page" id="page-bestiario">
+    <div class="chapter-head">
+      <p class="kicker">Capítulo Quarto</p>
+      <h2>O Bestiário de Veldora</h2>
+      <svg class="orn" aria-hidden="true"><use href="#sym-orn"/></svg>
+      <p class="sub">Bestas da crônica — os ataques rolam no Oráculo, e cada uma pode ser convocada ao combate.</p>
+    </div>
+
+    <div class="beast-grid" id="beastGrid"></div>
+  </section>
+
+  <!-- ================================================================
+       V — CÓDICE DE REGRAS
+  ================================================================= -->
+  <section class="page" id="page-codice">
+    <div class="chapter-head">
+      <p class="kicker">Capítulo Quinto</p>
+      <h2>O Códice de Regras</h2>
+      <svg class="orn" aria-hidden="true"><use href="#sym-orn"/></svg>
+      <p class="sub">A lei velha do dado — curta, clara e sem discórdia.</p>
+    </div>
+
+    <div class="book cardbox">
+      <h3>Como se rola</h3>
+      <p>Toda dúvida do destino se resolve com um <b>d20</b>: role no Oráculo, some o modificador do atributo (já calculado na ficha) e compare à <b>Dificuldade (DC)</b> que o Mestre anunciar. Igual ou maior: sucesso.</p>
+      <div class="rule"><b>Fácil</b><span>DC 10 — subir uma árvore, ouvir um sussurro próximo.</span></div>
+      <div class="rule"><b>Médio</b><span>DC 15 — arrombar uma fechadura boa, mentir para um guarda.</span></div>
+      <div class="rule"><b>Difícil</b><span>DC 20 — escalar a muralha rubra sob chuva, decifrar runas.</span></div>
+      <div class="rule"><b>Épico</b><span>DC 25 — convencer um dragão, acertar um alvo a 100 passos.</span></div>
+      <p style="margin-top:10px"><b>Vantagem</b>: role 2d20 e fique com o maior. <b>Desvantagem</b>: fique com o menor. O modo do Oráculo cuida disso sozinho.</p>
+
+      <h3>Crítico e desastre</h3>
+      <p>No d20: um <b>20 natural</b> é sempre sucesso, e brilha — faça o dobro de tudo o que seria feito. Um <b>1 natural</b> é sempre falha, e a crônica vai registrar.</p>
+
+      <h3>Combate</h3>
+      <div class="rule"><b>Ordem</b><span>No início do combate, cada um rola iniciativa (d20 + mod. de Destreza). O Campo de Batalha ordena sozinho.</span></div>
+      <div class="rule"><b>Seu turno</b><span>Você tem uma ação e um deslocamento. Ataques: role o dado do ataque; se bater na CA do alvo, rola a arma para o dano.</span></div>
+      <div class="rule"><b>CA</b><span>Classe de Armadura: o atacante precisa rolar CA ou mais para acertar.</span></div>
+      <div class="rule"><b>Caído</b><span>Com 0 de vida, caís. Entre os turnos dos aliados, role d20: 10+ estabiliza; abaixo, acumulas fracasso. Três fracassos… a crônica chora.</span></div>
+      <div class="rule"><b>Descanso</b><span>Noite de sono: recupera toda Mana e metade dos níveis de vida perdidos. Uma semana na taverna: tudo de volta.</span></div>
+
+      <h3>Condições</h3>
+      <table>
+        <tr><th>Condição</th><th>Efeito</th></tr>
+        <tr><td><b>Enfraquecido</b></td><td>Dano e testes de força pela metade.</td></tr>
+        <tr><td><b>Atordoado</b></td><td>Perde o turno; ataques contra ti têm vantagem.</td></tr>
+        <tr><td><b>Envenenado</b></td><td>Desvantagem em ataques e testes.</td></tr>
+        <tr><td><b>Assustado</b></td><td>Desvantagem se a fonte do medo estiver à vista.</td></tr>
+        <tr><td><b>Cego</b></td><td>Desvantagem em ataques; ataques contra ti têm vantagem.</td></tr>
+        <tr><td><b>Surdo</b></td><td>Falha automaticamente em testes que dependem de ouvir.</td></tr>
+        <tr><td><b>Caído</b></td><td>Desvantagem em ataques; atacantes a 5 passos têm vantagem.</td></tr>
+        <tr><td><b>Invisível</b></td><td>Vantagem em ataques; ataques contra ti têm desvantagem.</td></tr>
+      </table>
+
+      <h3>Experiência e níveis</h3>
+      <table>
+        <tr><th>Nível</th><th>XP total</th><th>Nível</th><th>XP total</th></tr>
+        <tr><td><b>1</b></td><td>0</td><td><b>6</b></td><td>1.400</td></tr>
+        <tr><td><b>2</b></td><td>300</td><td><b>7</b></td><td>2.300</td></tr>
+        <tr><td><b>3</b></td><td>900</td><td><b>8</b></td><td>3.400</td></tr>
+        <tr><td><b>4</b></td><td>2.700</td><td><b>9</b></td><td>4.800</td></tr>
+        <tr><td><b>5</b></td><td>6.500</td><td><b>10</b></td><td>6.500</td></tr>
+      </table>
+      <p>Ao subir de nível: +5 de vida máxima, +3 de mana máxima e um ponto de atributo à escolha. O Mestre pode premiar mais.</p>
+
+      <h3>O Pacto do Dado</h3>
+      <p>I. O dado manda, mesmo quando trai. &nbsp; II. O Mestre interpreta o mundo, jamais os heróis dos outros. &nbsp; III. Nenhum dado é rolado duas vezes — o que passou, passou. &nbsp; IV. A mesa ri do desastre antes de lamentá-lo.</p>
+
+      <p class="motto">« A sorte favorece a mesa que joga junto. »</p>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       VI — FORJA DO MESTRE
+  ================================================================= -->
+  <section class="page" id="page-forja">
+    <div class="chapter-head">
+      <p class="kicker">Capítulo Sexto</p>
+      <h2>A Forja do Mestre</h2>
+      <svg class="orn" aria-hidden="true"><use href="#sym-orn"/></svg>
+      <p class="sub">Quatro engenhos para quando a sessão precisar de um empurrão — tudo com botão de copiar.</p>
+    </div>
+
+    <div class="forge-grid">
+      <div class="forge-card cardbox">
+        <h4>Gerador de NPC</h4>
+        <p class="sub">Um habitante de Veldora, com nome, ofício, humor… e um segredo.</p>
+        <div class="forge-out empty" id="fjNpcOut">A forja aguarda…</div>
+        <div class="forge-btns">
+          <button class="go" id="fjNpcGo" type="button">Forjar NPC</button>
+          <button class="copy" id="fjNpcCopy" type="button">Copiar</button>
+        </div>
+      </div>
+
+      <div class="forge-card cardbox">
+        <h4>Gerador de Missão</h4>
+        <p class="sub">Um chamado, um lugar, um preço — e a complicação de sempre.</p>
+        <div class="forge-out empty" id="fjQuestOut">A forja aguarda…</div>
+        <div class="forge-btns">
+          <button class="go" id="fjQuestGo" type="button">Forjar missão</button>
+          <button class="copy" id="fjQuestCopy" type="button">Copiar</button>
+        </div>
+      </div>
+
+      <div class="forge-card cardbox">
+        <h4>Gerador de Tesouro</h4>
+        <p class="sub">Ouro, item notável… e às vezes uma maldição que ninguém pediu.</p>
+        <div class="forge-out empty" id="fjTresOut">A forja aguarda…</div>
+        <div class="forge-btns">
+          <button class="go" id="fjTresGo" type="button">Forjar tesouro</button>
+          <button class="copy" id="fjTresCopy" type="button">Copiar</button>
+        </div>
+      </div>
+
+      <div class="forge-card cardbox">
+        <h4>Gerador de Encontro</h4>
+        <p class="sub">O que aparece no caminho, quantos são — e o que eles realmente querem.</p>
+        <div class="forge-out empty" id="fjEncOut">A forja aguarda…</div>
+        <div class="forge-btns">
+          <button class="go" id="fjEncGo" type="button">Forjar encontro</button>
+          <button class="copy" id="fjEncCopy" type="button">Copiar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<footer>
+  <p class="final">A mesa está posta, os dados estão quentes — e a crônica registra tudo o que a sorte decidir.</p>
+  <p class="fine">Veldora Realms · A Mesa de RPG</p>
+</footer>
+<script>
+/* ================================================================
+   A MESA DE VELDORA — motor completo
+   Módulos: abas · Oráculo · Fichas · Batalha · Bestiário · Forja
+================================================================ */
+'use strict';
+const $  = id => document.getElementById(id);
+const rnd = n => 1 + Math.floor(Math.random() * n);
+const clampN = (v,a,b) => Math.max(a, Math.min(b, v));
+
+/* ---------- toast ---------- */
+let toastT;
+function toast(msg){
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>t.classList.remove('show'), 1900);
+}
+
+/* ---------- copiar (com fallback) ---------- */
+function copyText(txt){
+  const done = ()=>toast('✦ Copiado para a área de transferência');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt, done));
+  } else fallbackCopy(txt, done);
+}
+function fallbackCopy(txt, done){
+  const ta = document.createElement('textarea');
+  ta.value = txt;
+  ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); done(); } catch(e){ toast('Não consegui copiar…'); }
+  ta.remove();
+}
+
+/* ================================================================
+   ABAS
+================================================================ */
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+    tab.classList.add('on');
+    const page = $('page-' + tab.dataset.page);
+    page.classList.add('on');
+    window.scrollTo({top: document.querySelector('.tabs').offsetTop - 2, behavior:'smooth'});
+  });
+});
+
+/* ================================================================
+   I — O ORÁCULO DOS DADOS
+================================================================ */
+const LOG_KEY = 'veldora_rpg_log';
+let dieSides = 20, dieQty = 1, dieMod = 0, dieMode = 0; /* 0 normal · 1 vantagem · 2 desvantagem */
+let rolling = false;
+const MODES = ['normal','vantagem','desvantagem'];
+let history = [];
+try { history = JSON.parse(localStorage.getItem(LOG_KEY)) || []; } catch(e){ history = []; }
+
+function refreshDiceUI(){
+  $('qtyVal').textContent = dieQty;
+  $('modVal').textContent = (dieMod >= 0 ? '+' : '') + dieMod;
+  $('rollLabel').textContent = `${dieQty}d${dieSides} ${(dieMod>=0?'+':'')}${dieMod}`;
+  const mb = $('modeBtn');
+  mb.textContent = MODES[dieMode];
+  mb.classList.toggle('on', dieMode !== 0);
+}
+ $('diceTray').addEventListener('click', e=>{
+  const b = e.target.closest('.die');
+  if(!b) return;
+  document.querySelectorAll('.die').forEach(d=>d.classList.remove('on'));
+  b.classList.add('on');
+  dieSides = +b.dataset.sides;
+  refreshDiceUI();
+});
+ $('qtyMinus').addEventListener('click', ()=>{ dieQty = clampN(dieQty-1, 1, 10); refreshDiceUI(); });
+ $('qtyPlus') .addEventListener('click', ()=>{ dieQty = clampN(dieQty+1, 1, 10); refreshDiceUI(); });
+ $('modMinus').addEventListener('click', ()=>{ dieMod = clampN(dieMod-1, -10, 10); refreshDiceUI(); });
+ $('modPlus') .addEventListener('click', ()=>{ dieMod = clampN(dieMod+1, -10, 10); refreshDiceUI(); });
+ $('modeBtn').addEventListener('click', ()=>{ dieMode = (dieMode+1) % 3; refreshDiceUI(); });
+
+ $('rollBtn').addEventListener('click', ()=>{
+  if(rolling) return;
+  rolling = true;
+  const num = $('rollNum');
+  num.classList.add('rolling');
+  num.classList.remove('crit','fumble');
+  num.textContent = '?';
+  $('rollDetail').textContent = 'os dados giram nas mãos do destino…';
+
+  setTimeout(()=>{
+    rolling = false;
+    num.classList.remove('rolling');
+    const modStr = dieMod === 0 ? '' : ` ${(dieMod>=0?'+':'')}${dieMod}`;
+    let total = 0, detail = '', cls = '';
+
+    if(dieMode !== 0 && dieSides === 20 && dieQty === 1){
+      const a = rnd(20), b = rnd(20);
+      const kept = dieMode === 1 ? Math.max(a,b) : Math.min(a,b);
+      total = kept + dieMod;
+      detail = `2d20 [${a}, ${b}] · ${MODES[dieMode]} → fica o ${kept}${modStr}`;
+      cls = kept === 20 ? 'crit' : (kept === 1 ? 'fumble' : '');
+    } else {
+      const rolls = Array.from({length: dieQty}, ()=>rnd(dieSides));
+      total = rolls.reduce((s,v)=>s+v, 0) + dieMod;
+      detail = dieQty === 1
+        ? `1d${dieSides} → ${rolls[0]}${modStr}`
+        : `${dieQty}d${dieSides} → [${rolls.join(', ')}]${modStr}`;
+      if(dieMode !== 0) detail += ' · (o modo só vale p/ 1d20)';
+      if(dieSides === 20 && dieQty === 1){
+        cls = rolls[0] === 20 ? 'crit' : (rolls[0] === 1 ? 'fumble' : '');
+      }
+    }
+
+    num.textContent = total;
+    num.classList.toggle('crit', cls === 'crit');
+    num.classList.toggle('fumble', cls === 'fumble');
+    if(cls === 'crit')   detail = '✦ CRÍTICO! — ' + detail + ' — a lenda testemunha.';
+    if(cls === 'fumble') detail = '✖ Desastre… — ' + detail;
+
+    $('rollDetail').textContent = detail;
+    history.unshift({total, detail, cls});
+    if(history.length > 12) history.pop();
+    renderHistory();
+    try { localStorage.setItem(LOG_KEY, JSON.stringify(history)); } catch(e){}
+  }, 520);
+});
+
+function renderHistory(){
+  $('rollLog').innerHTML = history.map(h=>`
+    <li class="${h.cls}"><span>${h.detail}</span><b>${h.total}</b></li>
+  `).join('');
+}
+ $('logClear').addEventListener('click', ()=>{
+  history = [];
+  renderHistory();
+  try { localStorage.removeItem(LOG_KEY); } catch(e){}
+  toast('Registro apagado');
+});
+
+/* ================================================================
+   II — AS FICHAS DOS HERÓIS
+================================================================ */
+const PEOPLE = [
+  {id:'luan',      short:'Luan',      full:'Luan Dhony',        sigil:'sym-sovereign',  accent:'var(--c-supremo)',  realm:'Drag Zakharys'},
+  {id:'debora',    short:'Debora',    full:'Debora Vezetiv',    sigil:'sym-scepter',    accent:'var(--c-mirigumi)', realm:'Mirigumi'},
+  {id:'rayssa',    short:'Rayssa',    full:'Rayssa Vitoria',    sigil:'sym-raven',      accent:'var(--c-nyara)',    realm:'Yaryan'},
+  {id:'nayara',    short:'Nayara',    full:'Nayara Hostapiuk',  sigil:'sym-blade',      accent:'var(--c-nyara)',    realm:'Yaryan'},
+  {id:'luis',      short:'Luís',      full:'Luís Augusto',      sigil:'sym-royalcrown', accent:'var(--c-ascar)',    realm:'Ascar'},
+  {id:'fernando',  short:'Fernando',  full:'Fernando Fernandes',sigil:'sym-horn',       accent:'var(--c-bravos)',   realm:'Budapeste'},
+  {id:'cristiano', short:'Cristiano', full:'Cristiano Ronaldo', sigil:'sym-sunwave',    accent:'var(--c-karhal)',   realm:'Karhal'},
+  {id:'bruno',     short:'Bruno',     full:'Bruno Martins',     sigil:'sym-storm',      accent:'var(--c-snezhnaya)',realm:'Snezhnaya'},
+  {id:'guilherme', short:'Guilherme', full:'Guilherme Morais',  sigil:'sym-shield',     accent:'var(--c-escarlate)',realm:'Escarlate'}
+];
+const ATTRS = [
+  ['for','Força'],['des','Destreza'],['con','Constituição'],
+  ['int','Inteligência'],['sab','Sabedoria'],['car','Carisma']
+];
+const LEVELS = [0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000, 65000];
+const mod  = v => Math.floor((v - 10) / 2);
+const fmtM = m => (m >= 0 ? '+' : '') + m;
+
+const SHEETS_KEY = 'veldora_rpg_sheets';
+const LAST_KEY   = 'veldora_rpg_last';
+const defaultAttrs = () => ({for:10, des:10, con:10, int:10, sab:10, car:10});
+const defaultSheet = () => ({
+  hero:'', origin:'', cls:'', level:1,
+  hp:20, hpMax:20, mp:10, mpMax:10, ac:10, xp:0, gold:0,
+  attrs: defaultAttrs(), inv:[], skills:[], conds:[], notes:''
+});
+function loadSheets(){
+  let raw = {};
+  try { raw = JSON.parse(localStorage.getItem(SHEETS_KEY)) || {}; } catch(e){}
+  const out = {};
+  PEOPLE.forEach(p=>{
+    const s = Object.assign(defaultSheet(), raw[p.id] || {});
+    s.attrs = Object.assign(defaultAttrs(), s.attrs || {});
+    s.inv    = Array.isArray(s.inv)    ? s.inv    : [];
+    s.skills = Array.isArray(s.skills) ? s.skills : [];
+    s.conds  = Array.isArray(s.conds)  ? s.conds  : [];
+    out[p.id] = s;
+  });
+  return out;
+}
+const sheets = loadSheets();
+function persist(){ try { localStorage.setItem(SHEETS_KEY, JSON.stringify(sheets)); } catch(e){} }
+
+let current = 'luan';
+try { current = localStorage.getItem(LAST_KEY) || 'luan'; } catch(e){}
+if(!PEOPLE.some(p=>p.id === current)) current = 'luan';
+
+/* grade de heróis */
+const grid = $('heroesGrid');
+grid.innerHTML = PEOPLE.map(p=>`
+  <button class="hero-pick${p.id===current?' on':''}" data-id="${p.id}" type="button"
+    style="--accent:${p.accent}" aria-label="Ficha de ${p.full}" title="${p.full} · ${p.realm}">
+    <svg aria-hidden="true"><use href="#${p.sigil}"/></svg>
+    <span>${p.short}</span>
+  </button>
+`).join('');
+grid.addEventListener('click', e=>{
+  const b = e.target.closest('.hero-pick');
+  if(!b) return;
+  current = b.dataset.id;
+  grid.querySelectorAll('.hero-pick').forEach(x=>x.classList.toggle('on', x.dataset.id === current));
+  try { localStorage.setItem(LAST_KEY, current); } catch(e2){}
+  loadSheet();
+});
+
+/* estado de "gravado" */
+let saveT;
+function flashSave(){
+  const s = $('saveState');
+  s.classList.add('show');
+  clearTimeout(saveT);
+  saveT = setTimeout(()=>s.classList.remove('show'), 1400);
+}
+function saveCurrent(){ persist(); flashSave(); }
+const sheetOf = id => sheets[id];
+
+/* render da ficha */
+function renderAttrs(){
+  const s = sheetOf(current);
+  $('attrGrid').innerHTML = ATTRS.map(([k,label])=>`
+    <div class="attr">
+      <h5>${label}</h5>
+      <span class="mod">${fmtM(mod(s.attrs[k]))}</span>
+      <span class="val">${s.attrs[k]}</span>
+      <div class="btns">
+        <button data-attr="${k}" data-d="-1" type="button" aria-label="Menos">−</button>
+        <button data-attr="${k}" data-d="1" type="button" aria-label="Mais">+</button>
+      </div>
+    </div>
+  `).join('');
+}
+function xpInfo(s){
+  const lvl  = s.level;
+  const idx  = Math.min(lvl - 1, 9);
+  const cur  = LEVELS[idx];
+  const next = lvl >= 10 ? null : LEVELS[lvl];
+  const pct  = next === null ? 100 : clampN((s.xp - cur) / (next - cur) * 100, 0, 100);
+  return {pct, next};
+}
+function renderVitals(){
+  const s = sheetOf(current);
+  s.hp = clampN(s.hp, 0, s.hpMax);
+  s.mp = clampN(s.mp, 0, s.mpMax);
+  $('hpCur').textContent = s.hp;   $('hpMaxT').textContent = s.hpMax;
+  $('mpCur').textContent = s.mp;   $('mpMaxT').textContent = s.mpMax;
+  $('hpBar').style.width = (s.hp / s.hpMax * 100) + '%';
+  $('mpBar').style.width = (s.mp / s.mpMax * 100) + '%';
+  $('acVal').textContent   = s.ac;
+  $('xpVal').textContent   = s.xp;
+  $('goldVal').textContent = s.gold;
+  const info = xpInfo(s);
+  $('xpBar').style.width = info.pct + '%';
+  $('xpNext').textContent = info.next === null
+    ? `Nível ${s.level} · topo da tabela — a lenda continua`
+    : `Nível ${s.level} · faltam ${info.next - s.xp} XP p/ nível ${s.level + 1}`;
+}
+function renderInv(){
+  const s = sheetOf(current);
+  $('invList').innerHTML = s.inv.length
+    ? s.inv.map((it,i)=>`
+      <li>
+        <button data-inv="${i}" data-act="minus" type="button" aria-label="Menos">−</button>
+        <span class="name">${it.name}</span>
+        <span class="qty">×${it.qty}</span>
+        <button data-inv="${i}" data-act="plus" type="button" aria-label="Mais">+</button>
+        <button data-inv="${i}" data-act="rm" class="rm" type="button" aria-label="Remover">✕</button>
+      </li>`).join('')
+    : '<li class="empty-note">A mochila está vazia… por enquanto.</li>';
+}
+function renderSkills(){
+  const s = sheetOf(current);
+  $('skillList').innerHTML = s.skills.length
+    ? s.skills.map((sk,i)=>`
+      <li>
+        <span class="name">✦ ${sk}</span>
+        <button data-skill="${i}" class="rm" type="button" aria-label="Remover">✕</button>
+      </li>`).join('')
+    : '<li class="empty-note">Nenhuma perícia treinada ainda.</li>';
+}
+function renderConds(){
+  const s = sheetOf(current);
+  document.querySelectorAll('#condGrid .cond').forEach(b=>{
+    b.classList.toggle('on', s.conds.includes(b.dataset.cond));
+  });
+}
+function loadSheet(){
+  const p = PEOPLE.find(x=>x.id === current);
+  const s = sheetOf(current);
+  $('sheet').style.setProperty('--accent', p.accent);
+  $('sheetSigil').innerHTML = `<use href="#${p.sigil}"/>`;
+  $('sheetWho').textContent = p.full;
+  $('fHero').value   = s.hero;
+  $('fOrigin').value = s.origin;
+  $('fCls').value    = s.cls;
+  $('fLvl').value    = s.level;
+  $('fNotes').value  = s.notes;
+  renderAttrs(); renderVitals(); renderInv(); renderSkills(); renderConds();
+}
+
+/* textos */
+[['fHero','hero'],['fOrigin','origin'],['fCls','cls'],['fNotes','notes']].forEach(([id,k])=>{
+  $(id).addEventListener('input', ()=>{
+    sheetOf(current)[k] = $(id).value;
+    saveCurrent();
+  });
+});
+ $('fLvl').addEventListener('input', ()=>{
+  const s = sheetOf(current);
+  s.level = clampN(parseInt($('fLvl').value, 10) || 1, 1, 20);
+  $('fLvl').value = s.level;
+  renderVitals();
+  saveCurrent();
+});
+
+/* atributos + vitais (delegação) */
+ $('attrGrid').addEventListener('click', e=>{
+  const b = e.target.closest('button[data-attr]');
+  if(!b) return;
+  const s = sheetOf(current);
+  const k = b.dataset.attr;
+  s.attrs[k] = clampN(s.attrs[k] + (+b.dataset.d), 3, 20);
+  renderAttrs();
+  saveCurrent();
+});
+document.querySelectorAll('.vital-btns button, .mini-vital .btns button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const s = sheetOf(current);
+    const k = btn.dataset.k, d = +btn.dataset.d;
+    if(k === 'xp'){
+      s.xp = Math.max(0, s.xp + d);
+      checkLevel(s);
+    } else if(k === 'hpMax'){
+      s.hpMax = Math.max(1, s.hpMax + d);
+    } else if(k === 'mpMax'){
+      s.mpMax = Math.max(1, s.mpMax + d);
+    } else if(k === 'gold'){
+      s.gold = Math.max(0, s.gold + d);
+    } else {
+      s[k] = (s[k] || 0) + d;
+    }
+    renderVitals();
+    saveCurrent();
+  });
+});
+function checkLevel(s){
+  let up = false;
+  while(s.level < 20 && s.xp >= LEVELS[Math.min(s.level, 9)]){
+    s.level++;
+    s.hpMax += 5; s.hp = Math.min(s.hp + 5, s.hpMax);
+    s.mpMax += 3; s.mp = Math.min(s.mp + 3, s.mpMax);
+    up = true;
+  }
+  if(up){
+    $('fLvl').value = s.level;
+    toast(`⭐ ${sheetOf(current).hero || PEOPLE.find(p=>p.id===current).short} subiu ao nível ${s.level}! +5 vida, +3 mana`);
+  }
+}
+
+/* inventário */
+ $('invAdd').addEventListener('click', ()=>{
+  const inp = $('invInput');
+  const val = inp.value.trim();
+  if(!val) return;
+  const m = /^(?:(\d+)\s*[x×]\s+)?(.+)$/i.exec(val);
+  const qty = m[1] ? clampN(parseInt(m[1],10), 1, 999) : 1;
+  const name = m[2].trim();
+  const s = sheetOf(current);
+  const found = s.inv.find(it=>it.name.toLowerCase() === name.toLowerCase());
+  if(found) found.qty += qty; else s.inv.push({name, qty});
+  inp.value = '';
+  renderInv(); saveCurrent();
+});
+ $('invInput').addEventListener('keydown', e=>{ if(e.key === 'Enter') $('invAdd').click(); });
+ $('invList').addEventListener('click', e=>{
+  const b = e.target.closest('button[data-inv]');
+  if(!b) return;
+  const s = sheetOf(current);
+  const it = s.inv[+b.dataset.inv];
+  if(!it) return;
+  const act = b.dataset.act;
+  if(act === 'plus')  it.qty++;
+  if(act === 'minus') it.qty = Math.max(1, it.qty - 1);
+  if(act === 'rm')    s.inv.splice(+b.dataset.inv, 1);
+  renderInv(); saveCurrent();
+});
+
+/* perícias */
+ $('skillAdd').addEventListener('click', ()=>{
+  const inp = $('skillInput');
+  const val = inp.value.trim();
+  if(!val) return;
+  const s = sheetOf(current);
+  if(!s.skills.some(x=>x.toLowerCase() === val.toLowerCase())){
+    s.skills.push(val);
+    renderSkills(); saveCurrent();
+  }
+  inp.value = '';
+});
+ $('skillInput').addEventListener('keydown', e=>{ if(e.key === 'Enter') $('skillAdd').click(); });
+ $('skillList').addEventListener('click', e=>{
+  const b = e.target.closest('button[data-skill]');
+  if(!b) return;
+  const s = sheetOf(current);
+  s.skills.splice(+b.dataset.skill, 1);
+  renderSkills(); saveCurrent();
+});
+
+/* condições */
+ $('condGrid').addEventListener('click', e=>{
+  const b = e.target.closest('.cond');
+  if(!b) return;
+  const s = sheetOf(current);
+  const i = s.conds.indexOf(b.dataset.cond);
+  if(i >= 0) s.conds.splice(i, 1); else s.conds.push(b.dataset.cond);
+  renderConds(); saveCurrent();
+});
+
+/* copiar ficha */
+ $('copySheet').addEventListener('click', ()=>{
+  const p = PEOPLE.find(x=>x.id === current);
+  const s = sheetOf(current);
+  const attrs = ATTRS.map(([k,l])=>`${l.slice(0,3).toUpperCase()} ${s.attrs[k]} (${fmtM(mod(s.attrs[k]))})`).join(' · ');
+  const txt =
+`⚔ FICHA — ${p.full} (reino: ${p.realm})
+Herói: ${s.hero || '—'}
+Origem: ${s.origin || '—'}
+Classe: ${s.cls || '—'} · Nível ${s.level}
+ ${attrs}
+Vida ${s.hp}/${s.hpMax} · Mana ${s.mp}/${s.mpMax} · CA ${s.ac}
+XP ${s.xp} · Ouro ${s.gold}
+Perícias: ${s.skills.length ? s.skills.join(', ') : '—'}
+Inventário: ${s.inv.length ? s.inv.map(i=>`${i.qty}x ${i.name}`).join(', ') : '—'}
+Condições: ${s.conds.length ? s.conds.join(', ') : 'nenhuma'}
+Caderno: ${s.notes || '—'}
+— A Mesa de Veldora`;
+  copyText(txt);
+});
+
+/* zerar ficha */
+ $('sheetReset').addEventListener('click', ()=>{
+  const p = PEOPLE.find(x=>x.id === current);
+  if(!confirm(`Zerar a ficha de ${p.full}? O caderno do herói também será apagado.`)) return;
+  sheets[current] = defaultSheet();
+  persist(); loadSheet();
+  toast('Ficha zerada');
+});
+
+/* ================================================================
+   III — CAMPO DE BATALHA
+================================================================ */
+const CB_KEY = 'veldora_rpg_combat';
+let combat = {list:[], round:0, turn:-1};
+try {
+  const raw = JSON.parse(localStorage.getItem(CB_KEY));
+  if(raw && Array.isArray(raw.list)) combat = {list: raw.list, round: raw.round || 0, turn: raw.turn ?? -1};
+} catch(e){}
+const persistCombat = ()=>{ try { localStorage.setItem(CB_KEY, JSON.stringify(combat)); } catch(e){} };
+const uid = ()=> (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random());
+
+const cbSel = $('cbHero');
+cbSel.innerHTML = PEOPLE.map(p=>`<option value="${p.id}">${p.full}</option>`).join('');
+
+function sortedCombat(){
+  return [...combat.list].sort((a,b)=> b.init - a.init);
+}
+function renderCombat(){
+  const sorted = sortedCombat();
+  $('roundNum').textContent = combat.round || '—';
+  $('combatList').innerHTML = sorted.length ? sorted.map(c=>{
+    const isTurn = combat.turn >= 0 && sorted[combat.turn] && sorted[combat.turn].id === c.id;
+    const pct = clampN(c.hp / c.hpMax * 100, 0, 100);
+    return `
+    <li class="combatant${c.enemy ? ' enemy' : ''}${c.hp <= 0 ? ' down' : ''}${isTurn ? ' turn' : ''}">
+      <span class="c-init">${c.init}</span>
+      <div class="c-main">
+        <div class="c-name">${c.name}</div>
+        <div class="c-sub">${c.sub}</div>
+        <div class="c-hp">
+          <button data-cb="${c.id}" data-d="-5" type="button" aria-label="Menos 5">−5</button>
+          <button data-cb="${c.id}" data-d="-1" type="button" aria-label="Menos">−</button>
+          <span class="c-hpbar"><i style="width:${pct}%"></i></span>
+          <button data-cb="${c.id}" data-d="1" type="button" aria-label="Mais">+</button>
+          <span class="c-hptxt">${c.hp}/${c.hpMax}</span>
+        </div>
+      </div>
+      <span class="c-ac">CA<b>${c.ac}</b></span>
+      <button class="c-rm" data-rm="${c.id}" type="button" aria-label="Remover">✕</button>
+    </li>`;
+  }).join('') : '<li class="combat-empty">O campo está silencioso… chame os heróis ou convoque uma criatura.</li>';
+  persistCombat();
+}
+function addCombatant(c){
+  combat.list.push(c);
+  renderCombat();
+}
+ $('cbHeroAdd').addEventListener('click', ()=>{
+  const pid = cbSel.value;
+  const p = PEOPLE.find(x=>x.id === pid);
+  const s = sheetOf(pid);
+  const ini = $('cbHeroInit').value.trim();
+  const init = ini !== '' ? clampN(parseInt(ini,10) || 1, 1, 30) : rnd(20) + mod(s.attrs.des);
+  addCombatant({
+    id: uid(), enemy: false, personId: pid,
+    name: s.hero || p.full,
+    sub: `Nv ${s.level} · ${s.cls || 'herói'} · ${p.realm}`,
+    init, hp: Math.max(1, s.hp || 1), hpMax: Math.max(1, s.hpMax), ac: s.ac
+  });
+  $('cbHeroInit').value = '';
+  toast(`${s.hero || p.full} entra na batalha! Iniciativa ${init}`);
+});
+ $('cbEnemyAdd').addEventListener('click', ()=>{
+  const name = $('cbName').value.trim() || 'Criatura sem nome';
+  const hp  = Math.max(1, parseInt($('cbHp').value, 10)  || 10);
+  const ac  = Math.max(0, parseInt($('cbAc').value, 10)  || 10);
+  const ini = $('cbInit').value.trim();
+  const init = ini !== '' ? clampN(parseInt(ini,10) || 1, 1, 30) : rnd(20);
+  addCombatant({id: uid(), enemy:true, name, sub:'criatura convocada', init, hp, hpMax:hp, ac});
+  $('cbName').value = '';
+  toast(`${name} surge no campo! Iniciativa ${init}`);
+});
+ $('cbRollInit').addEventListener('click', ()=>{
+  if(!combat.list.length){ toast('Ninguém no campo ainda'); return; }
+  combat.list.forEach(c=>{
+    c.init = c.enemy || !c.personId
+      ? rnd(20)
+      : rnd(20) + mod(sheetOf(c.personId).attrs.des);
+  });
+  combat.round = 1;
+  combat.turn = 0;
+  renderCombat();
+  toast('🎲 Iniciativa rolada! Rodada 1 começa.');
+});
+ $('cbNext').addEventListener('click', ()=>{
+  const sorted = sortedCombat();
+  if(!sorted.length){ toast('Ninguém no campo ainda'); return; }
+  if(combat.turn < 0){ combat.turn = 0; if(!combat.round) combat.round = 1; }
+  else {
+    combat.turn++;
+    if(combat.turn >= sorted.length){ combat.turn = 0; combat.round++; }
+  }
+  renderCombat();
+  const c = sorted[combat.turn];
+  toast(c ? `⚔ Vez de: ${c.name}` : '');
+});
+ $('cbClear').addEventListener('click', ()=>{
+  if(!combat.list.length){ toast('O campo já está vazio'); return; }
+  if(!confirm('Dissolver a batalha inteira?')) return;
+  combat = {list:[], round:0, turn:-1};
+  renderCombat();
+  toast('A névoa cobre o campo… batalha dissolvida');
+});
+ $('combatList').addEventListener('click', e=>{
+  const hb = e.target.closest('button[data-cb]');
+  if(hb){
+    const c = combat.list.find(x=>x.id === hb.dataset.cb);
+    if(c){
+      c.hp = clampN(c.hp + (+hb.dataset.d), 0, c.hpMax);
+      if(c.hp === 0) toast(`${c.name} caiu…`);
+      renderCombat();
+    }
+    return;
+  }
+  const rm = e.target.closest('button[data-rm]');
+  if(rm){
+    combat.list = combat.list.filter(x=>x.id !== rm.dataset.rm);
+    if(combat.turn >= combat.list.length) combat.turn = combat.list.length ? 0 : -1;
+    renderCombat();
+  }
+});
+
+/* ================================================================
+   IV — BESTIÁRIO
+================================================================ */
+const BEASTS = [
+  {name:'Serpente do Mar de Veldora', realm:'Mar de Veldora', color:'var(--mp)',
+   desc:'Cobra o tributo dos navios que ousam a rota curta. O Porto Livre paga em peixe.',
+   hp:38, ac:13, xp:'350',
+   atks:[{n:'Bote', f:'2d6+2'},{n:'Rabo Chicote', f:'1d8+2'},{n:'Enrolar', f:'1d10+2'}]},
+  {name:'Corvo Espectral', realm:'Yaryan', color:'var(--c-nyara)',
+   desc:'O mensageiro das sombras. Se pousa no teu ombro, alguém da mesa vai morrer — na história, se Deus quiser.',
+   hp:22, ac:15, xp:'200',
+   atks:[{n:'Bicada Fantasma', f:'1d6+3'},{n:'Grito Sepulcral', f:'1d8'},{n:'Toque Gélido', f:'2d4+1'}]},
+  {name:'Lobo das Neves', realm:'Snezhnaya', color:'var(--c-snezhnaya)',
+   desc:'Caça em fila indiana pela nevasca. O primeiro a morder nunca é o alfa.',
+   hp:30, ac:13, xp:'250',
+   atks:[{n:'Mordida', f:'2d4+3'},{n:'Salto da Neve', f:'1d10+1'},{n:'Uivo Gélido', f:'1d6'}]},
+  {name:'Escorpião das Dunas', realm:'Ascar', color:'var(--c-ascar)',
+   desc:'Guarda caravanas soterradas há um século. O ferrão vale mais que o tesouro.',
+   hp:26, ac:14, xp:'200',
+   atks:[{n:'Ferrão', f:'1d8+2'},{n:'Pinças', f:'1d6+2'},{n:'Veneno', f:'2d4'}]},
+  {name:'Golem de Pétalas', realm:'Mirigumi', color:'var(--c-mirigumi)',
+   desc:'Jardineiro fiel da Imperatriz. Floresce quando irritado — e está sempre irritado.',
+   hp:45, ac:14, xp:'450',
+   atks:[{n:'Punho de Espinhos', f:'2d6+2'},{n:'Rajada de Pétalas', f:'2d4+2'},{n:'Estrangulo em Vinhas', f:'1d10+1'}]},
+  {name:'Bandido do Cabo', realm:'Budapeste', color:'var(--c-bravos)',
+   desc:'Anuncia o assalto com o corno, por código. Educado até no roubo.',
+   hp:18, ac:12, xp:'100',
+   atks:[{n:'Cutelo', f:'1d6+2'},{n:'Tiros de Fuzileiro', f:'2d4+1'},{n:'Golpe Traiçoeiro', f:'1d8+2'}]},
+  {name:'Árvore Viva de Karhal', realm:'Karhal', color:'var(--c-karhal)',
+   desc:'A mata tem sentinela. Quem parte um galho sem pedir licença paga em contusões.',
+   hp:52, ac:13, xp:'500',
+   atks:[{n:'Chicote de Galho', f:'2d6+3'},{n:'Raízes Preensoras', f:'1d10+2'},{n:'Chuva de Folhas Cortantes', f:'2d4+2'}]},
+  {name:'Cavaleiro Caído da Muralha', realm:'Escarlate', color:'var(--c-escarlate)',
+   desc:'Ainda cumpre o turno de guarda. Morto, mas pontual — e intolerante a desertores.',
+   hp:40, ac:16, xp:'450',
+   atks:[{n:'Espadão Rubro', f:'2d8+2'},{n:'Escudo Impiedoso', f:'1d8+2'},{n:'Juramento Quebrado', f:'2d6+1'}]},
+  {name:'Filhote de Dragão', realm:'Drag Zakharys', color:'var(--c-supremo)',
+   desc:'Pensa que já é grande. Erra — mas dá muito trabalho mesmo assim.',
+   hp:35, ac:15, xp:'600',
+   atks:[{n:'Mordida Jovem', f:'2d6+3'},{n:'Baforada de Aquecimento', f:'2d6'},{n:'Bater de Asas', f:'1d10+2'}]},
+  {name:'Dragão de Veldora', realm:'O Covil', color:'var(--gold)',
+   desc:'A besta que batizou o servidor. Enfrente só com pacto assinado, testamento em dia e dados abençoados.',
+   hp:120, ac:18, xp:'3.900',
+   atks:[{n:'Mordida Ancestral', f:'4d8+6'},{n:'Sopro de Fogo de Veldora', f:'6d6'},{n:'Cauda Demolidora', f:'3d6+4'}]}
+];
+function parseDice(f){
+  const m = /^(\d+)d(\d+)([+-]\d+)?$/i.exec(String(f).trim());
+  if(!m) return null;
+  const rolls = Array.from({length: clampN(+m[1],1,20)}, ()=>rnd(+m[2]));
+  const bonus = m[3] ? +m[3] : 0;
+  return {rolls, bonus, total: rolls.reduce((a,b)=>a+b,0) + bonus};
+}
+function renderBeasts(){
+  $('beastGrid').innerHTML = BEASTS.map((b,i)=>`
+    <div class="beast cardbox" style="--tag:${b.color}">
+      <div class="beast-top">
+        <h3>${b.name}</h3>
+        <span class="realm-tag">${b.realm}</span>
+      </div>
+      <p class="desc">${b.desc}</p>
+      <div class="beast-stats">
+        <span>HP<b>${b.hp}</b></span><span>CA<b>${b.ac}</b></span><span>XP<b>${b.xp}</b></span>
+      </div>
+      <div class="beast-atks">
+        ${b.atks.map((a,j)=>`
+          <div class="beast-atk">
+            <b>${a.n}</b>
+            <span class="formula">${a.f}</span>
+            <button class="rollit" data-b="${i}" data-a="${j}" type="button">rolar</button>
+          </div>`).join('')}
+        <p class="atk-out" id="atkOut${i}"></p>
+      </div>
+      <div class="beast-foot">
+        <span class="xp-tag">XP ${b.xp} · HP ${b.hp} · CA ${b.ac}</span>
+        <button class="send" data-send="${i}" type="button">→ combate</button>
+      </div>
+    </div>
+  `).join('');
+}
+ $('beastGrid').addEventListener('click', e=>{
+  const roll = e.target.closest('.rollit');
+  if(roll){
+    const b = BEASTS[+roll.dataset.b];
+    const a = b.atks[+roll.dataset.a];
+    const r = parseDice(a.f);
+    const out = $('atkOut' + roll.dataset.b);
+    if(r){
+      out.textContent = `✦ ${a.n}: [${r.rolls.join(', ')}]${r.bonus ? (r.bonus>0?' +'+r.bonus:r.bonus) : ''} = ${r.total}`;
+      copyLastAtk = `${a.n} (${a.f}): ${r.total} ${r.rolls.length>1?'['+r.rolls.join(', ')+']':''}`.trim();
+    } else out.textContent = 'fórmula inválida';
+    return;
+  }
+  const send = e.target.closest('button[data-send]');
+  if(send){
+    const b = BEASTS[+send.dataset.send];
+    addCombatant({
+      id: uid(), enemy:true,
+      name: b.name, sub:`besta de ${b.realm} · XP ${b.xp}`,
+      init: rnd(20), hp: b.hp, hpMax: b.hp, ac: b.ac
+    });
+    toast(`${b.name} convocada ao campo!`);
+  }
+});
+let copyLastAtk = null;
+
+/* ================================================================
+   VI — FORJA DO MESTRE
+================================================================ */
+const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+const FORGE = {
+  npcFirst: ['Aldric','Bruna','Cedrico','Dalia','Edran','Fiora','Garrik','Helena','Ivo','Jasmin','Kael','Lira','Morvan','Nyla','Otto','Petra','Quim','Rosa','Silas','Tilda'],
+  npcLast:  ['do Porto','das Neves','Ferrabrás','Pedra-Negra','Vento-Leste','Mãos-de-Ouro','o Silente','Rossa','Pé-frio','Coração-Forte','do Barril','Lâmina-Trêmula'],
+  npcRace:  ['humano do vale','meio-elfo errante','anão da montanha','elfo do bosque','halfling viajado','humano do litoral','meio-orc reformado'],
+  npcJob:   ['ferreiro','taverneiro','cartógrafo','curandeira','caçador de recompensas','bardo aposentado','guarda aposentado','vendedor de relíquias (duvidosas)','estalajadeiro','farejador de dragões'],
+  npcMood:  ['desconfiado','falante demais','melancólico','eufórico','bêbado às 10h','de luto','em pânico','suspeitosamente gentil'],
+  npcWant:  ['que alguém recupere o porco fugido','proteção até a vila vizinha','uma dívida esquecida','notícias de um filho sumido','que quebrem a maldição da multidão','vender um mapa "autêntico"'],
+  npcSecret:['é o último cultista do dragão','guarda o mapa real escondido no forro','já foi aventureiro — a cicatriz conta a história','trabalha para o Cavaleiro Caído','é ladrão procurado em dois reinos','não é dessa linha do tempo'],
+  questGiver:['O guarda do Porto Livre','Uma carta sem assinatura','A Imperatriz, por mensageiro','Um velho ferreiro','O Oráculo da taverna','Uma criança muito assustada'],
+  questDeed:['recuperar','escoltar','investigar','destruir','encontrar','livrar-se de'],
+  questTarget:['o baú do navio afundado','a caravana do sal','um grimório proibido','o herdeiro desaparecido','a relíquia da muralha','o grupo de aventureiros rivais'],
+  questPlace:['nas Catacumbas de Ascar','na Floresta de Karhal','na fortaleza abandonada do cabo','nas ilhas roxas do Yaryan','na nevasca de Snezhnaya','sob a taverna da vila'],
+  questReward:['200 peças de ouro','um item mágico menor','um favor a ser cobrado','terras na beira do rio','o mapa de um tesouro','a amizade eterna (e jantar)'],
+  questTwist:['o contratante mente sobre o alvo','outro grupo aceitou primeiro','o alvo é inocente e vai implorar','há uma maldição no lugar','um traidor do grupo sabe o caminho'],
+  tresGold: ()=> `${(rnd(6)*25 + rnd(4)*10)} peças de ouro`,
+  tresItem:['uma adaga que vibra perto de mentiras','um escudo com o brasão de um reino apagado','uma poção sem rótulo (role 1d6 ao beber)','o crucifixo do dragão filhote','uma chave que não fecha nada conhecido','uma lente que vê o invisível','um mapa parcial, rasgado ao meio'],
+  tresCurse:['o dono anterior morre em 3 noites (contagem regressiva)','atrai a atenção da Serpente do Mar','sussurra mentiras quando você dorme','o ouro vira folhas secas ao amanhecer','quem tocar fica Envenenado (1d4 de dano/hora)'],
+  encCreature:['uma alcateia de Lobos das Neves','bandidos do Cabo','um Golem de Pétalas furioso','peregrinos suspeitos','umFilho do dragão e dois sequazes','corvos espectrais','mercadores (são legítimos… por enquanto)','o Cavaleiro Caído e seu escudeiro'],
+  encWant:  ['querem pedágio','pedem ajuda (é armadilha)','procuram alguém específico do grupo','fogem de algo pior','querem informação que vocês têm','desafiariam para um duelo honrado'],
+  encPlace: ['na estrada estreita','na ponte de madeira rangendo','num acampamento abandonado','no meio da nevasca','na entrada da caverna','durante a travessia de barco']
+};
+function forgeWrite(outId, txt){
+  const el = $(outId);
+  el.textContent = txt;
+  el.classList.remove('empty');
+  return txt;
+}
+ $('fjNpcGo').addEventListener('click', ()=>{
+  const txt = forgeWrite('fjNpcOut',
+`👤 ${pick(FORGE.npcFirst)} ${pick(FORGE.npcLast)}, ${pick(FORGE.npcRace)}
+Ofício: ${pick(FORGE.npcJob)} · Humor: ${pick(FORGE.npcMood)}
+Quer: ${pick(FORGE.npcWant)}
+🤫 Segredo: ${pick(FORGE.npcSecret)}`);
+  $('fjNpcOut').dataset.copy = txt;
+});
+ $('fjQuestGo').addEventListener('click', ()=>{
+  const txt = forgeWrite('fjQuestOut',
+`📜 O chamado: ${pick(FORGE.questGiver)} pede para
+ ${pick(FORGE.questDeed).toUpperCase()} ${pick(FORGE.questTarget)},
+que se encontra ${pick(FORGE.questPlace)}.
+💰 Recompensa: ${pick(FORGE.questReward)}
+🌀 Complicação: ${pick(FORGE.questTwist)}`);
+  $('fjQuestOut').dataset.copy = txt;
+});
+ $('fjTresGo').addEventListener('click', ()=>{
+  const cursed = Math.random() < 0.35;
+  const txt = forgeWrite('fjTresOut',
+`💎 Tesouro: ${FORGE.tresGold()}
+Item notável: ${pick(FORGE.tresItem)}` +
+(cursed ? `\n☠ MALDIÇÃO: ${pick(FORGE.tresCurse)}` : '\n✦ Nenhuma maldição — dessa vez.'));
+  $('fjTresOut').dataset.copy = txt;
+});
+ $('fjEncGo').addEventListener('click', ()=>{
+  const qty = pick(['1','2','3', String(2 + rnd(4)), String(1 + rnd(6))]);
+  const txt = forgeWrite('fjEncOut',
+`⚔ No caminho, ${qty}× ${pick(FORGE.encCreature)}
+Eles ${pick(FORGE.encWant)}
+Cenário: ${pick(FORGE.encPlace)}`);
+  $('fjEncOut').dataset.copy = txt;
+});
+[['fjNpcCopy','fjNpcOut'],['fjQuestCopy','fjQuestOut'],['fjTresCopy','fjTresOut'],['fjEncCopy','fjEncOut']].forEach(([btnId,outId])=>{
+  $(btnId).addEventListener('click', ()=>{
+    const el = $(outId);
+    if(el.classList.contains('empty')){ toast('Forge primeiro — depois copie'); return; }
+    copyText(el.dataset.copy || el.textContent);
+  });
+});
+
+/* ================================================================
+   TEMA · POEIRA · TÍTULO
+================================================================ */
+const THEME_KEY = 'veldora_rpg_theme';
+function applyTheme(light){
+  document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
+}
+ $('themeBtn').addEventListener('click', ()=>{
+  const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  try { localStorage.setItem(THEME_KEY, next); } catch(e){}
+  applyTheme(next === 'light');
+});
+
+/* poeira dourada do hero */
+(function(){
+  const canvas = $('dust');
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const ctx = canvas.getContext('2d');
+  let w, h, parts = [], running = false;
+  function resize(){
+    const r = canvas.parentElement.getBoundingClientRect();
+    w = canvas.width = r.width; h = canvas.height = r.height;
+  }
+  function make(){
+    const n = Math.min(38, Math.floor(w / 30));
+    parts = Array.from({length:n}, ()=>({
+      x: Math.random()*w, y: Math.random()*h,
+      r: .8 + Math.random()*1.9, a: .12 + Math.random()*.3,
+      vx: (Math.random()-.5)*.16, vy: -(.06 + Math.random()*.2),
+      ph: Math.random()*Math.PI*2
+    }));
+  }
+  function tick(t){
+    if(!running) return;
+    ctx.clearRect(0,0,w,h);
+    for(const p of parts){
+      p.x += p.vx + Math.sin(t/1400 + p.ph)*.12;
+      p.y += p.vy;
+      if(p.y < -8){ p.y = h+8; p.x = Math.random()*w; }
+      if(p.x < -8) p.x = w+8; if(p.x > w+8) p.x = -8;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(201,162,74,${p.a * (0.7 + 0.3*Math.sin(t/900 + p.ph))})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+  resize(); make();
+  addEventListener('resize', ()=>{ resize(); make(); });
+  new IntersectionObserver(([en])=>{
+    if(en.isIntersecting && !running){ running = true; requestAnimationFrame(tick); }
+    else if(!en.isIntersecting){ running = false; }
+  }).observe(canvas.parentElement);
+})();
+
+/* a mesa sente sua ausência */
+const baseTitle = document.title;
+document.addEventListener('visibilitychange', ()=>{
+  document.title = document.hidden ? 'Os dados aguardam seu retorno…' : baseTitle;
+});
+
+/* ================================================================
+   INICIALIZAÇÃO
+================================================================ */
+let savedTheme = 'dark';
+try { savedTheme = localStorage.getItem(THEME_KEY) || 'dark'; } catch(e){}
+applyTheme(savedTheme === 'light');
+refreshDiceUI();
+renderHistory();
+loadSheet();
+renderCombat();
+renderBeasts();
+</script>
+</body>
+</html>
