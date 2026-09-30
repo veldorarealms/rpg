@@ -2227,6 +2227,38 @@ footer .fine{
         <circle cx="32" cy="39" r="2.4"/>
       </g>
     </symbol>
+    <symbol id="sym-nomad" viewBox="0 0 64 64"><!-- Gustavo — Nômade: bengala de viagem com estrela-guia -->
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M26 58 L26 12"/>
+        <path d="M26 12 C26 7 31 5 35 7"/>
+        <circle cx="38" cy="10" r="2.4"/>
+        <path d="M18 20 L26 28 M34 20 L26 28"/>
+        <path d="M16 58 C16 52 20 50 26 50 C32 50 36 52 36 58" opacity=".55"/>
+      </g>
+    </symbol>
+    <symbol id="sym-mayhem" viewBox="0 0 64 64"><!-- Gabriel — MAYHEM: máscara de guerra entalhada -->
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M32 6 C41 9 48 14 50 22 C52 32 48 44 40 52 L32 58 L24 52 C16 44 12 32 14 22 C16 14 23 9 32 6 Z"/>
+        <path d="M22 26 L28 29 M36 29 L42 26" stroke-width="3.4"/>
+        <path d="M26 42 C28 39 30 38 32 40 C34 38 36 39 38 42 C35 45 29 45 26 42 Z"/>
+        <path d="M20 34 L24 35 M44 34 L40 35" opacity=".6"/>
+      </g>
+    </symbol>
+    <symbol id="sym-thunder" viewBox="0 0 64 64"><!-- Laura — Electric Wizard: chapéu de mago com raio -->
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 42 C24 30 28 18 36 10 C40 18 44 30 46 42"/>
+        <path d="M10 42 Q32 36 54 42 Q32 50 10 42 Z"/>
+        <path d="M35 20 L30 29 L34.5 29 L32 37" stroke-width="2.6"/>
+      </g>
+    </symbol>
+    <symbol id="sym-celeste" viewBox="0 0 64 64"><!-- Cecilia — Celeste: lua crescente com estrela -->
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M40 6 A26 26 0 1 0 54 44 A21 21 0 0 1 40 6 Z"/>
+        <path d="M46 14 L48.4 20.6 L55 23 L48.4 25.4 L46 32 L43.6 25.4 L37 23 L43.6 20.6 Z"/>
+        <circle cx="50" cy="42" r="1.6" fill="currentColor" stroke="none" opacity=".7"/>
+        <circle cx="56" cy="34" r="1.2" fill="currentColor" stroke="none" opacity=".5"/>
+      </g>
+    </symbol>
     <symbol id="sym-storm" viewBox="0 0 64 64">
       <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M22 40 C15 40 12 33 17 29 C14 22 21 15 28 18 C31 11 42 10 46 17 C52 17 55 24 51 29 C54 33 51 40 44 40 Z"/>
@@ -2237,12 +2269,6 @@ footer .fine{
       <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M32 5 C41 9 50 10.5 55 10.5 C55 29 50 46 32 58 C14 46 9 29 9 10.5 C14 10.5 23 9 32 5 Z"/>
         <path d="M22 28 L32 36 L42 28"/>
-      </g>
-    </symbol>
-    <symbol id="sym-horn" viewBox="0 0 64 64">
-      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M14 50 C10 36 16 18 30 10 C38 6 48 6 54 10 C56 12 56 15 54 17 C44 15 36 18 32 24 C26 32 26 42 30 50 C31 53 29 55 26 55 Z"/>
-        <path d="M14 50 L8 54 M30 50 L34 55"/><path d="M40 14 C42 17 42 20 41 23" opacity=".6"/>
       </g>
     </symbol>
     <symbol id="sym-sunwave" viewBox="0 0 64 64">
@@ -2858,15 +2884,30 @@ footer .fine{
         <span><span class="gate-name">Nayara Hostapiuk</span><br><span class="gate-role">A Lâmina</span></span>
         <span class="gate-realm">Yaryan</span>
       </button>
+      <button class="gate-choice" data-person="gustavo" style="--accent:#f08a3c" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-nomad"/></svg></span>
+        <span><span class="gate-name">Gustavo Leite</span><br><span class="gate-role">Nômade</span></span>
+        <span class="gate-realm">Sem reino fixo</span>
+      </button>
+      <button class="gate-choice" data-person="gabriel" data-realm="yaryan" style="--accent:var(--c-nyara)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-mayhem"/></svg></span>
+        <span><span class="gate-name">Gabriel Amaral</span><br><span class="gate-role">MAYHEM</span></span>
+        <span class="gate-realm">Yaryan</span>
+      </button>
+      <button class="gate-choice" data-person="laura" data-realm="yaryan" style="--accent:var(--c-nyara)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-thunder"/></svg></span>
+        <span><span class="gate-name">Laura Gomes</span><br><span class="gate-role">Electric Wizard</span></span>
+        <span class="gate-realm">Yaryan</span>
+      </button>
+      <button class="gate-choice" data-person="cecilia" data-realm="yaryan" style="--accent:var(--c-nyara)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-celeste"/></svg></span>
+        <span><span class="gate-name">Cecilia Rodrigues</span><br><span class="gate-role">Celeste</span></span>
+        <span class="gate-realm">Yaryan</span>
+      </button>
       <button class="gate-choice" data-person="luis" data-realm="ascar" style="--accent:var(--c-ascar)" type="button">
         <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-royalcrown"/></svg></span>
         <span><span class="gate-name">Luís Augusto</span><br><span class="gate-role">Rei Dourado</span></span>
         <span class="gate-realm">Deserto Ascar</span>
-      </button>
-      <button class="gate-choice" data-person="fernando" data-realm="bravos" style="--accent:var(--c-bravos)" type="button">
-        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-horn"/></svg></span>
-        <span><span class="gate-name">Fernando Fernandes</span><br><span class="gate-role">Bravos e Destemidos</span></span>
-        <span class="gate-realm">Arquipélago Budapeste</span>
       </button>
       <button class="gate-choice" data-person="cristiano" data-realm="karhal" style="--accent:var(--c-karhal)" type="button">
         <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-sunwave"/></svg></span>
@@ -3232,8 +3273,11 @@ const PEOPLE = [
   {id:'debora',    short:'Debora',    full:'Debora Vezetiv',    sigil:'sym-scepter',    accent:'var(--c-mirigumi)', realm:'Mirigumi'},
   {id:'rayssa',    short:'Rayssa',    full:'Rayssa Vitoria',    sigil:'sym-raven',      accent:'var(--c-nyara)',    realm:'Yaryan'},
   {id:'nayara',    short:'Nayara',    full:'Nayara Hostapiuk',  sigil:'sym-blade',      accent:'var(--c-nyara)',    realm:'Yaryan'},
+  {id:'gustavo',   short:'Gustavo',   full:'Gustavo Leite',     sigil:'sym-nomad',      accent:'#f08a3c',           realm:'Errante'},
+  {id:'gabriel',   short:'Gabriel',   full:'Gabriel Amaral',    sigil:'sym-mayhem',     accent:'var(--c-nyara)',    realm:'Yaryan'},
+  {id:'laura',     short:'Laura',     full:'Laura Gomes',       sigil:'sym-thunder',    accent:'var(--c-nyara)',    realm:'Yaryan'},
+  {id:'cecilia',   short:'Cecilia',   full:'Cecilia Rodrigues', sigil:'sym-celeste',    accent:'var(--c-nyara)',    realm:'Yaryan'},
   {id:'luis',      short:'Luís',      full:'Luís Augusto',      sigil:'sym-royalcrown', accent:'var(--c-ascar)',    realm:'Ascar'},
-  {id:'fernando',  short:'Fernando',  full:'Fernando Fernandes',sigil:'sym-horn',       accent:'var(--c-bravos)',   realm:'Budapeste'},
   {id:'cristiano', short:'Cristiano', full:'Cristiano Ronaldo', sigil:'sym-sunwave',    accent:'var(--c-karhal)',   realm:'Karhal'},
   {id:'bruno',     short:'Bruno',     full:'Bruno Martins',     sigil:'sym-storm',      accent:'var(--c-snezhnaya)',realm:'Snezhnaya'},
   {id:'guilherme', short:'Guilherme', full:'Guilherme Morais',  sigil:'sym-shield',     accent:'var(--c-escarlate)',realm:'Escarlate'}
