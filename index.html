@@ -37,7 +37,6 @@
   --c-ascar:#f0c75e;
   --c-snezhnaya:#8ec5e8;
   --c-escarlate:#d94f3d;
-  --c-bravos:#3fd4c9;
   --c-karhal:#4caf6d;
   --hp:#4caf6d;
   --mp:#5f8fa6;
@@ -2265,6 +2264,18 @@ footer .fine{
         <path d="M33 44 L27 56 L34 54 L29 63"/>
       </g>
     </symbol>
+    <symbol id="sym-servant" viewBox="0 0 64 64"><!-- Pedro Lucas — O Servo: lampião de servir -->
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M27 5 H37"/>
+        <path d="M32 5 V9"/>
+        <path d="M23 15 L32 9 L41 15"/>
+        <path d="M21 15 H43"/>
+        <path d="M24 15 C24 28 22 38 19 46 H45 C42 38 40 28 40 15"/>
+        <path d="M32 38 C34 35 35.5 33 34.8 30.5 C34.2 28.6 33 27.5 32 25.5 C31 27.5 29.8 28.6 29.2 30.5 C28.5 33 30 35 32 38 Z"/>
+        <path d="M19 46 C19 49 21 51 24 51 H40 C43 51 45 49 45 46"/>
+        <path d="M25 57 H39"/>
+      </g>
+    </symbol>
     <symbol id="sym-shield" viewBox="0 0 64 64">
       <g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M32 5 C41 9 50 10.5 55 10.5 C55 29 50 46 32 58 C14 46 9 29 9 10.5 C14 10.5 23 9 32 5 Z"/>
@@ -2919,6 +2930,11 @@ footer .fine{
         <span><span class="gate-name">Bruno Martins</span><br><span class="gate-role">Inverno Perpétuo</span></span>
         <span class="gate-realm">Snezhnaya</span>
       </button>
+      <button class="gate-choice" data-person="pedro" data-realm="snezhnaya" style="--accent:var(--c-snezhnaya)" type="button">
+        <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-servant"/></svg></span>
+        <span><span class="gate-name">Pedro Lucas</span><br><span class="gate-role">O Servo</span></span>
+        <span class="gate-realm">Snezhnaya</span>
+      </button>
       <button class="gate-choice" data-person="guilherme" data-realm="escarlate" style="--accent:var(--c-escarlate)" type="button">
         <span class="gate-sigil"><svg aria-hidden="true"><use href="#sym-shield"/></svg></span>
         <span><span class="gate-name">Guilherme Morais</span><br><span class="gate-role">O Protetor</span></span>
@@ -3280,6 +3296,7 @@ const PEOPLE = [
   {id:'luis',      short:'Luís',      full:'Luís Augusto',      sigil:'sym-royalcrown', accent:'var(--c-ascar)',    realm:'Ascar'},
   {id:'cristiano', short:'Cristiano', full:'Cristiano Ronaldo', sigil:'sym-sunwave',    accent:'var(--c-karhal)',   realm:'Karhal'},
   {id:'bruno',     short:'Bruno',     full:'Bruno Martins',     sigil:'sym-storm',      accent:'var(--c-snezhnaya)',realm:'Snezhnaya'},
+  {id:'pedro',     short:'Pedro',     full:'Pedro Lucas',       sigil:'sym-servant',    accent:'var(--c-snezhnaya)',realm:'Snezhnaya'},
   {id:'guilherme', short:'Guilherme', full:'Guilherme Morais',  sigil:'sym-shield',     accent:'var(--c-escarlate)',realm:'Escarlate'}
 ];
 const ATTRS = [
@@ -3820,10 +3837,6 @@ const BEASTS = [
    desc:'Jardineiro fiel da Imperatriz. Floresce quando irritado — e está sempre irritado.',
    hp:45, ac:14, xp:'450',
    atks:[{n:'Punho de Espinhos', f:'2d6+2'},{n:'Rajada de Pétalas', f:'2d4+2'},{n:'Estrangulo em Vinhas', f:'1d10+1'}]},
-  {name:'Bandido do Cabo', realm:'Budapeste', color:'var(--c-bravos)',
-   desc:'Anuncia o assalto com o corno, por código. Educado até no roubo.',
-   hp:18, ac:12, xp:'100',
-   atks:[{n:'Cutelo', f:'1d6+2'},{n:'Tiros de Fuzileiro', f:'2d4+1'},{n:'Golpe Traiçoeiro', f:'1d8+2'}]},
   {name:'Árvore Viva de Karhal', realm:'Karhal', color:'var(--c-karhal)',
    desc:'A mata tem sentinela. Quem parte um galho sem pedir licença paga em contusões.',
    hp:52, ac:13, xp:'500',
@@ -3933,7 +3946,7 @@ const FORGE = {
   },
   tresItem:['uma adaga que vibra perto de mentiras','um escudo com o brasão de um reino apagado','uma poção sem rótulo (role 1d6 ao beber)','uma presa do dragão filhote','uma chave que não fecha nada conhecido','uma lente que vê o invisível','um mapa parcial, rasgado ao meio'],
   tresCurse:['o dono anterior morre em 3 noites (contagem regressiva)','atrai a atenção da Serpente do Mar','sussurra mentiras quando você dorme','o ouro vira folhas secas ao amanhecer','quem tocar fica Envenenado (1d4 de dano/hora)'],
-  encCreature:['uma alcateia de Lobos das Neves','bandidos do Cabo','um Golem de Pétalas furioso','peregrinos suspeitos','um filhote de dragão e dois sequazes','corvos espectrais','mercadores (são legítimos… por enquanto)','o Cavaleiro Caído e seu escudeiro'],
+  encCreature:['uma alcateia de Lobos das Neves','um Golem de Pétalas furioso','peregrinos suspeitos','um filhote de dragão e dois sequazes','corvos espectrais','mercadores (são legítimos… por enquanto)','o Cavaleiro Caído e seu escudeiro'],
   encWant:  ['querem pedágio','pedem ajuda (é armadilha)','procuram alguém específico do grupo','fogem de algo pior','querem informação que vocês têm','desafiariam para um duelo honrado'],
   encPlace: ['na estrada estreita','na ponte de madeira rangendo','num acampamento abandonado','no meio da nevasca','na entrada da caverna','durante a travessia de barco']
 };
